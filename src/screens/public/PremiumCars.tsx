@@ -15,7 +15,7 @@ import ScreenWrapper from "../../components/shared/ScreenWrapper";
 import { VehicleCard, VehicleCardSkeleton } from "../../components/cards/VehicleCard";
 import { usePremiumVehicles } from "../../hooks/public/usePremiumVehicles";
 import { useAreas } from "../../hooks/public/useAreas";
-import { CAR_BRANDS } from "../../data/carDatabase";
+import { getCustomerBrands, getCustomerModels, getCustomerVariants } from "../../data/customerCarDatabase";
 import { BUDGET_BANDS, FUELS, OWNERSHIPS } from "../../utils/constants";
 import Input from "../../components/ui/Input";
 import Select from "../../components/ui/Select";
@@ -113,45 +113,18 @@ export default function PremiumCars() {
     return [...areas, ...uniqueFromVehicles];
   }, [areas, all]);
 
+  const CAR_BRANDS = getCustomerBrands("premium");
+
   // Cascading options dynamically generated from the fetched data
   const modelsList = useMemo(() => {
     if (!brand) return [];
-    return Array.from(
-      new Set(
-        all
-          .filter((v) => v.brand?.toLowerCase() === brand.toLowerCase())
-          .map((v) => {
-            let m = v.model?.toLowerCase() || "";
-            const b = brand.toLowerCase();
-            if (m.startsWith(`${b}-`)) {
-              m = m.substring(b.length + 1);
-            } else if (m.startsWith(b)) {
-              m = m.substring(b.length);
-            }
-            return m.trim();
-          })
-          .filter(Boolean)
-      )
-    )
-      .map((m) => m.charAt(0).toUpperCase() + m.slice(1))
-      .sort();
-  }, [all, brand]);
+    return getCustomerModels(brand, "premium");
+  }, [brand]);
 
   const variantsList = useMemo(() => {
     if (!brand || !model) return [];
-    return Array.from(
-      new Set(
-        all
-          .filter((v) => {
-            const matchBrand = v.brand?.toLowerCase() === brand.toLowerCase();
-            const matchModel = v.model?.toLowerCase().includes(model.toLowerCase());
-            return matchBrand && matchModel;
-          })
-          .map((v) => v.variant?.trim())
-          .filter(Boolean)
-      )
-    ).sort();
-  }, [all, brand, model]);
+    return getCustomerVariants(brand, model, "premium");
+  }, [brand, model]);
 
   // Reset all filters
   const handleClearFilters = () => {

@@ -125,10 +125,15 @@ export default function DealerVehicles() {
   const filteredStock = stock.filter((v: any) => {
     const searchLower = searchQuery.toLowerCase();
     return (
-      (v.brand || "").toLowerCase().includes(searchLower) ||
-      (v.model || "").toLowerCase().includes(searchLower) ||
-      (v.variant || "").toLowerCase().includes(searchLower) ||
-      (v.vehicleStatus || "").toLowerCase().includes(searchLower)
+      `${v.brand || ""} ${v.model || ""} ${v.variant || ""}`
+        .toLowerCase()
+        .includes(searchLower) ||
+      v.city?.toLowerCase().includes(searchLower) ||
+      v.fuelType?.toLowerCase().includes(searchLower) ||
+      v.transmission?.toLowerCase().includes(searchLower) ||
+      v.registrationYear?.toString().includes(searchLower) ||
+      v.vehicleType?.toLowerCase().includes(searchLower) ||
+      v.vehicleStatus?.toLowerCase().includes(searchLower)
     );
   });
 

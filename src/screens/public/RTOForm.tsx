@@ -1,12 +1,33 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Linking, Image, ScrollView, Platform, Alert, ToastAndroid, PermissionsAndroid } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Linking, ScrollView, Platform, Alert, ToastAndroid, PermissionsAndroid } from "react-native";
 import ScreenWrapper from "../../components/shared/ScreenWrapper";
 import { FileText, Download } from "lucide-react-native";
 import ReactNativeBlobUtil from 'react-native-blob-util';
 
+const DOCUMENTS = [
+  {
+    id: "tto",
+    title: "TTO Set 29-30",
+    description: "Official RTO form for vehicle registration and transfer procedures. Contains all necessary paperwork for ownership transfer.",
+    file: "TTO_Set_29-30.pdf"
+  },
+  {
+    id: "purchase",
+    title: "Professional Vehicle Purchase Form",
+    description: "Comprehensive purchase agreement form outlining the terms, conditions, and details of the vehicle sale.",
+    file: "Professional_Vehicle_Purchase_Form_A4.pdf"
+  },
+  {
+    id: "delivery",
+    title: "Car Delivery Note",
+    description: "Official delivery note to acknowledge the handover of the vehicle, keys, and documents to the new owner.",
+    file: "Car-Delivery-Note.pdf"
+  }
+];
+
 export default function RTOForm() {
-  const handleDownload = async () => {
-    const fileUrl = "https://caryanam.com/TTO_Set_29-30.pdf";
+  const handleDownload = async (fileName: string) => {
+    const fileUrl = `https://caryanam.com/${fileName}`;
 
     if (Platform.OS === 'android') {
       try {
@@ -20,7 +41,7 @@ export default function RTOForm() {
           }
         }
         
-        ToastAndroid.show("Download started...", ToastAndroid.SHORT);
+        ToastAndroid.show(`Downloading ${fileName}...`, ToastAndroid.SHORT);
         
         const { dirs } = ReactNativeBlobUtil.fs;
         ReactNativeBlobUtil.config({
@@ -28,9 +49,9 @@ export default function RTOForm() {
           addAndroidDownloads: {
             useDownloadManager: true,
             notification: true,
-            path: dirs.DownloadDir + '/TTO_Set_29-30.pdf',
-            description: 'Downloading RTO Form',
-            title: 'TTO_Set_29-30.pdf',
+            path: dirs.DownloadDir + `/${fileName}`,
+            description: `Downloading ${fileName}`,
+            title: fileName,
             mime: 'application/pdf',
             mediaScannable: true,
           }
@@ -52,33 +73,33 @@ export default function RTOForm() {
   };
 
   return (
-    <ScreenWrapper layoutType="public" title="RTO Form" showBackButton>
+    <ScreenWrapper layoutType="public" title="RTO Forms" showBackButton>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.pageHeader}>
           <Text style={styles.pageTitle}>RTO Forms & Documents</Text>
           <Text style={styles.introText}>
-            Download the official RTO form (TTO Set 29-30) for vehicle registration and transfer procedures.
+            Download official RTO forms, purchase agreements, and delivery notes for vehicle registration and sales procedures.
           </Text>
         </View>
 
-        <View style={styles.card}>
-          <View style={styles.iconContainer}>
-            <FileText size={48} color="#e11d48" />
+        {DOCUMENTS.map((doc) => (
+          <View key={doc.id} style={styles.card}>
+            <View style={styles.iconContainer}>
+              <FileText size={48} color="#e11d48" />
+            </View>
+            <Text style={styles.title}>{doc.title}</Text>
+            <Text style={styles.description}>{doc.description}</Text>
+            
+            <TouchableOpacity 
+              style={styles.downloadButton}
+              onPress={() => handleDownload(doc.file)}
+              activeOpacity={0.8}
+            >
+              <Download size={20} color="#fff" />
+              <Text style={styles.downloadButtonText}>Download Form</Text>
+            </TouchableOpacity>
           </View>
-          <Text style={styles.title}>TTO Set 29-30</Text>
-          <Text style={styles.description}>
-            Download the official RTO form for vehicle registration and transfer procedures. This document contains all the necessary paperwork to ensure a smooth transfer.
-          </Text>
-          
-          <TouchableOpacity 
-            style={styles.downloadButton}
-            onPress={handleDownload}
-            activeOpacity={0.8}
-          >
-            <Download size={20} color="#fff" />
-            <Text style={styles.downloadButtonText}>Download Form</Text>
-          </TouchableOpacity>
-        </View>
+        ))}
       </ScrollView>
     </ScreenWrapper>
   );
@@ -122,6 +143,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     borderWidth: 1,
     borderColor: "#f1f5f9",
+    marginBottom: 20,
   },
   iconContainer: {
     width: 80,

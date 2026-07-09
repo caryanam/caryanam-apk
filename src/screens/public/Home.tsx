@@ -23,7 +23,7 @@ import { VehicleCard } from "../../components/cards/VehicleCard";
 import { FeaturedVehicleCard } from "../../components/cards/FeaturedVehicleCard";
 import { useLatestVehicles, useFeaturedVehicles } from "../../hooks/public/useHomeVehicles";
 import { QUICK_BRANDS, CITIES, BUDGET_BANDS } from "../../utils/constants";
-import { CAR_BRANDS, getModels } from "../../data/carDatabase";
+import { getCustomerModels } from "../../data/customerCarDatabase";
 import Button from "../../components/ui/Button";
 import SearchableDropdown from "../../components/shared/SearchableDropdown";
 
@@ -103,7 +103,7 @@ const SLIDES = [
     subtitle: "Finance • Auto Loans",
     title: "VahanFinserv",
     description: "Get the best auto loan rates for your next car purchase. Fast approval and zero hidden fees. Partnered with VahanFinserv.",
-    buttonText: "Visit VahanFinserv",
+    buttonText: "USE CAR LOAN VISIT VAHANFINSERV",
     hudLabel1: "LIVE STATUS",
     hudValue1: "50,000+ Cars Online",
     hudLabel2: "100% CERTIFIED",
@@ -190,7 +190,7 @@ export default function Home() {
     return () => clearInterval(timer);
   }, [slideAnim, fadeAnim]);
 
-  const models = brand ? getModels(brand) : [];
+  const models = brand ? getCustomerModels(brand) : [];
 
   const handleSearch = () => {
     navigation.navigate("Cars", {
