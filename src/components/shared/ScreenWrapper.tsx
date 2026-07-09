@@ -405,8 +405,12 @@ export default function ScreenWrapper({
 
         </View>
         <View style={styles.footerCopyrightRow}>
-          <Text style={styles.footerCopyrightText}>Developed by <Text style={{ color: '#be185d', fontWeight: '900' }}>Caryanamindia Pvt Ltd</Text></Text>
-          <Text style={[styles.footerCopyrightText, { marginTop: 4 }]}>© 2026 Caryanam. All rights reserved by Caryanamindia Pvt Ltd.</Text>
+          <Text style={styles.footerCopyrightText}>
+            Developed by <Text style={{ color: '#881337', fontWeight: '900' }}>Caryanamindia Pvt Ltd</Text>
+          </Text>
+          <Text style={[styles.footerCopyrightText, { marginTop: 8 }]}>
+            © 2026 Caryanam. All rights reserved by Caryanamindia Pvt Ltd.
+          </Text>
         </View>
       </View>
     );
@@ -715,7 +719,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     alignItems: "center",
-    opacity: 0.1, // extremely faint to match "neutral-900" text color on web black
+    opacity: 0.2, // slightly lighter/brighter
   },
   footerWatermarkText: {
     fontSize: 80, // Very large text
@@ -774,7 +778,7 @@ const styles = StyleSheet.create({
   },
   footerCopyrightText: {
     color: "rgba(255, 255, 255, 0.5)",
-    fontSize: 11,
+    fontSize: 14,
     textAlign: "center",
   },
   floatingChatBtn: {
