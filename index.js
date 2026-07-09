@@ -1,6 +1,12 @@
 /**
  * @format
  */
+import { TextEncoder, TextDecoder } from 'text-encoding';
+
+Object.assign(global, {
+  TextEncoder,
+  TextDecoder,
+});
 
 import {AppRegistry} from 'react-native';
 import App from './App';
