@@ -117,6 +117,7 @@ export default function ScreenWrapper({
     { name: "Home", icon: Home, label: "Home" },
     { name: "Cars", icon: Search, label: "Browse Cars" },
     { name: "PremiumCars", icon: Car, label: "Premium Cars" },
+    { name: "RTOForm", icon: FileText, label: "RTO Form" },
     { name: "About", icon: User, label: "About" },
   ];
 

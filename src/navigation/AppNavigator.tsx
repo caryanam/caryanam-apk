@@ -15,6 +15,7 @@ import About from "../screens/public/About";
 import PrivacyPolicy from "../screens/public/PrivacyPolicy";
 import Terms from "../screens/public/Terms";
 import RefundPolicy from "../screens/public/RefundPolicy";
+import RTOForm from "../screens/public/RTOForm";
 
 // Auth Screens
 import Login from "../screens/auth/Login";
@@ -53,6 +54,7 @@ export type RootStackParamList = {
   PrivacyPolicy: undefined;
   Terms: undefined;
   RefundPolicy: undefined;
+  RTOForm: undefined;
 
   // Auth
   Login: { defaultRole?: "customer" | "dealer" | "admin" } | undefined;
@@ -140,6 +142,7 @@ export default function AppNavigator() {
           <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
           <Stack.Screen name="Terms" component={Terms} />
           <Stack.Screen name="RefundPolicy" component={RefundPolicy} />
+          <Stack.Screen name="RTOForm" component={RTOForm} />
 
           {/* Auth Flow (Login & Register are in stack so guests can open them) */}
           <Stack.Screen name="Login" component={Login} />

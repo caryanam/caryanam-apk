@@ -21,7 +21,7 @@ import {
 import { Star, Clock, Check, Loader2, Copy } from "lucide-react-native";
 import Skeleton from "../../../components/ui/Skeleton";
 
-const UPI_ID = "9579078460-2@ybl";
+const UPI_ID = "asifattar003@oksbi";
 
 function getQrUrl(amount: number) {
   const upiString = `upi://pay?pa=${UPI_ID}&pn=Caryanam&am=${amount}&cu=INR`;

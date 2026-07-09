@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -11,6 +11,8 @@ import {
   ActivityIndicator,
   Linking,
   DeviceEventEmitter,
+  Animated,
+  Easing,
 } from "react-native";
 import Video from "react-native-video";
 import { useNavigation } from "@react-navigation/native";
@@ -96,6 +98,39 @@ const YEARS = Array.from({ length: new Date().getFullYear() - 1999 }, (_, i) => 
   value: String(2000 + i),
 })).reverse();
 
+const SLIDES = [
+  {
+    subtitle: "Finance • Auto Loans",
+    title: "VahanFinserv",
+    description: "Get the best auto loan rates for your next car purchase. Fast approval and zero hidden fees. Partnered with VahanFinserv.",
+    buttonText: "Visit VahanFinserv",
+    hudLabel1: "LIVE STATUS",
+    hudValue1: "50,000+ Cars Online",
+    hudLabel2: "100% CERTIFIED",
+    hudValue2: "Verified Dealers",
+  },
+  {
+    subtitle: "KYC Verified Sellers • Direct Chat",
+    title: "Connection",
+    description: "Talk directly to verified dealers on WhatsApp or call them instantly with zero hidden commissions.",
+    buttonText: "",
+    hudLabel1: "DIRECT CHAT",
+    hudValue1: "Connect on WhatsApp",
+    hudLabel2: "ZERO COMMISSION",
+    hudValue2: "Direct-to-Dealer Deals",
+  },
+  {
+    subtitle: "Inspected Quality • History Checked",
+    title: "Verification",
+    description: "Every vehicle listed undergoes a registration papers check, history verification, and detailed inspection.",
+    buttonText: "",
+    hudLabel1: "HISTORY",
+    hudValue1: "RTO Checked",
+    hudLabel2: "INSPECTION",
+    hudValue2: "150+ Point Check",
+  }
+];
+
 export default function Home() {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
@@ -107,6 +142,53 @@ export default function Home() {
   const [year, setYear] = useState("");
   const [city, setCity] = useState("");
   const [budget, setBudget] = useState("");
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const slideAnim = React.useRef(new Animated.Value(0)).current;
+  const fadeAnim = React.useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      // 1. Animate out (slide left and fade out)
+      Animated.parallel([
+        Animated.timing(slideAnim, {
+          toValue: -100,
+          duration: 400,
+          easing: Easing.in(Easing.ease),
+          useNativeDriver: true,
+        }),
+        Animated.timing(fadeAnim, {
+          toValue: 0,
+          duration: 400,
+          useNativeDriver: true,
+        }),
+      ]).start(() => {
+        // 2. Change state
+        setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
+
+        // 3. Reset position to the right (invisible)
+        slideAnim.setValue(100);
+
+        // 4. Animate in (slide center and fade in)
+        Animated.parallel([
+          Animated.timing(slideAnim, {
+            toValue: 0,
+            duration: 400,
+            easing: Easing.out(Easing.ease),
+            useNativeDriver: true,
+          }),
+          Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 400,
+            useNativeDriver: true,
+          }),
+        ]).start();
+      });
+    }, 4000); // 4 seconds per slide to allow reading
+
+    return () => clearInterval(timer);
+  }, [slideAnim, fadeAnim]);
 
   const models = brand ? getModels(brand) : [];
 
@@ -136,56 +218,60 @@ export default function Home() {
         />
         <View style={styles.overlay} />
         <View style={styles.heroContent}>
-          <Text style={styles.heroSubtitle}>Caryanam • 2026</Text>
-          <Text style={styles.heroTitle}>Experience</Text>
+          <Animated.View style={{ opacity: fadeAnim, transform: [{ translateX: slideAnim }] }}>
+            <Text style={styles.heroSubtitle}>{SLIDES[currentSlide].subtitle}</Text>
+            <Text style={styles.heroTitle}>{SLIDES[currentSlide].title}</Text>
 
-          <View style={styles.hudContainer}>
-            <View style={styles.hudWidget}>
-              <View style={styles.hudDot} />
-              <View>
-                <Text style={styles.hudLabelRed}>LIVE STATUS</Text>
-                <Text style={styles.hudValue}>50,000+ Cars Online</Text>
+            <View style={styles.hudContainer}>
+              <View style={styles.hudWidget}>
+                <View style={styles.hudDot} />
+                <View>
+                  <Text style={styles.hudLabelRed}>{SLIDES[currentSlide].hudLabel1}</Text>
+                  <Text style={styles.hudValue}>{SLIDES[currentSlide].hudValue1}</Text>
+                </View>
+              </View>
+
+              <View style={styles.hudWidget}>
+                <View style={styles.hudBadgeIcon}>
+                  <ShieldCheck color="#34d399" size={14} strokeWidth={3} />
+                </View>
+                <View>
+                  <Text style={styles.hudLabelGreen}>{SLIDES[currentSlide].hudLabel2}</Text>
+                  <Text style={styles.hudValue}>{SLIDES[currentSlide].hudValue2}</Text>
+                </View>
               </View>
             </View>
 
-            <View style={styles.hudWidget}>
-              <View style={styles.hudBadgeIcon}>
-                <ShieldCheck color="#34d399" size={14} strokeWidth={3} />
-              </View>
-              <View>
-                <Text style={styles.hudLabelGreen}>100% CERTIFIED</Text>
-                <Text style={styles.hudValue}>Verified Dealers</Text>
+            <Text style={styles.heroDesc}>
+              {SLIDES[currentSlide].description}
+            </Text>
+
+            <View style={styles.heroActionBtnsContainer}>
+              {SLIDES[currentSlide].buttonText ? (
+                <TouchableOpacity
+                  style={styles.heroCustomerLoginBtn}
+                  onPress={() => Linking.openURL("https://vahanfinserv.com/")}
+                >
+                  <Text style={styles.heroCustomerLoginText}>{SLIDES[currentSlide].buttonText}</Text>
+                </TouchableOpacity>
+              ) : null}
+
+              <View style={styles.heroActionBtns}>
+                <TouchableOpacity
+                  style={styles.heroDealerLoginBtn}
+                  onPress={() => DeviceEventEmitter.emit("show-auth-modal")}
+                >
+                  <Text style={styles.heroDealerLoginText}>Join as Buyer</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.heroRegisterBtn}
+                  onPress={() => navigation.navigate("Register")}
+                >
+                  <Text style={styles.heroRegisterText}>Join as Dealer</Text>
+                </TouchableOpacity>
               </View>
             </View>
-          </View>
-
-          <Text style={styles.heroDesc}>
-            India's premiere used-car dealer marketplace. We connect buyers directly with verified dealers across 150+ Indian cities. Browse our curated selection of 25,000+ hand-picked premium vehicles certified for quality and ownership.
-          </Text>
-
-          <View style={styles.heroActionBtnsContainer}>
-            <TouchableOpacity
-              style={styles.heroCustomerLoginBtn}
-              onPress={() => DeviceEventEmitter.emit("show-auth-modal")}
-            >
-              <Text style={styles.heroCustomerLoginText}>Customer Login</Text>
-            </TouchableOpacity>
-
-            <View style={styles.heroActionBtns}>
-              <TouchableOpacity
-                style={styles.heroDealerLoginBtn}
-                onPress={() => navigation.navigate("Login")}
-              >
-                <Text style={styles.heroDealerLoginText}>Dealer Login</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.heroRegisterBtn}
-                onPress={() => navigation.navigate("Register")}
-              >
-                <Text style={styles.heroRegisterText}>Join as Dealer</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+          </Animated.View>
         </View>
       </View>
 
