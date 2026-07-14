@@ -41,6 +41,7 @@ import AdminLeads from "../screens/admin/Leads";
 import AdminSubscriptions from "../screens/admin/Subscriptions";
 import AdminChat from "../screens/admin/Chat";
 import AdminReports from "../screens/admin/Reports";
+import AdminOffers from "../screens/admin/Offers";
 
 export type RootStackParamList = {
   // Public
@@ -80,6 +81,7 @@ export type RootStackParamList = {
   AdminSubscriptions: undefined;
   AdminChat: undefined;
   AdminReports: undefined;
+  AdminOffers: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -115,6 +117,7 @@ export default function AppNavigator() {
           <Stack.Screen name="AdminSubscriptions" component={AdminSubscriptions} />
           <Stack.Screen name="AdminChat" component={AdminChat} />
           <Stack.Screen name="AdminReports" component={AdminReports} />
+          <Stack.Screen name="AdminOffers" component={AdminOffers} />
         </>
       ) : isDealer ? (
         // Dealer Flow

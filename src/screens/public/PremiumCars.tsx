@@ -60,7 +60,7 @@ const isPCMC = (area: string) => {
 };
 
 const PREMIUM_BUDGET_BANDS = BUDGET_BANDS.filter((b) => b.min >= 500000);
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 10;
 
 export default function PremiumCars() {
   const route = useRoute<any>();

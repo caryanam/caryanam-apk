@@ -90,6 +90,8 @@ export default function CarDetails() {
   const [activeImg, setActiveImg] = useState(0);
   const [showContactModal, setShowContactModal] = useState(false);
   const [revealed, setRevealed] = useState(false);
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [previewImageIndex, setPreviewImageIndex] = useState(0);
 
   // Form states
   const [leadName, setLeadName] = useState("");
@@ -255,12 +257,20 @@ export default function CarDetails() {
             scrollEventThrottle={16}
           >
             {images.map((imgUrl: string, idx: number) => (
-              <Image
+              <TouchableOpacity
                 key={idx}
-                source={{ uri: imgUrl }}
-                style={styles.galleryImage}
-                resizeMode="cover"
-              />
+                activeOpacity={0.9}
+                onPress={() => {
+                  setPreviewImageIndex(idx);
+                  setShowImageModal(true);
+                }}
+              >
+                <Image
+                  source={{ uri: imgUrl }}
+                  style={styles.galleryImage}
+                  resizeMode="cover"
+                />
+              </TouchableOpacity>
             ))}
           </ScrollView>
 
@@ -562,6 +572,7 @@ export default function CarDetails() {
                   value={leadName}
                   onChangeText={setLeadName}
                   placeholder="Enter your name"
+                  editable={false}
                 />
 
                 <Input
@@ -588,6 +599,42 @@ export default function CarDetails() {
                 />
               </ScrollView>
             </SafeAreaView>
+          </View>
+        </Modal>
+
+        {/* Image Preview Modal */}
+        <Modal
+          visible={showImageModal}
+          transparent={true}
+          animationType="fade"
+          onRequestClose={() => setShowImageModal(false)}
+        >
+          <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.9)", justifyContent: "center" }}>
+            <TouchableOpacity 
+              style={{ position: "absolute", top: 40, right: 20, zIndex: 10, padding: 8 }} 
+              onPress={() => setShowImageModal(false)}
+            >
+              <X size={28} color="#fff" />
+            </TouchableOpacity>
+            {images.length > 0 && (
+              <ScrollView
+                horizontal
+                pagingEnabled
+                showsHorizontalScrollIndicator={false}
+                contentOffset={{ x: previewImageIndex * width, y: 0 }}
+                style={{ flex: 1 }}
+              >
+                {images.map((imgUrl: string, idx: number) => (
+                  <View key={idx} style={{ width, height: "100%", justifyContent: "center", alignItems: "center" }}>
+                    <Image
+                      source={{ uri: imgUrl }}
+                      style={{ width: "100%", height: "80%" }}
+                      resizeMode="contain"
+                    />
+                  </View>
+                ))}
+              </ScrollView>
+            )}
           </View>
         </Modal>
       </View>

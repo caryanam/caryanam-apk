@@ -30,6 +30,7 @@ import {
   LogOut as LogOutIcon,
   Inbox as InboxIcon,
   BarChart2 as BarChart2Icon,
+  Gift as GiftIcon,
 } from "lucide-react-native";
 
 const Users = UsersIcon as any;
@@ -39,6 +40,7 @@ const Coins = CoinsIcon as any;
 const LogOut = LogOutIcon as any;
 const Inbox = InboxIcon as any;
 const BarChart2 = BarChart2Icon as any;
+const Gift = GiftIcon as any;
 
 import { formatINR } from "../../utils/helpers";
 import { BarChart, LineChart } from "../../components/ui/Charts";
@@ -174,6 +176,12 @@ export default function AdminDashboard() {
                 <Car size={24} color="#34d399" />
               </View>
               <Text style={[styles.quickActionText, { color: "#e2e8f0" }]}>Cars</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.quickActionBtn} onPress={() => navigation.navigate("AdminOffers")}>
+              <View style={[styles.quickActionIcon, { backgroundColor: "rgba(255,255,255,0.1)" }]}>
+                <Gift size={24} color="#f43f5e" />
+              </View>
+              <Text style={[styles.quickActionText, { color: "#e2e8f0" }]}>Offers</Text>
             </TouchableOpacity>
           </View>
         </View>

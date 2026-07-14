@@ -61,7 +61,7 @@ const isPCMC = (area: string) => {
 
 type CarsScreenRouteProp = RouteProp<RootStackParamList, "Cars">;
 
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 10;
 
 export default function Cars() {
   const route = useRoute<any>();

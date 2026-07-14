@@ -31,6 +31,11 @@ import {
   Phone as PhoneIcon,
   Mail as MailIcon,
   MapPin as MapPinIcon,
+  Wallet as WalletIcon,
+  Info as InfoIcon,
+  RefreshCw as RefreshCwIcon,
+  Plus as PlusIcon,
+  Gift as GiftIcon,
 } from "lucide-react-native";
 
 const Home = HomeIcon as any;
@@ -49,8 +54,14 @@ const Layers = LayersIcon as any;
 const Phone = PhoneIcon as any;
 const Mail = MailIcon as any;
 const MapPin = MapPinIcon as any;
+const Wallet = WalletIcon as any;
+const Info = InfoIcon as any;
+const RefreshCw = RefreshCwIcon as any;
+const Plus = PlusIcon as any;
+const Gift = GiftIcon as any;
 
 import { Modal } from "react-native";
+import Svg, { Path } from "react-native-svg";
 import { useAdminAuth } from "../../contexts/AdminAuthContext";
 import { useDealerAuth } from "../../contexts/DealerAuthContext";
 import { useCustomer, useCustomerAuth } from "../../contexts/CustomerAuthContext";
@@ -108,8 +119,9 @@ export default function ScreenWrapper({
     { name: "AdminDealers", icon: Users, label: "Dealers" },
     { name: "AdminVehicles", icon: Car, label: "Cars Stock" },
     { name: "AdminLeads", icon: FileText, label: "Leads" },
-    { name: "AdminChat", icon: MessageSquare, label: "Chats" },
+    { name: "AdminOffers", icon: Gift, label: "Offers" },
     { name: "AdminSubscriptions", icon: Layers, label: "Subscriptions" },
+    { name: "AdminChat", icon: MessageSquare, label: "Chats" },
     { name: "AdminReports", icon: Layers, label: "Reports" },
   ];
 
@@ -145,12 +157,14 @@ export default function ScreenWrapper({
                 style={styles.logoIcon}
                 resizeMode="cover"
               />
-              <Text style={styles.logoText}>
-                CARY<Text style={{ color: "#fbbf24" }}>A</Text>NAM
-              </Text>
+              {layoutType !== "dealer" && (
+                <Text style={styles.logoText}>
+                  CARY<Text style={{ color: "#fbbf24" }}>A</Text>NAM
+                </Text>
+              )}
             </View>
           )}
-          {title && <Text style={styles.headerTitle}>{title}</Text>}
+          {title && layoutType !== "dealer" && <Text style={styles.headerTitle}>{title}</Text>}
         </View>
 
         <View style={styles.headerRight}>
@@ -212,6 +226,39 @@ export default function ScreenWrapper({
               )}
             </View>
           ) : null}
+
+          {layoutType === "dealer" && (
+            <View style={styles.walletOuterContainer}>
+              <View style={styles.walletInnerContainer}>
+                
+                {/* Left Side: Balance Info */}
+                <View style={styles.walletInfoRow}>
+                  <View style={styles.walletIconCircle}>
+                    <Wallet size={12} color="#0f172a" strokeWidth={2.5} />
+                  </View>
+                  <View style={styles.walletTextCol}>
+                    <Text style={styles.walletLabelText}>Wallet</Text>
+                    <View style={styles.walletBalanceRow}>
+                      <Text style={styles.walletBalanceText}>953.60</Text>
+                      <TouchableOpacity hitSlop={{ top: 5, bottom: 5, left: 5, right: 5 }}>
+                        <Info size={11} color="#64748b" style={{ marginLeft: 3 }} />
+                      </TouchableOpacity>
+                      <TouchableOpacity hitSlop={{ top: 5, bottom: 5, left: 5, right: 5 }}>
+                        <RefreshCw size={11} color="#64748b" style={{ marginLeft: 4 }} />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+
+                {/* Right Side: Button */}
+                <TouchableOpacity style={styles.walletAddBtn} activeOpacity={0.8}>
+                  <Plus size={10} color="#fff" strokeWidth={3} />
+                  <Text style={styles.walletAddBtnText}>Add</Text>
+                </TouchableOpacity>
+
+              </View>
+            </View>
+          )}
 
           {(!showBackButton) && (
             <TouchableOpacity
@@ -390,17 +437,30 @@ export default function ScreenWrapper({
           <View style={styles.footerSection}>
             <Text style={styles.footerSectionTitle}>REACH US</Text>
             <View style={styles.footerContactRow}>
-              <Phone size={14} color="#f43f5e" />
+              <Phone size={14} color="#f43f5e" style={{ marginTop: 2 }} />
               <Text style={styles.footerLink}>+91 7755994123</Text>
             </View>
             <View style={styles.footerContactRow}>
-              <Mail size={14} color="#f43f5e" />
+              <Mail size={14} color="#f43f5e" style={{ marginTop: 2 }} />
               <Text style={styles.footerLink}>support@caryanam.com</Text>
             </View>
             <View style={styles.footerContactRow}>
-              <MapPin size={14} color="#f43f5e" />
+              <MapPin size={14} color="#f43f5e" style={{ marginTop: 2 }} />
               <Text style={styles.footerLink}>Kharadi, Pune, 411014</Text>
             </View>
+            <TouchableOpacity 
+              style={styles.footerContactRow}
+              onPress={() => {
+                import("react-native").then(({ Linking }) => {
+                  Linking.openURL("https://www.facebook.com/groups/27426492290342763");
+                });
+              }}
+            >
+              <Svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="#f43f5e" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: 2 }}>
+                <Path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+              </Svg>
+              <Text style={styles.footerLink}>Facebook</Text>
+            </TouchableOpacity>
           </View>
 
         </View>
@@ -477,6 +537,72 @@ const styles = StyleSheet.create({
   headerRight: {
     flexDirection: "row",
     alignItems: "center",
+  },
+  walletOuterContainer: {
+    backgroundColor: "#1e293b", // Lighter slate to stand out against black header
+    padding: 2,
+    borderRadius: 24, // Pill shape
+    marginRight: 10,
+    borderWidth: 1,
+    borderColor: "#334155",
+  },
+  walletInnerContainer: {
+    backgroundColor: "#fff",
+    borderRadius: 22, // Slightly smaller pill
+    flexDirection: "row",
+    alignItems: "center",
+    paddingLeft: 4,
+    paddingRight: 4,
+    paddingVertical: 4,
+  },
+  walletInfoRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 8,
+  },
+  walletIconCircle: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: "#f1f5f9",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 6,
+  },
+  walletTextCol: {
+    flexDirection: "column",
+    justifyContent: "center",
+  },
+  walletLabelText: {
+    fontSize: 9,
+    fontWeight: "800",
+    color: "#64748b",
+    textTransform: "uppercase",
+    marginBottom: -1,
+  },
+  walletBalanceRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  walletBalanceText: {
+    fontSize: 13,
+    fontWeight: "900",
+    color: "#0f172a",
+    letterSpacing: -0.3,
+  },
+  walletAddBtn: {
+    backgroundColor: "#e11d48", // Vibrant rose to pop out
+    flexDirection: "row",
+    alignItems: "center",
+    borderRadius: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+  },
+  walletAddBtnText: {
+    color: "#fff",
+    fontSize: 11,
+    fontWeight: "800",
+    marginLeft: 3,
   },
   logoWrapper: {
     flexDirection: "row",
@@ -761,10 +887,11 @@ const styles = StyleSheet.create({
     color: "rgba(255, 255, 255, 0.7)",
     fontSize: 13,
     marginBottom: 12,
+    flex: 1,
   },
   footerContactRow: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
     gap: 12,
     marginBottom: 12,
   },

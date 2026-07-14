@@ -11,11 +11,16 @@ import {
   Switch,
   KeyboardAvoidingView,
   Platform,
+  Modal,
 } from "react-native";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "../../../navigation/AppNavigator";
-import { Camera, X, UploadCloud, ArrowLeft, Loader2 } from "lucide-react-native";
+import { Camera, X, UploadCloud, ArrowLeft, Loader2, Search, Download } from "lucide-react-native";
 import { launchImageLibrary } from "react-native-image-picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import ReactNativeBlobUtil from "react-native-blob-util";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 import Input from "../../../components/ui/Input";
 import Select from "../../../components/ui/Select";
 import { useDealerAuth } from "../../../contexts/DealerAuthContext";
@@ -80,6 +85,16 @@ export default function DealerVehicleForm() {
   const [videos, setVideos] = useState<any[]>([]);
   const [deletedVideoIds, setDeletedVideoIds] = useState<number[]>([]);
 
+  // RC & Challan State
+  const [regNo, setRegNo] = useState("");
+  const [isFetchingRc, setIsFetchingRc] = useState(false);
+  const [rcData, setRcData] = useState<any>(null);
+  const [isRcModalOpen, setIsRcModalOpen] = useState(false);
+
+  const [isFetchingChallan, setIsFetchingChallan] = useState(false);
+  const [challanData, setChallanData] = useState<any>(null);
+  const [isChallanModalOpen, setIsChallanModalOpen] = useState(false);
+
   // Load existing data
   useEffect(() => {
     if (isEditing && vehicleDetails) {
@@ -122,6 +137,205 @@ export default function DealerVehicleForm() {
 
   const models = brand ? getModels(brand) : [];
   const variants = brand && model ? getVariants(brand, model) : [];
+
+  const handleFetchRc = async () => {
+    if (!regNo) {
+      Alert.alert("Error", "Please enter a vehicle number.");
+      return;
+    }
+    setIsFetchingRc(true);
+    try {
+      const token = await AsyncStorage.getItem("dealerToken");
+      const res = await fetch("https://c1.caryanam.com/srv2/validation/rc", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({
+          api_id: "APID2629",
+          api_key: "8cbaecfa-70cc-480d-9e21-0c9b11c81cb2",
+          token_id: "K2I4y1qrQVtUme7OKFpIKVYfQfvFZFHm",
+          reg_no: regNo,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Failed to fetch RC details.");
+
+      const data = await res.json();
+      const resultData = data.data || data;
+
+      if (resultData) {
+        setRcData(resultData);
+        if (resultData.vehicle_manufacturer_name) handleBrandChange(resultData.vehicle_manufacturer_name);
+        if (resultData.model) handleModelChange(resultData.model);
+        if (resultData.type) {
+          const typeUpper = resultData.type.toUpperCase();
+          if (FUELS.includes(typeUpper)) setFuelType(typeUpper);
+          else {
+             if (typeUpper.includes('PETROL')) setFuelType('PETROL');
+             else if (typeUpper.includes('DIESEL')) setFuelType('DIESEL');
+             else if (typeUpper.includes('CNG')) setFuelType('CNG');
+             else if (typeUpper.includes('LPG')) setFuelType('LPG');
+             else if (typeUpper.includes('ELECTRIC')) setFuelType('ELECTRIC');
+             else if (typeUpper.includes('HYBRID')) setFuelType('HYBRID');
+          }
+        }
+        if (resultData.reg_date) {
+           const parts = resultData.reg_date.split('-');
+           if (parts.length === 3) setRegistrationYear(parts[2].length === 4 ? parts[2] : parts[0]);
+           else {
+             const parts2 = resultData.reg_date.split('/');
+             if (parts2.length === 3) setRegistrationYear(parts2[2].length === 4 ? parts2[2] : parts2[0]);
+           }
+        }
+        Alert.alert("Success", "RC details fetched successfully!");
+      } else {
+        Alert.alert("Error", "No data found for this vehicle number.");
+      }
+    } catch (error: any) {
+      Alert.alert("Error", error.message || "Something went wrong while fetching RC details.");
+    } finally {
+      setIsFetchingRc(false);
+    }
+  };
+
+  const handleCheckChallan = async () => {
+    if (!regNo) {
+      Alert.alert("Error", "Please enter a vehicle number.");
+      return;
+    }
+    setIsFetchingChallan(true);
+    try {
+      const token = await AsyncStorage.getItem("dealerToken");
+      const res = await fetch("https://c1.caryanam.com/srv2/basic-e-challan", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({
+          api_id: "APID2629",
+          api_key: "8cbaecfa-70cc-480d-9e21-0c9b11c81cb2",
+          token_id: "K2I4y1qrQVtUme7OKFpIKVYfQfvFZFHm",
+          vehicle_num: regNo,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Failed to fetch Challan details.");
+
+      const rawData = await res.json();
+      let dataObj = rawData;
+      if (Array.isArray(rawData)) dataObj = rawData[0];
+      const resultData = dataObj?.data || dataObj;
+
+      if (resultData && resultData.results) {
+        setChallanData(resultData);
+        setIsChallanModalOpen(true);
+      } else {
+        Alert.alert("Error", "No challan data found for this vehicle number.");
+      }
+    } catch (error: any) {
+      Alert.alert("Error", error.message || "Something went wrong while fetching Challan details.");
+    } finally {
+      setIsFetchingChallan(false);
+    }
+  };
+
+  const downloadRcPDF = async () => {
+    if (!rcData) return;
+    try {
+      const doc = new jsPDF();
+      doc.setFontSize(16);
+      doc.text("RC Verification Report", 14, 20);
+      doc.setFontSize(10);
+      doc.text(`Generated on: ${new Date().toLocaleString()}`, 14, 28);
+      doc.text(`Vehicle Number: ${regNo}`, 14, 34);
+
+      const tableData: any[][] = [];
+      Object.entries(rcData).forEach(([key, value]) => {
+        if (typeof value === 'object' && value !== null) {
+          Object.entries(value).forEach(([k, v]) => {
+            tableData.push([`${key} - ${k}`.replace(/_/g, ' '), String(v || 'N/A')]);
+          });
+        } else {
+          tableData.push([key.replace(/_/g, ' '), String(value || 'N/A')]);
+        }
+      });
+
+      autoTable(doc, {
+        startY: 40,
+        head: [['Field', 'Value']],
+        body: tableData,
+        theme: 'striped',
+        styles: { fontSize: 9 },
+        headStyles: { fillColor: [76, 5, 25] },
+      });
+
+      const pdfBase64 = doc.output('datauristring').split(',')[1];
+      const dir = Platform.OS === 'ios' ? ReactNativeBlobUtil.fs.dirs.DocumentDir : ReactNativeBlobUtil.fs.dirs.DownloadDir;
+      const path = `${dir}/RC_Report_${regNo}_${Date.now()}.pdf`;
+
+      await ReactNativeBlobUtil.fs.writeFile(path, pdfBase64, 'base64');
+      
+      if (Platform.OS === 'android') {
+        ReactNativeBlobUtil.android.actionViewIntent(path, 'application/pdf');
+      } else {
+        ReactNativeBlobUtil.ios.previewDocument(path);
+      }
+    } catch (err) {
+      console.log('PDF Error:', err);
+      Alert.alert('Error', 'Failed to generate PDF');
+    }
+  };
+
+  const downloadChallanPDF = async () => {
+    if (!challanData || !challanData.results) return;
+    try {
+      const doc = new jsPDF();
+      doc.setFontSize(16);
+      doc.text("E-Challan Verification Report", 14, 20);
+      doc.setFontSize(10);
+      doc.text(`Generated on: ${new Date().toLocaleString()}`, 14, 28);
+      doc.text(`Vehicle Number: ${regNo}`, 14, 34);
+      doc.text(`Total Challans: ${challanData.totalChallan || 0}`, 14, 40);
+
+      const tableData: any[][] = [];
+      challanData.results.forEach((challan: any) => {
+        tableData.push([
+          challan.challanNo,
+          challan.amount ? `Rs ${challan.amount}` : 'N/A',
+          String(challan.status || 'N/A').toUpperCase(),
+          challan.dateTime || 'N/A',
+          challan.offences?.[0]?.offenceName || 'N/A'
+        ]);
+      });
+
+      autoTable(doc, {
+        startY: 46,
+        head: [['Challan No', 'Amount', 'Status', 'Date', 'Offence']],
+        body: tableData,
+        theme: 'striped',
+        styles: { fontSize: 8 },
+        headStyles: { fillColor: [76, 5, 25] },
+      });
+
+      const pdfBase64 = doc.output('datauristring').split(',')[1];
+      const dir = Platform.OS === 'ios' ? ReactNativeBlobUtil.fs.dirs.DocumentDir : ReactNativeBlobUtil.fs.dirs.DownloadDir;
+      const path = `${dir}/Challan_Report_${regNo}_${Date.now()}.pdf`;
+
+      await ReactNativeBlobUtil.fs.writeFile(path, pdfBase64, 'base64');
+      
+      if (Platform.OS === 'android') {
+        ReactNativeBlobUtil.android.actionViewIntent(path, 'application/pdf');
+      } else {
+        ReactNativeBlobUtil.ios.previewDocument(path);
+      }
+    } catch (err) {
+      console.log('PDF Error:', err);
+      Alert.alert('Error', 'Failed to generate PDF');
+    }
+  };
 
   const handleImagePick = async (index: number) => {
     try {
@@ -297,6 +511,41 @@ export default function DealerVehicleForm() {
           
           {!isEditing && (
             <>
+              {/* Quick Vehicle Verification */}
+              <View style={styles.verificationContainer}>
+                <View style={styles.verificationHeader}>
+                  <Search size={16} color="#e11d48" />
+                  <Text style={styles.verificationTitle}>Quick Vehicle Verification</Text>
+                </View>
+                <Text style={styles.verificationSubtitle}>Enter vehicle number to automatically fetch details and check pending challans.</Text>
+                
+                <View style={styles.verificationBody}>
+                  <Text style={styles.verificationLabel}>REGISTRATION NUMBER</Text>
+                  <Input
+                    label=""
+                    placeholder="e.g. MH15DC6628"
+                    value={regNo}
+                    onChangeText={(text) => setRegNo(text.toUpperCase())}
+                    autoCapitalize="characters"
+                    style={styles.verificationInput}
+                  />
+                  
+                  <View style={styles.verificationActionRow}>
+                    <TouchableOpacity style={styles.verificationBtn} onPress={handleFetchRc} disabled={isFetchingRc || !regNo}>
+                      {isFetchingRc ? <ActivityIndicator size="small" color="#fff" /> : <Text style={styles.verificationBtnText}>Check RC</Text>}
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.challanBtn} onPress={handleCheckChallan} disabled={isFetchingChallan || !regNo}>
+                      {isFetchingChallan ? <ActivityIndicator size="small" color="#fff" /> : <Text style={styles.challanBtnText}>Check Challan</Text>}
+                    </TouchableOpacity>
+                  </View>
+                  {rcData && (
+                    <TouchableOpacity style={styles.rcDetailsBtn} onPress={() => setIsRcModalOpen(true)}>
+                      <Text style={styles.rcDetailsBtnText}>RC Details</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+              </View>
+
               {/* Images Section */}
               <Text style={styles.sectionTitle}>Photos ({slotImages.filter(Boolean).length}/10+)</Text>
               <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.imageScroll}>
@@ -521,6 +770,90 @@ export default function DealerVehicleForm() {
 
         </ScrollView>
       </KeyboardAvoidingView>
+
+      {/* RC Details Modal */}
+      <Modal visible={isRcModalOpen} animationType="slide" transparent={true}>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>RC Details</Text>
+              <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
+                <TouchableOpacity onPress={downloadRcPDF} style={styles.downloadPdfBtn}>
+                  <Download size={14} color="#0f172a" />
+                  <Text style={styles.downloadPdfText}>Download</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setIsRcModalOpen(false)}>
+                  <X size={24} color="#0f172a" />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <ScrollView style={styles.modalBody}>
+              {rcData && Object.entries(rcData).map(([key, value], idx) => {
+                if (typeof value === 'object' && value !== null) {
+                  return (
+                    <View key={idx} style={{ marginBottom: 12 }}>
+                      <Text style={styles.modalSubTitle}>{String(key).replace(/_/g, ' ').toUpperCase()}</Text>
+                      {Object.entries(value).map(([k, v], i) => (
+                        <View key={i} style={styles.modalDetailRow}>
+                          <Text style={styles.modalDetailLabel}>{String(k).replace(/_/g, ' ')}</Text>
+                          <Text style={styles.modalDetailValue}>{typeof v === 'object' ? JSON.stringify(v) : String(v || 'N/A')}</Text>
+                        </View>
+                      ))}
+                    </View>
+                  );
+                }
+                return (
+                  <View key={idx} style={styles.modalDetailRow}>
+                    <Text style={styles.modalDetailLabel}>{String(key).replace(/_/g, ' ')}</Text>
+                    <Text style={styles.modalDetailValue}>{String(value || 'N/A')}</Text>
+                  </View>
+                );
+              })}
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Challan Details Modal */}
+      <Modal visible={isChallanModalOpen} animationType="slide" transparent={true}>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>E-Challan Details ({challanData?.totalChallan || 0})</Text>
+              <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
+                <TouchableOpacity onPress={downloadChallanPDF} style={styles.downloadPdfBtn}>
+                  <Download size={14} color="#0f172a" />
+                  <Text style={styles.downloadPdfText}>Download</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setIsChallanModalOpen(false)}>
+                  <X size={24} color="#0f172a" />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <ScrollView style={styles.modalBody}>
+              {challanData?.results?.map((challan: any, idx: number) => (
+                <View key={idx} style={styles.challanCard}>
+                  <View style={styles.challanCardHeader}>
+                    <Text style={styles.challanNo}>Challan: {challan.challanNo}</Text>
+                    <View style={[styles.challanStatusBadge, challan.status?.toLowerCase() === 'pending' ? styles.statusPending : styles.statusPaid]}>
+                      <Text style={[styles.challanStatusText, challan.status?.toLowerCase() === 'pending' ? styles.statusTextPending : styles.statusTextPaid]}>
+                        {String(challan.status).toUpperCase()}
+                      </Text>
+                    </View>
+                  </View>
+                  <Text style={styles.challanDetailText}><Text style={{fontWeight: 'bold'}}>Amount:</Text> ₹{challan.amount}</Text>
+                  <Text style={styles.challanDetailText}><Text style={{fontWeight: 'bold'}}>Date:</Text> {challan.dateTime}</Text>
+                  <Text style={styles.challanDetailText}><Text style={{fontWeight: 'bold'}}>Area:</Text> {challan.areaName || 'N/A'}</Text>
+                  <Text style={styles.challanDetailText}><Text style={{fontWeight: 'bold'}}>Offence:</Text> {challan.offences?.[0]?.offenceName || 'N/A'}</Text>
+                </View>
+              ))}
+              {(!challanData?.results || challanData.results.length === 0) && (
+                <Text style={{ textAlign: 'center', marginVertical: 20, color: '#64748b' }}>No challans found.</Text>
+              )}
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -661,4 +994,191 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "800",
   },
+  verificationContainer: {
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "#e2e8f0",
+    marginBottom: 20,
+    overflow: "hidden",
+  },
+  verificationHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#f8fafc",
+    paddingHorizontal: 16,
+    paddingTop: 12,
+  },
+  verificationTitle: {
+    fontSize: 15,
+    fontWeight: "700",
+    color: "#0f172a",
+    marginLeft: 8,
+  },
+  verificationSubtitle: {
+    fontSize: 12,
+    color: "#64748b",
+    backgroundColor: "#f8fafc",
+    paddingHorizontal: 16,
+    paddingBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "#e2e8f0",
+  },
+  verificationBody: {
+    padding: 16,
+  },
+  verificationLabel: {
+    fontSize: 11,
+    fontWeight: "700",
+    color: "#64748b",
+    marginBottom: 6,
+  },
+  verificationInput: {
+    marginBottom: 12,
+  },
+  verificationActionRow: {
+    flexDirection: "row",
+    gap: 8,
+  },
+  verificationBtn: {
+    flex: 1,
+    backgroundColor: "#0f172a",
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  verificationBtnText: {
+    color: "#fff",
+    fontWeight: "700",
+    fontSize: 14,
+  },
+  challanBtn: {
+    flex: 1,
+    backgroundColor: "#f97316",
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  challanBtnText: {
+    color: "#fff",
+    fontWeight: "700",
+    fontSize: 14,
+  },
+  rcDetailsBtn: {
+    marginTop: 12,
+    paddingVertical: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#cbd5e1",
+    alignItems: "center",
+  },
+  rcDetailsBtnText: {
+    color: "#334155",
+    fontWeight: "600",
+    fontSize: 14,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "flex-end",
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    maxHeight: "80%",
+    padding: 20,
+  },
+  modalHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "800",
+    color: "#0f172a",
+  },
+  modalBody: {
+    marginBottom: 20,
+  },
+  modalSubTitle: {
+    fontSize: 13,
+    fontWeight: "700",
+    color: "#0f172a",
+    marginBottom: 8,
+  },
+  modalDetailRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: "#f1f5f9",
+  },
+  modalDetailLabel: {
+    fontSize: 12,
+    color: "#64748b",
+    textTransform: "capitalize",
+    flex: 1,
+  },
+  modalDetailValue: {
+    fontSize: 13,
+    fontWeight: "600",
+    color: "#1e293b",
+    flex: 1,
+    textAlign: "right",
+  },
+  challanCard: {
+    backgroundColor: "#f8fafc",
+    borderWidth: 1,
+    borderColor: "#e2e8f0",
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 12,
+  },
+  challanCardHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: "#e2e8f0",
+    paddingBottom: 8,
+  },
+  challanNo: {
+    fontSize: 14,
+    fontWeight: "700",
+    color: "#0f172a",
+  },
+  challanStatusBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  statusPending: { backgroundColor: "#ffedd5" },
+  statusPaid: { backgroundColor: "#dcfce7" },
+  statusTextPending: { color: "#c2410c", fontSize: 10, fontWeight: "700" },
+  statusTextPaid: { color: "#15803d", fontSize: 10, fontWeight: "700" },
+  challanDetailText: {
+    fontSize: 13,
+    color: "#334155",
+    marginBottom: 4,
+  },
+  downloadPdfBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: '#f1f5f9',
+    paddingHorizontal: 8,
+    paddingVertical: 6,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#cbd5e1'
+  },
+  downloadPdfText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#0f172a'
+  }
 });
