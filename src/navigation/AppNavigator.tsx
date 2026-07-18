@@ -16,6 +16,7 @@ import PrivacyPolicy from "../screens/public/PrivacyPolicy";
 import Terms from "../screens/public/Terms";
 import RefundPolicy from "../screens/public/RefundPolicy";
 import RTOForm from "../screens/public/RTOForm";
+import DeleteAccount from "../screens/public/DeleteAccount";
 
 // Auth Screens
 import Login from "../screens/auth/Login";
@@ -31,6 +32,7 @@ import DealerProfile from "../screens/dealer/Profile";
 import DealerWishlist from "../screens/dealer/CustomerWishlist";
 import DealerChat from "../screens/dealer/Chat";
 import DealerSubscription from "../screens/dealer/subscription/Subscription";
+import DealerFacebookRequests from "../screens/dealer/FacebookRequests";
 
 // Admin Screens
 import AdminDashboard from "../screens/admin/Dashboard";
@@ -42,6 +44,9 @@ import AdminSubscriptions from "../screens/admin/Subscriptions";
 import AdminChat from "../screens/admin/Chat";
 import AdminReports from "../screens/admin/Reports";
 import AdminOffers from "../screens/admin/Offers";
+import AdminFacebookSummary from "../screens/admin/facebook/FacebookDealerSummary";
+import AdminFacebookDealerRequests from "../screens/admin/facebook/FacebookDealerRequests";
+import AdminFacebookBatchProgress from "../screens/admin/facebook/FacebookBatchProgress";
 
 export type RootStackParamList = {
   // Public
@@ -56,6 +61,7 @@ export type RootStackParamList = {
   Terms: undefined;
   RefundPolicy: undefined;
   RTOForm: undefined;
+  DeleteAccount: undefined;
 
   // Auth
   Login: { defaultRole?: "customer" | "dealer" | "admin" } | undefined;
@@ -71,6 +77,7 @@ export type RootStackParamList = {
   DealerWishlist: undefined;
   DealerChat: undefined;
   DealerSubscription: undefined;
+  DealerFacebookRequests: undefined;
 
   // Admin
   AdminDashboard: undefined;
@@ -82,6 +89,9 @@ export type RootStackParamList = {
   AdminChat: undefined;
   AdminReports: undefined;
   AdminOffers: undefined;
+  AdminFacebookSummary: undefined;
+  AdminFacebookDealerRequests: { dealerId: number };
+  AdminFacebookBatchProgress: { batchId: number };
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -118,6 +128,9 @@ export default function AppNavigator() {
           <Stack.Screen name="AdminChat" component={AdminChat} />
           <Stack.Screen name="AdminReports" component={AdminReports} />
           <Stack.Screen name="AdminOffers" component={AdminOffers} />
+          <Stack.Screen name="AdminFacebookSummary" component={AdminFacebookSummary} />
+          <Stack.Screen name="AdminFacebookDealerRequests" component={AdminFacebookDealerRequests} />
+          <Stack.Screen name="AdminFacebookBatchProgress" component={AdminFacebookBatchProgress} />
         </>
       ) : isDealer ? (
         // Dealer Flow
@@ -131,6 +144,7 @@ export default function AppNavigator() {
           <Stack.Screen name="DealerWishlist" component={DealerWishlist} />
           <Stack.Screen name="DealerChat" component={DealerChat} />
           <Stack.Screen name="DealerSubscription" component={DealerSubscription} />
+          <Stack.Screen name="DealerFacebookRequests" component={DealerFacebookRequests} />
         </>
       ) : (
         // Public Flow (Customer & Guests)
@@ -146,6 +160,7 @@ export default function AppNavigator() {
           <Stack.Screen name="Terms" component={Terms} />
           <Stack.Screen name="RefundPolicy" component={RefundPolicy} />
           <Stack.Screen name="RTOForm" component={RTOForm} />
+          <Stack.Screen name="DeleteAccount" component={DeleteAccount} />
 
           {/* Auth Flow (Login & Register are in stack so guests can open them) */}
           <Stack.Screen name="Login" component={Login} />

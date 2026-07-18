@@ -36,6 +36,7 @@ import {
   RefreshCw as RefreshCwIcon,
   Plus as PlusIcon,
   Gift as GiftIcon,
+  Share2 as Share2Icon,
 } from "lucide-react-native";
 
 const Home = HomeIcon as any;
@@ -59,6 +60,7 @@ const Info = InfoIcon as any;
 const RefreshCw = RefreshCwIcon as any;
 const Plus = PlusIcon as any;
 const Gift = GiftIcon as any;
+const Facebook = Share2Icon as any;
 
 import { Modal } from "react-native";
 import Svg, { Path } from "react-native-svg";
@@ -112,6 +114,7 @@ export default function ScreenWrapper({
     { name: "DealerChat", icon: MessageSquare, label: "Chat" },
     { name: "DealerProfile", icon: User, label: "Profile" },
     { name: "DealerSubscription", icon: Layers, label: "Subscription" },
+    { name: "DealerFacebookRequests", icon: Facebook, label: "Facebook Posts" },
   ];
 
   const adminTabs = [
@@ -123,6 +126,7 @@ export default function ScreenWrapper({
     { name: "AdminSubscriptions", icon: Layers, label: "Subscriptions" },
     { name: "AdminChat", icon: MessageSquare, label: "Chats" },
     { name: "AdminReports", icon: Layers, label: "Reports" },
+    { name: "AdminFacebookSummary", icon: Facebook, label: "Facebook" },
   ];
 
   const publicTabs = [
@@ -431,6 +435,7 @@ export default function ScreenWrapper({
             <TouchableOpacity onPress={() => navigation.navigate("PrivacyPolicy")}><Text style={styles.footerLink}>Privacy Policy</Text></TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate("Terms")}><Text style={styles.footerLink}>Terms & Conditions</Text></TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate("RefundPolicy")}><Text style={styles.footerLink}>Refund Policy</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("DeleteAccount" as any)}><Text style={styles.footerLink}>Delete Account</Text></TouchableOpacity>
           </View>
 
           {/* Section 4: Reach Us */}
