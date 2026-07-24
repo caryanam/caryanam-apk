@@ -243,7 +243,7 @@ export default function ScreenWrapper({
                   <View style={styles.walletTextCol}>
                     <Text style={styles.walletLabelText}>Wallet</Text>
                     <View style={styles.walletBalanceRow}>
-                      <Text style={styles.walletBalanceText}>953.60</Text>
+                      <Text style={styles.walletBalanceText}>00.00</Text>
                       <TouchableOpacity hitSlop={{ top: 5, bottom: 5, left: 5, right: 5 }}>
                         <Info size={11} color="#64748b" style={{ marginLeft: 3 }} />
                       </TouchableOpacity>

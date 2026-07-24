@@ -19,7 +19,7 @@ import ScreenWrapper from "../../../components/shared/ScreenWrapper";
 import Skeleton from "../../../components/ui/Skeleton";
 import { useDealerAuth } from "../../../contexts/DealerAuthContext";
 import { useGetVehicles } from "../../../hooks/dealer/useGetVehicles";
-import { Plus, Edit2, Trash2, Search as SearchIcon, RefreshCw as RefreshCwIcon, X as XIcon, Download as DownloadIcon, Gauge as GaugeIcon, Fuel as FuelIcon, MapPin as MapPinIcon, Calendar as CalendarIcon, Star as StarIcon, ArrowRight as ArrowRightIcon } from "lucide-react-native";
+import { Plus, Edit2, Trash2, Search as SearchIcon, RefreshCw as RefreshCwIcon, X as XIcon, Download as DownloadIcon, Gauge as GaugeIcon, Fuel as FuelIcon, MapPin as MapPinIcon, Calendar as CalendarIcon, Star as StarIcon, ArrowRight as ArrowRightIcon, MessageCircle as MessageCircleIcon, CheckSquare as CheckSquareIcon, Square as SquareIcon } from "lucide-react-native";
 
 const Search = SearchIcon as any;
 const RefreshCw = RefreshCwIcon as any;
@@ -31,11 +31,16 @@ const MapPin = MapPinIcon as any;
 const Calendar = CalendarIcon as any;
 const Star = StarIcon as any;
 const ArrowRight = ArrowRightIcon as any;
+const MessageCircle = MessageCircleIcon as any;
+const CheckSquare = CheckSquareIcon as any;
+const Square = SquareIcon as any;
 
 import { useDeleteVehicle } from "../../../hooks/dealer/useDeleteVehicle";
 import { useUpdateVehicleStatus } from "../../../hooks/dealer/useUpdateVehicleStatus";
+import { useShareVehicleOnWhatsApp } from "../../../hooks/dealer/useWhatsAppShare";
 import Select from "../../../components/ui/Select";
 import { formatINR, formatKM } from "../../../utils/helpers";
+import { Linking } from "react-native";
 
 const FALLBACK_IMG = "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&h=533&fit=crop";
 
@@ -45,9 +50,51 @@ export default function DealerVehicles() {
   const dealerId = user?.id || "";
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedVehicles, setSelectedVehicles] = useState<number[]>([]);
   const { data: stock = [], isLoading, error, refetch, isRefetching } = useGetVehicles(dealerId);
   const deleteMutation = useDeleteVehicle(dealerId);
   const statusMutation = useUpdateVehicleStatus(dealerId);
+  const shareMutation = useShareVehicleOnWhatsApp();
+
+  const handleBulkShareWhatsApp = async () => {
+    if (selectedVehicles.length === 0) return;
+
+    if (selectedVehicles.length === 1) {
+      shareMutation.mutate(
+        { vehicleId: selectedVehicles[0], dealerId },
+        {
+          onSuccess: (data) => {
+            Alert.alert("Success", "Vehicle shared successfully!");
+            const url = data.whatsappLink || data.shareUrl;
+            if (url) {
+              Linking.openURL(url).catch(err => console.error("An error occurred", err));
+            }
+            setSelectedVehicles([]);
+          },
+          onError: (err) => Alert.alert("Error", err.message || "Failed to share on WhatsApp"),
+        }
+      );
+      return;
+    }
+
+    try {
+      let sharedLinks: string[] = [];
+      for (const vId of selectedVehicles) {
+        const res = await shareMutation.mutateAsync({ vehicleId: vId, dealerId });
+        if (res.shareUrl || res.whatsappLink) {
+          sharedLinks.push((res.shareUrl || res.whatsappLink) as string);
+        }
+      }
+      Alert.alert("Success", `Successfully shared ${selectedVehicles.length} vehicles!`);
+      if (sharedLinks.length > 0) {
+        const text = encodeURIComponent(`Check out these vehicles:\n\n${sharedLinks.join('\n\n')}`);
+        Linking.openURL(`https://wa.me/?text=${text}`).catch(err => console.error("An error occurred", err));
+      }
+      setSelectedVehicles([]);
+    } catch (err: any) {
+      Alert.alert("Error", err.message || "Failed to share some vehicles on WhatsApp");
+    }
+  };
 
   const handleDelete = (id: string) => {
     Alert.alert(
@@ -137,17 +184,39 @@ export default function DealerVehicles() {
     );
   });
 
+  const handleToggleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedVehicles(filteredStock.map((v: any) => v.id));
+    } else {
+      setSelectedVehicles([]);
+    }
+  };
+
+  const handleToggleVehicle = (vehicleId: number) => {
+    setSelectedVehicles((prev) => 
+      prev.includes(vehicleId) ? prev.filter((id) => id !== vehicleId) : [...prev, vehicleId]
+    );
+  };
+
   const isFetching = isLoading || isRefetching;
 
   const renderVehicle = ({ item }: { item: any }) => {
     const imageUrl = item.images && item.images.length > 0 ? item.images[0].url || item.images[0] : FALLBACK_IMG;
     const isPremium = item.vehicleType === "PREMIUM";
     const statusColor = getVehicleStatusColor(item.vehicleStatus || "ACTIVE");
+    const isSelected = selectedVehicles.includes(item.id);
     
     return (
-      <View style={styles.card}>
+      <View style={[styles.card, isSelected && { borderColor: "#16a34a", borderWidth: 2 }]}>
         {/* Top Header - Status */}
         <View style={styles.cardHeader}>
+          <TouchableOpacity onPress={() => handleToggleVehicle(item.id)} style={{ marginRight: 12 }}>
+            {isSelected ? (
+              <CheckSquare size={20} color="#16a34a" />
+            ) : (
+              <Square size={20} color="#94a3b8" />
+            )}
+          </TouchableOpacity>
           <View style={styles.titleWrap}>
             <Text style={styles.titleText} numberOfLines={1}>{item.brand} {item.model}</Text>
             <Text style={styles.variantText} numberOfLines={1}>{item.variant}</Text>
@@ -266,8 +335,34 @@ export default function DealerVehicles() {
         </TouchableOpacity>
       </View>
 
-      <View style={{ paddingHorizontal: 20, paddingTop: 16, paddingBottom: 4 }}>
+      <View style={{ paddingHorizontal: 20, paddingTop: 16, paddingBottom: 4, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
         <Text style={{ fontSize: 13, color: "#64748b", fontWeight: "700" }}>Total Cars: {filteredStock.length}</Text>
+        <TouchableOpacity 
+          style={{ flexDirection: "row", alignItems: "center", gap: 6 }} 
+          onPress={() => handleToggleSelectAll(selectedVehicles.length !== filteredStock.length)}
+        >
+          {selectedVehicles.length > 0 && selectedVehicles.length === filteredStock.length ? (
+            <CheckSquare size={18} color="#16a34a" />
+          ) : (
+            <Square size={18} color="#94a3b8" />
+          )}
+          <Text style={{ fontSize: 13, color: "#475569", fontWeight: "600" }}>Select All</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={{ paddingHorizontal: 20, paddingBottom: 8 }}>
+        <TouchableOpacity
+          style={[styles.bulkShareBtn, (selectedVehicles.length === 0 || shareMutation.isPending) && { opacity: 0.5 }]}
+          onPress={handleBulkShareWhatsApp}
+          disabled={selectedVehicles.length === 0 || shareMutation.isPending}
+        >
+          {shareMutation.isPending ? (
+            <ActivityIndicator size="small" color="#fff" />
+          ) : (
+            <MessageCircle size={18} color="#fff" />
+          )}
+          <Text style={styles.bulkShareText}>Share on WhatsApp ({selectedVehicles.length})</Text>
+        </TouchableOpacity>
       </View>
       
       {isLoading ? (
@@ -557,5 +652,19 @@ const styles = StyleSheet.create({
   deleteBtn: {
     backgroundColor: "#fff1f2",
     borderColor: "#ffe4e6",
+  },
+  bulkShareBtn: {
+    backgroundColor: "#22c55e",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    borderRadius: 12,
+    gap: 8,
+  },
+  bulkShareText: {
+    color: "#fff",
+    fontWeight: "700",
+    fontSize: 14,
   },
 });

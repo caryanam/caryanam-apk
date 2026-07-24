@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, RefreshControl, TextInput, ActivityIndicator } from "react-native";
 import ScreenWrapper from "../../../components/shared/ScreenWrapper";
 import { useGetAdminFacebookDealerSummary } from "../../../hooks/admin/useAdminFacebook";
-import { Share2 as Facebook, ChevronRight, RefreshCw, AlertCircle, Clock, Loader2, Inbox, Search, ArrowRight, User } from "lucide-react-native";
+import { Share2 as Facebook, ChevronRight, RefreshCw, AlertCircle, Clock, Loader2, Inbox, Search, ArrowRight, User, CheckCircle2 } from "lucide-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../../../navigation/AppNavigator";
@@ -23,7 +23,7 @@ export default function FacebookDealerSummary() {
 
   const totalDealers = summaries.length;
   const totalPending = summaries.reduce((acc, curr) => acc + curr.pendingCount, 0);
-  const totalProcessing = summaries.reduce((acc, curr) => acc + curr.processingCount, 0);
+  const totalPublished = summaries.reduce((acc, curr) => acc + curr.publishedCount, 0);
   const totalFailed = summaries.reduce((acc, curr) => acc + curr.failedCount, 0);
 
   if (error) {
@@ -89,11 +89,11 @@ export default function FacebookDealerSummary() {
 
         <View style={styles.statCard}>
           <View style={styles.statContent}>
-            <Text style={styles.statLabel}>Processing</Text>
-            <Text style={[styles.statValue, { color: "#2563eb" }]}>{isLoading ? "-" : totalProcessing}</Text>
+            <Text style={styles.statLabel}>Published</Text>
+            <Text style={[styles.statValue, { color: "#059669" }]}>{isLoading ? "-" : totalPublished}</Text>
           </View>
-          <View style={[styles.iconBox, { backgroundColor: "#eff6ff" }]}>
-            <Loader2 size={24} color="#3b82f6" />
+          <View style={[styles.iconBox, { backgroundColor: "#d1fae5" }]}>
+            <CheckCircle2 size={24} color="#059669" />
           </View>
         </View>
 
