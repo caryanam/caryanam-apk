@@ -5,6 +5,7 @@ import apiClient from "../../lib/apiClient";
 export type DealerRegistrationPayload = {
   businessName: string;
   ownerName: string;
+  dateOfBirth?: string;
   gstNumber?: string;
   yearsInBusiness: number;
   dealerMobile: string;
@@ -96,4 +97,112 @@ export function useDealerRegister() {
   );
 
   return { isSubmitting, registerDealer };
+}
+
+export function useSendRegistrationOtp() {
+  const [isSending, setIsSending] = React.useState(false);
+
+  const sendOtp = React.useCallback(async (email: string) => {
+    setIsSending(true);
+    try {
+      const baseURL = apiClient.defaults.baseURL;
+      const { data } = await axios.post(`${baseURL}/api/dealer/send-registration-otp?email=${encodeURIComponent(email)}`);
+      return data;
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        const body = err.response?.data;
+        throw new ApiError(
+          body?.message ?? err.message,
+          body?.status ?? err.response?.status ?? 500,
+          body?.errors,
+        );
+      }
+      throw err;
+    } finally {
+      setIsSending(false);
+    }
+  }, []);
+
+  return { isSending, sendOtp };
+}
+
+export function useVerifyRegistrationOtp() {
+  const [isVerifying, setIsVerifying] = React.useState(false);
+
+  const verifyOtp = React.useCallback(async (email: string, otp: string) => {
+    setIsVerifying(true);
+    try {
+      const baseURL = apiClient.defaults.baseURL;
+      const { data } = await axios.post(`${baseURL}/api/dealer/verify-registration-otp`, { email, otp });
+      return data;
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        const body = err.response?.data;
+        throw new ApiError(
+          body?.message ?? err.message,
+          body?.status ?? err.response?.status ?? 500,
+          body?.errors,
+        );
+      }
+      throw err;
+    } finally {
+      setIsVerifying(false);
+    }
+  }, []);
+
+  return { isVerifying, verifyOtp };
+}
+
+export function useCustomerSendRegistrationOtp() {
+  const [isSending, setIsSending] = React.useState(false);
+
+  const sendOtp = React.useCallback(async (email: string) => {
+    setIsSending(true);
+    try {
+      const baseURL = apiClient.defaults.baseURL;
+      const { data } = await axios.post(`${baseURL}/api/customer/send-registration-otp?email=${encodeURIComponent(email)}`);
+      return data;
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        const body = err.response?.data;
+        throw new ApiError(
+          body?.message ?? err.message,
+          body?.status ?? err.response?.status ?? 500,
+          body?.errors,
+        );
+      }
+      throw err;
+    } finally {
+      setIsSending(false);
+    }
+  }, []);
+
+  return { isSending, sendOtp };
+}
+
+export function useCustomerVerifyRegistrationOtp() {
+  const [isVerifying, setIsVerifying] = React.useState(false);
+
+  const verifyOtp = React.useCallback(async (email: string, otp: string) => {
+    setIsVerifying(true);
+    try {
+      const baseURL = apiClient.defaults.baseURL;
+      const { data } = await axios.post(`${baseURL}/api/customer/verify-registration-otp`, { email, otp });
+      return data;
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        const body = err.response?.data;
+        throw new ApiError(
+          body?.message ?? err.message,
+          body?.status ?? err.response?.status ?? 500,
+          body?.errors,
+        );
+      }
+      throw err;
+    } finally {
+      setIsVerifying(false);
+    }
+  }, []);
+
+  return { isVerifying, verifyOtp };
 }

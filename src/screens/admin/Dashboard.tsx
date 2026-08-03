@@ -31,6 +31,7 @@ import {
   Inbox as InboxIcon,
   BarChart2 as BarChart2Icon,
   Gift as GiftIcon,
+  MessageSquare as MessageSquareIcon,
 } from "lucide-react-native";
 
 const Users = UsersIcon as any;
@@ -41,6 +42,7 @@ const LogOut = LogOutIcon as any;
 const Inbox = InboxIcon as any;
 const BarChart2 = BarChart2Icon as any;
 const Gift = GiftIcon as any;
+const MessageSquare = MessageSquareIcon as any;
 
 import { formatINR } from "../../utils/helpers";
 import { BarChart, LineChart } from "../../components/ui/Charts";
@@ -182,6 +184,12 @@ export default function AdminDashboard() {
                 <Gift size={24} color="#f43f5e" />
               </View>
               <Text style={[styles.quickActionText, { color: "#e2e8f0" }]}>Offers</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.quickActionBtn} onPress={() => navigation.navigate("AdminWhatsappDashboard")}>
+              <View style={[styles.quickActionIcon, { backgroundColor: "rgba(255,255,255,0.1)" }]}>
+                <MessageSquare size={24} color="#10b981" />
+              </View>
+              <Text style={[styles.quickActionText, { color: "#e2e8f0" }]}>WhatsApp</Text>
             </TouchableOpacity>
           </View>
         </View>

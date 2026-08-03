@@ -11,6 +11,9 @@ import {
   Modal,
   Alert,
 } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { launchImageLibrary, ImagePickerResponse } from "react-native-image-picker";
+
 import ScreenWrapper from "../../components/shared/ScreenWrapper";
 import { useDealerAuth } from "../../contexts/DealerAuthContext";
 import {
@@ -46,6 +49,8 @@ export default function DealerProfile() {
   // Profile form state
   const [businessName, setBusinessName] = useState("");
   const [ownerName, setOwnerName] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const [dealerMobile, setDealerMobile] = useState("");
   const [executiveMobile, setExecutiveMobile] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
@@ -55,11 +60,31 @@ export default function DealerProfile() {
   const [pinCode, setPinCode] = useState("");
   const [gstNumber, setGstNumber] = useState("");
   const [yearsInBusiness, setYearsInBusiness] = useState<string>("");
+  const [newDealerLogo, setNewDealerLogo] = useState<string | null>(null);
+  const [newShowroomImage, setNewShowroomImage] = useState<string | null>(null);
+
+  const selectImage = (type: "logo" | "showroom") => {
+    launchImageLibrary({ mediaType: "photo", quality: 0.8 }, (response: ImagePickerResponse) => {
+      if (response.didCancel) return;
+      if (response.errorCode) {
+        Alert.alert("Error", response.errorMessage || "Image picker error");
+        return;
+      }
+      if (response.assets && response.assets.length > 0) {
+        const uri = response.assets[0].uri;
+        if (uri) {
+          if (type === "logo") setNewDealerLogo(uri);
+          else setNewShowroomImage(uri);
+        }
+      }
+    });
+  };
 
   useEffect(() => {
     if (profile) {
       setBusinessName(profile.businessName || "");
       setOwnerName(profile.ownerName || "");
+      setDateOfBirth(profile.dateOfBirth || "");
       setDealerMobile(profile.dealerMobile || profile.mobile || "");
       setExecutiveMobile(profile.executiveMobile || "");
       setWhatsapp(profile.whatsapp || "");
@@ -79,13 +104,19 @@ export default function DealerProfile() {
   const handleProfileSubmit = async () => {
     try {
       await updateMutation.mutateAsync({
-        businessName,
-        executiveMobile: executiveMobile || null,
-        whatsapp,
-        address,
-        city,
-        state,
-        pinCode,
+        payload: {
+          businessName,
+          ownerName,
+          dateOfBirth,
+          executiveMobile: executiveMobile || null,
+          whatsapp,
+          address,
+          city,
+          state,
+          pinCode,
+        },
+        dealerLogoUri: newDealerLogo,
+        showroomImageUri: newShowroomImage,
       });
       updateUserFields({ businessName });
       Alert.alert("Success", "Profile updated successfully");
@@ -240,6 +271,10 @@ export default function DealerProfile() {
                 <Text style={styles.infoValue}>{profile?.yearsInBusiness ?? "—"} years</Text>
               </View>
               <View style={styles.infoBox}>
+                <Text style={styles.infoLabel}>Date of Birth</Text>
+                <Text style={styles.infoValue}>{profile?.dateOfBirth || "—"}</Text>
+              </View>
+              <View style={styles.infoBox}>
                 <Text style={styles.infoLabel}>Registered On</Text>
                 <Text style={styles.infoValue}>
                   {profile?.createdAt ? formatDate(profile.createdAt) : "—"}
@@ -272,10 +307,23 @@ export default function DealerProfile() {
             <View style={styles.inputGroup}>
               <Text style={styles.label}>Owner Name</Text>
               <TextInput
-                style={[styles.input, styles.inputDisabled]}
+                style={styles.input}
                 value={ownerName}
-                editable={false}
+                onChangeText={setOwnerName}
               />
+            </View>
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Date of Birth</Text>
+              <TouchableOpacity onPress={() => setShowDatePicker(true)} activeOpacity={0.8}>
+                <View pointerEvents="none">
+                  <TextInput
+                    style={styles.input}
+                    placeholder="DD/MM/YYYY"
+                    value={dateOfBirth}
+                    editable={false}
+                  />
+                </View>
+              </TouchableOpacity>
             </View>
           </View>
 
@@ -340,6 +388,45 @@ export default function DealerProfile() {
                 maxLength={6}
                 onChangeText={(t) => setPinCode(t.replace(/[^0-9]/g, ""))}
               />
+            </View>
+          </View>
+
+          <View style={styles.formSection}>
+            <View style={styles.sectionTitleRow}>
+              <Building2 size={16} color="#1e3a8a" />
+              <Text style={styles.sectionTitle}>BRAND VISUALS</Text>
+            </View>
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Dealer Logo (optional)</Text>
+              <TouchableOpacity 
+                style={styles.imageUploadBox}
+                onPress={() => selectImage("logo")}
+              >
+                {(newDealerLogo || profile?.dealerLogo) ? (
+                  <Image source={{ uri: newDealerLogo || profile?.dealerLogo }} style={styles.previewImage} />
+                ) : (
+                  <>
+                    <Building2 size={24} color="#94a3b8" style={{ marginBottom: 8 }} />
+                    <Text style={styles.uploadBoxText}>Tap to select logo</Text>
+                  </>
+                )}
+              </TouchableOpacity>
+            </View>
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Showroom Image (optional)</Text>
+              <TouchableOpacity 
+                style={styles.imageUploadBox}
+                onPress={() => selectImage("showroom")}
+              >
+                {(newShowroomImage || profile?.showroomImage) ? (
+                  <Image source={{ uri: newShowroomImage || profile?.showroomImage }} style={styles.previewImage} />
+                ) : (
+                  <>
+                    <Building2 size={24} color="#94a3b8" style={{ marginBottom: 8 }} />
+                    <Text style={styles.uploadBoxText}>Tap to select showroom image</Text>
+                  </>
+                )}
+              </TouchableOpacity>
             </View>
           </View>
 
@@ -482,6 +569,28 @@ export default function DealerProfile() {
           </View>
         </View>
       </Modal>
+
+      {showDatePicker && (
+        <DateTimePicker
+          value={
+            dateOfBirth?.length === 10
+              ? (() => {
+                  const [d, m, y] = dateOfBirth.split("/");
+                  return new Date(Number(y), Number(m) - 1, Number(d));
+                })()
+              : new Date()
+          }
+          mode="date"
+          display="default"
+          onChange={(event, date) => {
+            setShowDatePicker(false);
+            if (event.type === "set" && date) {
+              const formatted = `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
+              setDateOfBirth(formatted);
+            }
+          }}
+        />
+      )}
     </ScreenWrapper>
   );
 }
@@ -701,6 +810,27 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 15,
     fontWeight: "700",
+  },
+  imageUploadBox: {
+    height: 100,
+    borderWidth: 1,
+    borderColor: "#e2e8f0",
+    borderStyle: "dashed",
+    borderRadius: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#f8fafc",
+    overflow: "hidden",
+  },
+  uploadBoxText: {
+    fontSize: 13, 
+    fontWeight: "600", 
+    color: "#94a3b8",
+  },
+  previewImage: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover",
   },
   modalOverlay: {
     flex: 1,

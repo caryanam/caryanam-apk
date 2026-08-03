@@ -12,13 +12,15 @@ import {
   ScrollView,
   TextInput,
   ActivityIndicator,
+  Modal,
 } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { launchImageLibrary, ImagePickerResponse } from "react-native-image-picker";
 import { useNavigation } from "@react-navigation/native";
 import type { StackNavigationProp } from "@react-navigation/stack";
 import type { RootStackParamList } from "../../navigation/AppNavigator";
 import { useCustomerAuth } from "../../contexts/CustomerAuthContext";
-import { useDealerRegister, ApiError } from "../../hooks/auth/register";
+import { useDealerRegister, ApiError, useSendRegistrationOtp, useVerifyRegistrationOtp } from "../../hooks/auth/register";
 import {
   User as UserIcon,
   Phone as PhoneIcon,
@@ -52,6 +54,7 @@ export default function Register() {
   const [dealerForm, setDealerForm] = useState({
     businessName: "",
     ownerName: "",
+    dateOfBirth: "",
     gstNumber: "",
     yearsInBusiness: "",
     dealerMobile: "",
@@ -64,9 +67,46 @@ export default function Register() {
     state: "",
     pinCode: "",
   });
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const [showDealerPassword, setShowDealerPassword] = useState(false);
   const [showroomImage, setShowroomImage] = useState<string | null>(null);
   const [dealerLogo, setDealerLogo] = useState<string | null>(null);
+
+  const { isSending, sendOtp } = useSendRegistrationOtp();
+  const { isVerifying, verifyOtp } = useVerifyRegistrationOtp();
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [showOtpModal, setShowOtpModal] = useState(false);
+  const [otp, setOtp] = useState("");
+
+  const handleSendOtp = async () => {
+    if (!dealerForm.email) {
+      Alert.alert("Error", "Please enter an email address");
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(dealerForm.email)) {
+      Alert.alert("Error", "Please enter a valid email address");
+      return;
+    }
+    try {
+      await sendOtp(dealerForm.email);
+      setShowOtpModal(true);
+    } catch (err: any) {
+      Alert.alert("Error", err.message || "Failed to send OTP");
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    if (otp.length !== 6) return;
+    try {
+      await verifyOtp(dealerForm.email, otp);
+      Alert.alert("Success", "Email verified successfully");
+      setIsEmailVerified(true);
+      setShowOtpModal(false);
+    } catch (err: any) {
+      Alert.alert("Error", err.message || "Invalid OTP");
+    }
+  };
 
   const handleDealerRegister = async () => {
     try {
@@ -90,13 +130,26 @@ export default function Register() {
 
   const handleNextStep = () => {
     if (dealerStep === 0) {
-      if (!dealerForm.businessName || !dealerForm.ownerName || !dealerForm.yearsInBusiness) {
+      if (!dealerForm.businessName || !dealerForm.ownerName || !dealerForm.dateOfBirth || !dealerForm.yearsInBusiness) {
         Alert.alert("Error", "Please fill all required business details.");
         return;
       }
+      if (!/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/(19|20)\d\d$/.test(dealerForm.dateOfBirth)) {
+        Alert.alert("Error", "Date of Birth must be in DD/MM/YYYY format.");
+        return;
+      }
     } else if (dealerStep === 1) {
-      if (!dealerForm.dealerMobile || !dealerForm.whatsapp || !dealerForm.password) {
+      if (!dealerForm.dealerMobile || !dealerForm.whatsapp || !dealerForm.password || !dealerForm.email) {
         Alert.alert("Error", "Please fill all required contact details.");
+        return;
+      }
+      if (!isEmailVerified) {
+        Alert.alert("Error", "Please verify your email address to proceed.");
+        return;
+      }
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(dealerForm.email)) {
+        Alert.alert("Error", "Please enter a valid email address.");
         return;
       }
       if (dealerForm.dealerMobile.length !== 10) {
@@ -215,6 +268,20 @@ export default function Register() {
                   />
                 </View>
                 <View style={styles.inputGroup}>
+                  <Text style={styles.label}>Date of Birth *</Text>
+                  <TouchableOpacity onPress={() => setShowDatePicker(true)} activeOpacity={0.8}>
+                    <View pointerEvents="none">
+                      <TextInput
+                        style={styles.inputNoIcon}
+                        placeholder="DD/MM/YYYY"
+                        placeholderTextColor="#64748b"
+                        value={dealerForm.dateOfBirth}
+                        editable={false}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.inputGroup}>
                   <Text style={styles.label}>GST Number (optional)</Text>
                   <TextInput
                     style={styles.inputNoIcon}
@@ -278,16 +345,37 @@ export default function Register() {
                   />
                 </View>
                 <View style={styles.inputGroup}>
-                  <Text style={styles.label}>Email Address (optional)</Text>
-                  <TextInput
-                    style={styles.inputNoIcon}
-                    placeholder="you@example.com"
-                    placeholderTextColor="#64748b"
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    value={dealerForm.email}
-                    onChangeText={(t) => setDealerForm({ ...dealerForm, email: t })}
-                  />
+                  <Text style={styles.label}>Email Address *</Text>
+                  <View style={styles.inputWrapper}>
+                    <TextInput
+                      style={[styles.inputNoIcon, { paddingRight: 80 }]}
+                      placeholder="you@example.com"
+                      placeholderTextColor="#64748b"
+                      keyboardType="email-address"
+                      autoCapitalize="none"
+                      value={dealerForm.email}
+                      editable={!isEmailVerified}
+                      onChangeText={(t) => {
+                        setDealerForm({ ...dealerForm, email: t });
+                        setIsEmailVerified(false);
+                      }}
+                    />
+                    <View style={{ position: "absolute", right: 12, height: "100%", justifyContent: "center" }}>
+                      {!isEmailVerified ? (
+                        <TouchableOpacity onPress={handleSendOtp} disabled={isSending || !dealerForm.email}>
+                          {isSending ? (
+                            <ActivityIndicator size="small" color="#fb7185" />
+                          ) : (
+                            <Text style={{ color: "#fb7185", fontWeight: "800", fontSize: 11, textTransform: "uppercase" }}>Verify</Text>
+                          )}
+                        </TouchableOpacity>
+                      ) : (
+                        <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
+                          <Text style={{ color: "#10b981", fontWeight: "800", fontSize: 11, textTransform: "uppercase" }}>Verified</Text>
+                        </View>
+                      )}
+                    </View>
+                  </View>
                 </View>
                 <View style={styles.inputGroup}>
                   <Text style={styles.label}>Password *</Text>
@@ -421,11 +509,81 @@ export default function Register() {
               <TouchableOpacity onPress={() => navigation.navigate("Login", { defaultRole: "dealer" })}>
                 <Text style={styles.loginLink}>Sign In</Text>
               </TouchableOpacity>
-            </View>
+              </View>
 
           </View>
+
+          {showDatePicker && (
+            <DateTimePicker
+              value={
+                dealerForm.dateOfBirth.length === 10
+                  ? (() => {
+                      const [d, m, y] = dealerForm.dateOfBirth.split("/");
+                      return new Date(Number(y), Number(m) - 1, Number(d));
+                    })()
+                  : new Date()
+              }
+              mode="date"
+              display="default"
+              onChange={(event, date) => {
+                setShowDatePicker(false);
+                if (event.type === "set" && date) {
+                  const formatted = `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
+                  setDealerForm({ ...dealerForm, dateOfBirth: formatted });
+                }
+              }}
+            />
+          )}
+
         </ScrollView>
       </KeyboardAvoidingView>
+
+      {/* OTP Verification Modal */}
+      <Modal visible={showOtpModal} transparent animationType="fade">
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={{ textAlign: "center", fontSize: 18, fontWeight: "800", color: "#0f172a", marginBottom: 8 }}>
+              Verify Email
+            </Text>
+            <Text style={{ textAlign: "center", color: "#64748b", fontSize: 13, marginBottom: 20 }}>
+              Enter 6-digit OTP sent to {dealerForm.email}
+            </Text>
+            
+            <View style={[styles.inputWrapper, { marginBottom: 24 }]}>
+              <TextInput
+                style={[styles.inputNoIcon, { textAlign: "center", letterSpacing: 8, fontSize: 20, paddingLeft: 10, borderColor: "#cbd5e1", color: "#0f172a", backgroundColor: "#f8fafc" }]}
+                placeholder="------"
+                placeholderTextColor="#94a3b8"
+                value={otp}
+                onChangeText={setOtp}
+                keyboardType="numeric"
+                maxLength={6}
+              />
+            </View>
+
+            <TouchableOpacity 
+              style={[styles.submitBtn, { marginTop: 0, height: 48, borderRadius: 12 }]} 
+              onPress={handleVerifyOtp} 
+              disabled={isVerifying || otp.length !== 6}
+            >
+              {isVerifying ? (
+                <ActivityIndicator color="#fff" size="small" />
+              ) : (
+                <Text style={styles.submitBtnText}>Confirm OTP</Text>
+              )}
+            </TouchableOpacity>
+
+            <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 20, paddingHorizontal: 4 }}>
+              <TouchableOpacity onPress={handleSendOtp} disabled={isSending}>
+                <Text style={{ color: "#e11d48", fontSize: 12, fontWeight: "700" }}>Resend OTP</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setShowOtpModal(false)}>
+                <Text style={{ color: "#64748b", fontSize: 12, fontWeight: "700" }}>Change Email</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </ImageBackground>
   );
 }
@@ -459,7 +617,36 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 10 },
     shadowOpacity: 0.3,
     shadowRadius: 20,
-    elevation: 10,
+    elevation: 2,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    borderRadius: 12,
+    padding: 20,
+    width: "90%",
+  },
+  modalCloseBtn: {
+    marginTop: 15,
+    padding: 12,
+    backgroundColor: "#1e293b",
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  modalCloseText: {
+    color: "white",
+    fontWeight: "600",
+  },
+  errorText: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+    gap: 12,
   },
   brandRow: {
     flexDirection: "row",

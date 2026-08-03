@@ -47,6 +47,7 @@ import AdminOffers from "../screens/admin/Offers";
 import AdminFacebookSummary from "../screens/admin/facebook/FacebookDealerSummary";
 import AdminFacebookDealerRequests from "../screens/admin/facebook/FacebookDealerRequests";
 import AdminFacebookBatchProgress from "../screens/admin/facebook/FacebookBatchProgress";
+import AdminWhatsappDashboard from "../screens/admin/WhatsappDashboard";
 
 export type RootStackParamList = {
   // Public
@@ -92,6 +93,7 @@ export type RootStackParamList = {
   AdminFacebookSummary: undefined;
   AdminFacebookDealerRequests: { dealerId: number };
   AdminFacebookBatchProgress: { batchId: number };
+  AdminWhatsappDashboard: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -131,6 +133,7 @@ export default function AppNavigator() {
           <Stack.Screen name="AdminFacebookSummary" component={AdminFacebookSummary} />
           <Stack.Screen name="AdminFacebookDealerRequests" component={AdminFacebookDealerRequests} />
           <Stack.Screen name="AdminFacebookBatchProgress" component={AdminFacebookBatchProgress} />
+          <Stack.Screen name="AdminWhatsappDashboard" component={AdminWhatsappDashboard} />
         </>
       ) : isDealer ? (
         // Dealer Flow

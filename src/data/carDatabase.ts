@@ -1,601 +1,4293 @@
-// Auto-generated from India_Car_Database_Verified.xlsx
-// Mapping: brand -> model -> variants[]
-export const CAR_DATABASE: Record<string, Record<string, string[]>> = {
+// Auto-generated car database
+export const MASTER_DATABASE: Record<string, Record<string, string[]>> = {
   "Aston Martin India": {
-    DB11: ["1st Gen (V8 / V12)"],
-    DB9: ["1st Gen India (2nd global)"],
-    "DBS Superleggera": ["1st Gen India"],
-    DBX: ["DBX (1st Gen)", "DBX707"],
-    Vantage: ["AMR / F1 Edition"],
+    "DB11": [
+      "AMR",
+      "V12",
+      "V8"
+    ],
+    "DB9": [
+      "Coupe",
+      "Volante"
+    ],
+    "DBS Superleggera": [
+      "Superleggera",
+      "Volante"
+    ],
+    "DBX": [
+      "DBX",
+      "DBX S",
+      "DBX707"
+    ],
+    "Vantage": [
+      "V12",
+      "V8"
+    ]
   },
   "Audi India": {
-    A3: ["8P (3rd Gen) India"],
-    A4: ["B7 (3rd Gen) India", "B8 (4th Gen)", "B9 (5th Gen)", "B9 Facelift"],
-    A6: ["C6 (4th Gen)", "C7 (5th Gen)", "C8 (6th Gen)"],
-    A8: ["D4 (4th Gen)", "D5 (5th Gen)"],
-    Q2: ["GA (1st Gen)"],
-    Q3: ["8U (1st Gen)", "F3 (2nd Gen)"],
-    Q5: ["8R (1st Gen)", "FY (2nd Gen)", "FY Facelift"],
-    Q7: ["4L (1st Gen)", "4M (2nd Gen)"],
-    Q8: ["4MN (1st Gen)"],
-    R8: ["Type 42 (1st Gen)", "Type 4S (2nd Gen)"],
-    TT: ["8J (2nd Gen) India", "8S (3rd Gen)"],
-    "e-tron": ["GE (1st Gen)", "GT (1st Gen)"],
+    "A3": [
+      "Premium",
+      "Premium Plus",
+      "Technology"
+    ],
+    "A4": [
+      "1.8 TFSI",
+      "2.0 TDI",
+      "3.0 TDI",
+      "40 TFSI)",
+      "Premium",
+      "Premium Plus",
+      "Technology (35 TDI",
+      "Technology (40 TFSI)"
+    ],
+    "A6": [
+      "2.0 TDI",
+      "2.0 TFSI",
+      "2.7 TDI",
+      "3.2 FSI",
+      "35 TDI",
+      "45 TDI)",
+      "Premium Plus",
+      "Technology (45 TFSI"
+    ],
+    "A8": [
+      "3.0 TDI",
+      "4.2 TDI",
+      "L 3.0 TDI",
+      "L 55 TFSI"
+    ],
+    "Q2": [
+      "Premium Plus",
+      "Technology (40 TFSI)"
+    ],
+    "Q3": [
+      "2.0 TFSI Quattro",
+      "30 TDI",
+      "35 TDI",
+      "Premium Plus",
+      "Technology (40 TFSI)"
+    ],
+    "Q5": [
+      "2.0 TDI",
+      "2.0 TFSI",
+      "3.0 TDI",
+      "45 TFSI)",
+      "Premium Plus",
+      "Technology (45 TDI"
+    ],
+    "Q7": [
+      "3.0 TDI",
+      "3.6 FSI",
+      "4.2 TDI",
+      "55 TFSI)",
+      "Premium",
+      "Premium Plus",
+      "Technology (45 TDI"
+    ],
+    "Q8": [
+      "45 TDI)",
+      "Premium Plus",
+      "Technology (55 TFSI"
+    ],
+    "R8": [
+      "V10",
+      "V10 FSI",
+      "V10 Plus",
+      "V8 FSI"
+    ],
+    "TT": [
+      "2.0 TFSI Quattro"
+    ],
+    "e-tron": [
+      "50 e-tron",
+      "55 e-tron",
+      "RS e-tron GT"
+    ]
   },
   "BMW India": {
-    "2 Series": ["Gran Coupe (F44)"],
+    "2 Series": [
+      "M Sport (220i)",
+      "Sportline"
+    ],
     "3 Series": [
-      "E90 (5th Gen)",
-      "F30 (6th Gen)",
-      "G20 (7th Gen)",
-      "Gran Limousine (Long WB)",
+      "320Ld Luxury Line",
+      "320d",
+      "320d)",
+      "320i",
+      "325i",
+      "328i",
+      "330Li",
+      "330Li M Sport",
+      "330d",
+      "330i",
+      "Luxury Line",
+      "M Sport (320Li",
+      "Sport Line"
     ],
     "5 Series": [
-      "E60 (5th Gen)",
-      "F10 (6th Gen)",
-      "G30 (7th Gen)",
-      "G60 (8th Gen)",
+      "520d",
+      "525d",
+      "525i",
+      "528i",
+      "530Ld)",
+      "530Li)",
+      "530d",
+      "530i",
+      "Luxury Line",
+      "M Sport (520d",
+      "M Sport (520i"
     ],
-    "6 Series GT": ["G32 1st Gen India"],
+    "6 Series GT": [
+      "630d)",
+      "Luxury Line",
+      "M Sport (630i"
+    ],
     "7 Series": [
-      "E65 (5th Gen)",
-      "F01 (6th Gen)",
-      "G11 (7th Gen)",
-      "G70 (8th Gen)",
+      "730Ld",
+      "740Li",
+      "740Li M Sport",
+      "750Li",
+      "750i",
+      "M760Li",
+      "i7 xDrive60"
     ],
-    M3: ["F80 (6th Gen)", "G80 (7th Gen)"],
-    M5: ["F90 (6th Gen)"],
-    X1: ["E84 (1st Gen)", "F48 (2nd Gen)", "U11 (3rd Gen)"],
-    X3: ["F25 (2nd Gen)", "G01 (3rd Gen)"],
-    X4: ["F26 (1st Gen)", "G02 (2nd Gen)"],
-    X5: ["E70 (2nd Gen)", "F15 (3rd Gen)", "G05 (4th Gen)"],
-    X6: ["E71 (1st Gen)", "F16 (2nd Gen)"],
-    X7: ["G07 (1st Gen)"],
-    Z4: ["E89 (2nd Gen)", "G29 (3rd Gen)"],
-    i4: ["G26 (1st Gen)"],
-    iX: ["I20 (1st Gen)"],
+    "M3": [
+      "Competition"
+    ],
+    "M5": [
+      "Competition"
+    ],
+    "X1": [
+      "iX1",
+      "sDrive18i M Sport",
+      "sDrive20d",
+      "sDrive20i",
+      "xDrive20d"
+    ],
+    "X3": [
+      "xDrive20d",
+      "xDrive20i",
+      "xDrive30d",
+      "xDrive30i M Sport"
+    ],
+    "X4": [
+      "xDrive20d",
+      "xDrive30d",
+      "xDrive30i M Sport"
+    ],
+    "X5": [
+      "xDrive30d",
+      "xDrive30d M Sport",
+      "xDrive35i",
+      "xDrive40i",
+      "xDrive40i M Sport",
+      "xDrive50i"
+    ],
+    "X6": [
+      "xDrive30d",
+      "xDrive30d M Sport"
+    ],
+    "X7": [
+      "xDrive30d M Sport",
+      "xDrive40i M Sport"
+    ],
+    "Z4": [
+      "sDrive20i",
+      "sDrive20i M Sport",
+      "sDrive30i M Sport",
+      "sDrive35i"
+    ],
+    "i4": [
+      "eDrive40 M Sport"
+    ],
+    "iX": [
+      "xDrive40"
+    ]
   },
   "BYD India": {
-    "Atto 3": ["1st Gen (Yuan Plus)"],
-    Seal: ["1st Gen (EA1)"],
-    "Sealion 6": ["1st Gen"],
-    e6: ["1st Gen MPV EV"],
+    "Atto 3": [
+      "Dynamic",
+      "Premium",
+      "Superior"
+    ],
+    "Seal": [
+      "Dynamic",
+      "Performance",
+      "Premium"
+    ],
+    "Sealion 7": [
+      "Performance",
+      "Premium"
+    ],
+    "e6": [
+      "GL",
+      "GLX"
+    ]
   },
   "Bentley Motors India": {
-    Bentayga: ["1st Gen", "Facelift"],
-    "Continental GT": [
-      "1st Gen India (2nd global)",
-      "2nd Gen India (3rd global)",
-      "3rd Gen India",
+    "Bentayga": [
+      "Diesel",
+      "Hybrid",
+      "Speed",
+      "V8",
+      "W12"
     ],
-    "Flying Spur": ["1st Gen India (3rd global)", "2nd Gen India (4th global)"],
-    Mulsanne: ["3rd Gen India"],
+    "Continental GT": [
+      "GT",
+      "GT Speed",
+      "GT V8",
+      "GT W12",
+      "Mulliner",
+      "Speed"
+    ],
+    "Flying Spur": [
+      "Hybrid",
+      "V8",
+      "W12"
+    ],
+    "Mulsanne": [
+      "Extended Wheelbase",
+      "Mulsanne",
+      "Speed"
+    ]
   },
   "Citroën India": {
-    Basalt: ["1st Gen"],
-    C3: ["1st Gen India", "You! Edition"],
-    "C3 Aircross": ["1st Gen India"],
-    "C5 Aircross": ["1st Gen India", "Facelift"],
-    eC3: ["1st Gen"],
+    "Basalt": [
+      "Max",
+      "Plus"
+    ],
+    "C3": [
+      "Feel",
+      "Live",
+      "Shine",
+      "You!"
+    ],
+    "C3 Aircross": [
+      "Max",
+      "Plus",
+      "You"
+    ],
+    "C5 Aircross": [
+      "Feel",
+      "Shine"
+    ],
+    "eC3": [
+      "Feel",
+      "Live",
+      "Shine"
+    ]
   },
   "Daewoo Motors India": {
-    Cielo: ["1st Gen (GTE)"],
-    Leganza: ["1st Gen India"],
-    Matiz: ["1st Gen (M100)"],
-    Nexia: ["1st Gen India"],
-    Nubira: ["1st Gen India"],
+    "Cielo": [
+      "GLE",
+      "GTE"
+    ],
+    "Leganza": [
+      "SE"
+    ],
+    "Matiz": [
+      "S",
+      "SE"
+    ],
+    "Nexia": [
+      "GL",
+      "GLE"
+    ],
+    "Nubira": [
+      "GLE",
+      "SE"
+    ]
   },
   "Datsun India": {
-    "Datsun Go": ["1st Gen"],
-    "Datsun Go+": ["1st Gen (MPV)"],
-    "Datsun Redi-GO": ["1st Gen", "Facelift"],
+    "Datsun Go": [
+      "A",
+      "D",
+      "T"
+    ],
+    "Datsun Go+": [
+      "A",
+      "D",
+      "T"
+    ],
+    "Datsun Redi-GO": [
+      "A",
+      "D",
+      "S",
+      "T",
+      "T(O)"
+    ]
   },
   "Ferrari India": {
-    "488": ["488 GTB", "488 Pista"],
-    "458 Italia": ["458 Italia"],
-    California: ["Type F149 (1st Gen)"],
-    Purosangue: ["F167 (1st Gen)"],
-    Roma: ["F169 (1st Gen)"],
+    "488": [
+      "GTB",
+      "Pista",
+      "Spider"
+    ],
+    "458 Italia": [
+      "458 Italia",
+      "Spider"
+    ],
+    "California": [
+      "California",
+      "California T"
+    ],
+    "Purosangue": [
+      "Purosangue"
+    ],
+    "Roma": [
+      "Roma"
+    ]
   },
   "Fiat India Automobiles": {
-    Avventura: ["1st Gen"],
-    "Grande Punto / Punto Evo": ["Grande Punto", "Punto Evo"],
-    Linea: ["1st Gen", "125S Facelift"],
-    Palio: ["1st Gen", "D (Diesel)"],
-    "Palio Stile": ["1st Gen"],
-    Punto: ["Grande Punto 1st Gen", "Punto Evo"],
-    Siena: ["1st Gen India"],
-    Uno: ["1st Gen India"],
-    "Urban Cross": ["1st Gen"],
+    "Avventura": [
+      "Active",
+      "Dynamic",
+      "Emotion"
+    ],
+    "Grande Punto / Punto Evo": [
+      "Active",
+      "Dynamic",
+      "Emotion",
+      "Pure"
+    ],
+    "Linea": [
+      "125S",
+      "Active",
+      "Dynamic",
+      "Emotion"
+    ],
+    "Palio": [
+      "EL",
+      "NV",
+      "Petra",
+      "Sport",
+      "Stile"
+    ],
+    "Palio Stile": [
+      "Active",
+      "Sport"
+    ],
+    "Punto": [
+      "Active",
+      "Dynamic",
+      "Emotion",
+      "Pure"
+    ],
+    "Siena": [
+      "EL",
+      "HL"
+    ],
+    "Uno": [
+      "60S",
+      "S"
+    ],
+    "Urban Cross": [
+      "Urban Cross"
+    ]
   },
   "Force Motors Cars": {
-    Gurkha: [
-      "1st Gen India (2WD/4WD)",
-      "2nd Gen (New Gurkha)",
-      "3-door vs 5-door",
+    "Gurkha": [
+      "3-door",
+      "5-door",
+      "Xpedition",
+      "Xplorer",
+      "Xtreme"
     ],
-    "Trax Cruiser": ["1st Gen"],
+    "Trax Cruiser": [
+      "10 STR",
+      "12 STR",
+      "9 STR"
+    ]
   },
   "Ford India": {
-    Aspire: ["1st Gen", "Facelift"],
-    EcoSport: ["1st Gen", "Facelift"],
-    Endeavour: ["1st Gen (U8)", "2nd Gen (U375)", "3rd Gen (U553)"],
-    Escort: ["1st Gen India"],
-    Fiesta: ["1st Gen India (MK5/MK6)", "2nd Gen India (MK7)"],
-    "Fiesta Classic": ["1st Gen (MK5 rebadge)"],
-    Figo: ["1st Gen (B2E)", "2nd Gen"],
-    Freestyle: ["1st Gen"],
-    Fusion: ["1st Gen"],
-    Ikon: ["1st Gen (B3)", "NXT Facelift"],
-    Mondeo: ["1st Gen India"],
-    Mustang: ["5th Gen India (S550)"],
+    "Aspire": [
+      "Ambiente",
+      "Titanium",
+      "Titanium+",
+      "Trend"
+    ],
+    "EcoSport": [
+      "Ambiente",
+      "S",
+      "Titanium",
+      "Titanium+",
+      "Trend"
+    ],
+    "Endeavour": [
+      "Base",
+      "Hurricane",
+      "LE",
+      "Sport",
+      "Titanium",
+      "Titanium+",
+      "XLT"
+    ],
+    "Escort": [
+      "GLX",
+      "LX"
+    ],
+    "Fiesta": [
+      "Ambiente",
+      "EXi",
+      "LXi",
+      "Titanium",
+      "Trend",
+      "ZXi"
+    ],
+    "Fiesta Classic": [
+      "EXi",
+      "ZXi"
+    ],
+    "Figo": [
+      "Ambiente",
+      "EXi",
+      "Titanium",
+      "Trend",
+      "ZXi"
+    ],
+    "Freestyle": [
+      "Ambiente",
+      "Titanium",
+      "Titanium+",
+      "Trend"
+    ],
+    "Fusion": [
+      "1.4",
+      "1.6"
+    ],
+    "Ikon": [
+      "CLXi",
+      "EXi",
+      "Flair",
+      "GLXi",
+      "Ghia"
+    ],
+    "Mondeo": [
+      "Ghia",
+      "LX"
+    ],
+    "Mustang": [
+      "GT"
+    ]
   },
   "General Motors India (Chevrolet)": {
-    "Chevrolet Aveo": ["1st Gen (T250)", "U-VA Hatch"],
-    "Chevrolet Beat": ["1st Gen (M300)", "Facelift"],
-    "Chevrolet Captiva": ["1st Gen India"],
-    "Chevrolet Cruze": ["1st Gen (J300)", "Facelift"],
-    "Chevrolet Enjoy": ["1st Gen"],
-    "Chevrolet Optra": ["1st Gen", "Magnum 2nd Gen"],
-    "Chevrolet Sail": ["Sail Sedan", "Sail U-VA Hatch"],
-    "Chevrolet Spark": ["1st Gen (M200)"],
-    "Chevrolet Trailblazer": ["1st Gen India"],
-    "Opel Astra": ["1st Gen India (F-body)", "2nd Gen India (G-body)"],
-    "Opel Corsa": ["1st Gen India"],
-    "Opel Vectra": ["1st Gen India (B)"],
-    Tavera: ["1st Gen", "Neo 2nd Gen"],
+    "Chevrolet Aveo": [
+      "LS",
+      "LT",
+      "LTZ"
+    ],
+    "Chevrolet Beat": [
+      "LS",
+      "LT",
+      "LTZ"
+    ],
+    "Chevrolet Captiva": [
+      "LT",
+      "LTZ"
+    ],
+    "Chevrolet Cruze": [
+      "LT",
+      "LTZ"
+    ],
+    "Chevrolet Enjoy": [
+      "LS",
+      "LT",
+      "LTZ"
+    ],
+    "Chevrolet Optra": [
+      "LS",
+      "LT",
+      "LTZ",
+      "LTZ SRV"
+    ],
+    "Chevrolet Sail": [
+      "Base",
+      "LS",
+      "LT",
+      "LTZ"
+    ],
+    "Chevrolet Spark": [
+      "LS",
+      "LT",
+      "LTZ"
+    ],
+    "Chevrolet Trailblazer": [
+      "LTZ"
+    ],
+    "Opel Astra": [
+      "Elegance",
+      "GL",
+      "GLS"
+    ],
+    "Opel Corsa": [
+      "GLS",
+      "Joy",
+      "Sail"
+    ],
+    "Opel Vectra": [
+      "CD",
+      "Elegance"
+    ],
+    "Tavera": [
+      "GX",
+      "LS",
+      "Neo",
+      "Neo 3"
+    ]
   },
   "Hindustan Motors": {
-    Ambassador: ["Grand / Avigo", "DSZ Diesel"],
-    Contessa: ["1st Gen", "Classic Facelift"],
+    "Ambassador": [
+      "Avigo",
+      "DSZ",
+      "Grand",
+      "Nova"
+    ],
+    "Contessa": [
+      "Classic",
+      "Classic DSZ",
+      "DeLuxe",
+      "Standard"
+    ]
   },
   "Honda Cars India": {
-    Accord: ["1st Gen India", "2nd Gen India", "3rd Gen India (9th global)"],
-    Amaze: ["1st Gen", "2nd Gen", "3rd Gen"],
-    "BR-V": ["1st Gen"],
-    Brio: ["1st Gen"],
+    "Accord": [
+      "AT",
+      "LXi",
+      "MT",
+      "VTi-L",
+      "VXi"
+    ],
+    "Amaze": [
+      "E",
+      "S",
+      "SV",
+      "SX",
+      "V",
+      "VX",
+      "ZX"
+    ],
+    "BR-V": [
+      "E",
+      "S",
+      "V",
+      "VX"
+    ],
+    "Brio": [
+      "E",
+      "S",
+      "V",
+      "VX"
+    ],
     "CR-V": [
-      "1st Gen India (RD5)",
-      "2nd Gen India (RE5)",
-      "3rd Gen India (RM4)",
-      "4th Gen India (RW1) Hybrid",
+      "2WD",
+      "4WD",
+      "Single Variant"
     ],
-    City: [
-      "1st Gen (SX8/SM5)",
-      "2nd Gen (GD8)",
-      "3rd Gen (GM6)",
-      "4th Gen (GM6 FL)",
-      "5th Gen (GN2)",
-      "Hybrid e:HEV",
+    "City": [
+      "E",
+      "EX",
+      "EXi",
+      "LX",
+      "S",
+      "SV",
+      "V",
+      "VTEC",
+      "VX",
+      "VX(O)",
+      "ZX"
     ],
-    Civic: ["1st Gen India (8th global)", "2nd Gen India (10th global)"],
-    Elevate: ["1st Gen"],
-    Jazz: ["1st Gen (GE8)", "2nd Gen (GK5)"],
-    Mobilio: ["1st Gen"],
-    "WR-V": ["1st Gen"],
+    "Civic": [
+      "LXi",
+      "V",
+      "VX",
+      "VXi",
+      "ZX",
+      "ZXi"
+    ],
+    "Elevate": [
+      "SV",
+      "V",
+      "VX",
+      "ZX"
+    ],
+    "Jazz": [
+      "S",
+      "SV",
+      "V",
+      "VX"
+    ],
+    "Mobilio": [
+      "E",
+      "RS",
+      "S",
+      "V"
+    ],
+    "WR-V": [
+      "S",
+      "SV",
+      "V",
+      "VX"
+    ]
   },
-  "Hummer India (AM General / GM)": {
-    "Hummer EV Pickup": ["EV Pickup Edition 1", "EV Pickup 3X"],
-    "Hummer EV SUV": ["EV SUV Edition 1", "EV SUV 3X"],
-  },
-  Hyundai: {
-    Accent: ["1st Gen", "2nd Gen (Viva)"],
-    Alcazar: ["1st Gen", "Facelift"],
-    Aura: ["1st Gen", "Facelift"],
-    Creta: ["1st Gen", "2nd Gen", "Facelift"],
-    Elantra: ["1st Gen India", "Fluidic 2nd Gen", "3rd Gen", "4th Gen"],
-    Eon: ["1st Gen", "Facelift"],
-    Exter: ["1st Gen"],
-    Getz: ["1st Gen", "Getz Prime (Facelift)"],
-    "IONIQ 5": ["1st Gen (NE1)"],
-    "IONIQ 6": ["1st Gen"],
-    "Kona Electric": ["1st Gen"],
-    Santro: ["1st Gen (Xing)", "Xing Refresh", "2nd Gen (Revival)"],
-    Sonata: [
-      "Sonata Gold (4th Gen)",
-      "Embera (5th Gen)",
-      "Transform (6th Gen)",
+  "Hyundai": {
+    "Accent": [
+      "CRDi",
+      "GLE",
+      "GLS"
     ],
-    Terracan: ["1st Gen (HP)"],
-    Tucson: ["1st Gen", "2nd Gen", "3rd Gen", "4th Gen"],
-    Venue: ["1st Gen", "Facelift"],
-    Verna: ["1st Gen", "Fluidic 2nd Gen", "3rd Gen", "4th Gen", "5th Gen"],
-    Xcent: ["1st Gen", "Facelift"],
+    "Alcazar": [
+      "Platinum",
+      "Prestige",
+      "Signature",
+      "Signature(O)"
+    ],
+    "Aura": [
+      "E",
+      "S",
+      "SX",
+      "SX+"
+    ],
+    "Creta": [
+      "E",
+      "EX",
+      "Executive",
+      "S",
+      "SX",
+      "SX(O)",
+      "SX(O) Knight",
+      "Smart"
+    ],
+    "Elantra": [
+      "1.6 SX",
+      "1.8 SX",
+      "CRDi",
+      "GLS",
+      "S",
+      "SX",
+      "SX(O)"
+    ],
+    "Eon": [
+      "D-Lite",
+      "Era",
+      "Magna",
+      "Sportz"
+    ],
+    "Exter": [
+      "EX",
+      "S",
+      "SX",
+      "SX(O)"
+    ],
+    "Getz": [
+      "GL",
+      "GLS",
+      "GVS",
+      "GVS Prime"
+    ],
+    "IONIQ 5": [
+      "Single Variant (CBU)"
+    ],
+    "IONIQ 6": [
+      "Single Variant (CBU)"
+    ],
+    "Kona Electric": [
+      "Premium",
+      "Premium Dual Tone"
+    ],
+    "Santro": [
+      "AC",
+      "Anniversary",
+      "Asta",
+      "D-Lite",
+      "Era",
+      "GL",
+      "GLS",
+      "GS",
+      "Magna",
+      "Non-AC",
+      "Sportz"
+    ],
+    "Sonata": [
+      "CRDi",
+      "Embera",
+      "GLS",
+      "Transform"
+    ],
+    "Terracan": [
+      "CRDi (Single Variant)"
+    ],
+    "Tucson": [
+      "CRDi",
+      "GL",
+      "GLS",
+      "Platinum",
+      "Signature",
+      "Smart"
+    ],
+    "Venue": [
+      "E",
+      "N Line",
+      "S",
+      "SX",
+      "SX(O)"
+    ],
+    "Verna": [
+      "CX",
+      "E",
+      "EX",
+      "GLE",
+      "S",
+      "SX",
+      "SX(O)"
+    ],
+    "Xcent": [
+      "Base",
+      "E",
+      "S",
+      "SX"
+    ],
     "i10 / Grand i10": [
-      "i10 1st Gen",
-      "Grand i10 1st Gen",
-      "Grand i10 Nios 2nd Gen",
+      "Asta",
+      "D-Lite",
+      "Era",
+      "Magna",
+      "Sportz",
+      "Sportz(O)"
     ],
-    i20: ["1st Gen", "Elite i20 2nd Gen", "3rd Gen", "N Line"],
+    "i20": [
+      "Asta",
+      "Asta(O)",
+      "Era",
+      "Magna",
+      "N6",
+      "N8",
+      "Sportz",
+      "Sportz+"
+    ]
   },
   "Isuzu Motors India": {
-    "D-Max V-Cross": ["1st Gen", "2nd Gen (Hi-Lander)"],
-    "MU-7": ["1st Gen (TF series)"],
-    "MU-X": ["1st Gen India"],
+    "D-Max V-Cross": [
+      "High",
+      "Standard",
+      "Z",
+      "Z Prestige"
+    ],
+    "MU-7": [
+      "AT Premium",
+      "Base",
+      "Hi Pack"
+    ],
+    "MU-X": [
+      "4x2",
+      "4x4"
+    ]
   },
   "Jaguar Land Rover India": {
-    Defender: ["L663 (New Gen, 110)", "Defender 90"],
-    Discovery: ["5th Gen (L462)"],
-    "Discovery Sport": ["L550 (1st Gen)", "Facelift"],
-    "F-Type": ["X152 (1st Gen)", "Facelift"],
-    Freelander: ["L359 (2nd Gen India)"],
-    "Range Rover": ["L322 (3rd Gen)", "L405 (4th Gen)", "L460 (5th Gen)"],
-    "Range Rover Evoque": ["L538 (1st Gen)", "L551 (2nd Gen)"],
-    "Range Rover Sport": ["L320 (1st Gen)", "L494 (2nd Gen)", "L461 (3rd Gen)"],
-    "Range Rover Velar": ["L560 (1st Gen)", "Facelift"],
-    XE: ["X760 (1st Gen)"],
-    XF: ["X250 (1st Gen)", "X260 (2nd Gen)"],
-    XJ: ["X351 (5th Gen India)"],
+    "Defender": [
+      "HSE",
+      "S",
+      "SE",
+      "X-Dynamic"
+    ],
+    "Discovery": [
+      "HSE",
+      "HSE Luxury",
+      "S",
+      "SE"
+    ],
+    "Discovery Sport": [
+      "HSE",
+      "S",
+      "SE"
+    ],
+    "F-Type": [
+      "R",
+      "R-Dynamic",
+      "S"
+    ],
+    "Freelander": [
+      "HSE",
+      "S",
+      "SE"
+    ],
+    "Range Rover": [
+      "Autobiography",
+      "SE",
+      "SVAutobiography",
+      "Vogue",
+      "Vogue SE"
+    ],
+    "Range Rover Evoque": [
+      "Dynamic",
+      "HSE",
+      "HSE Dynamic",
+      "Pure",
+      "S",
+      "SE"
+    ],
+    "Range Rover Sport": [
+      "Autobiography",
+      "HSE",
+      "SE",
+      "SVR"
+    ],
+    "Range Rover Velar": [
+      "HSE",
+      "R-Dynamic",
+      "S",
+      "SE"
+    ],
+    "XE": [
+      "Portfolio",
+      "Prestige"
+    ],
+    "XF": [
+      "Luxury",
+      "Portfolio",
+      "Premium Luxury",
+      "Prestige"
+    ],
+    "XJ": [
+      "Portfolio",
+      "Premium Luxury"
+    ]
   },
   "Jeep India": {
-    Compass: ["1st Gen (MP)", "2nd Gen (MP485 Facelift)"],
-    "Grand Cherokee": ["WL (5th Gen India)"],
-    Meridian: ["1st Gen"],
-    Wrangler: ["JK (3-door CBU)", "JL (4-door)"],
+    "Compass": [
+      "Limited",
+      "Limited Plus",
+      "Longitude",
+      "Model S",
+      "Sport",
+      "Trailhawk"
+    ],
+    "Grand Cherokee": [
+      "Summit Reserve"
+    ],
+    "Meridian": [
+      "Limited",
+      "Limited (O)",
+      "Longitude",
+      "Overland"
+    ],
+    "Wrangler": [
+      "Unlimited"
+    ]
   },
   "Kia India": {
-    Carens: ["1st Gen"],
-    Carnival: ["1st Gen (YP / 3rd global)", "2nd Gen (KA4 / 4th global)"],
-    EV6: ["1st Gen (CV)"],
-    EV9: ["1st Gen"],
-    Seltos: ["1st Gen (SP2)", "2nd Gen (SP2 Facelift)"],
-    Sonet: ["1st Gen", "Facelift"],
-    Syros: ["1st Gen"],
+    "Carens": [
+      "Luxury",
+      "Luxury+",
+      "Premium",
+      "Prestige",
+      "Prestige+"
+    ],
+    "Carnival": [
+      "Limousine",
+      "Premium",
+      "Prestige"
+    ],
+    "EV6": [
+      "GT Line (CBU)"
+    ],
+    "EV9": [
+      "GT Line (CBU)"
+    ],
+    "Seltos": [
+      "GTX+",
+      "HTE",
+      "HTK",
+      "HTK+",
+      "HTX",
+      "HTX+",
+      "X-Line"
+    ],
+    "Sonet": [
+      "GTX+",
+      "HTE",
+      "HTK",
+      "HTK+",
+      "HTX",
+      "HTX+",
+      "X-Line"
+    ],
+    "Syros": [
+      "HTE",
+      "HTK",
+      "HTK+",
+      "HTX",
+      "HTX+",
+      "X-Line"
+    ]
   },
   "Lamborghini India": {
-    Aventador: ["LP 700-4", "SVJ"],
-    Gallardo: ["LP 550-2 / 560-4"],
-    Huracan: ["LP 610-4", "EVO", "STO"],
-    Revuelto: ["LP 1015-4 (1st Gen)"],
-    Urus: ["1st Gen", "Performante", "SE (Hybrid)"],
+    "Aventador": [
+      "LP 700-4",
+      "S",
+      "SVJ"
+    ],
+    "Gallardo": [
+      "LP 550-2",
+      "LP 560-4"
+    ],
+    "Huracan": [
+      "EVO",
+      "EVO RWD",
+      "LP 610-4",
+      "STO"
+    ],
+    "Revuelto": [
+      "LP 1015-4"
+    ],
+    "Urus": [
+      "Performante",
+      "SE",
+      "Urus"
+    ]
   },
   "Lexus India": {
-    "ES 300h": ["7th Gen (XV70)", "8th Gen (XX70 FL)"],
-    LM: ["1st Gen India (H40)"],
-    "LS 500h": ["5th Gen (XF50)"],
-    LX: ["LX 570 (3rd Gen, J200)"],
-    "LX 500d": ["LX 600 / 500d (J310)"],
-    NX: ["AZ10 (1st Gen India)", "AZ20 (2nd Gen)"],
-    RX: ["AL20 (4th Gen India)", "AL30 (5th Gen)"],
-    UX: ["ZA10 (1st Gen)"],
+    "ES 300h": [
+      "Elegant",
+      "F Sport",
+      "Luxury"
+    ],
+    "LM": [
+      "LM350h",
+      "LM500h"
+    ],
+    "LS 500h": [
+      "Elegant",
+      "Luxury"
+    ],
+    "LX": [
+      "LX570"
+    ],
+    "LX 500d": [
+      "LX500d"
+    ],
+    "NX": [
+      "NX300",
+      "NX300h",
+      "NX350h",
+      "NX450h+"
+    ],
+    "RX": [
+      "RX350h",
+      "RX450h",
+      "RX500h"
+    ],
+    "UX": [
+      "UX250h"
+    ]
   },
   "MG Motor India": {
-    Astor: ["1st Gen"],
-    "Comet EV": ["1st Gen"],
-    Gloster: ["1st Gen", "Facelift"],
-    Hector: ["1st Gen", "Facelift", "2nd Gen"],
-    "Hector Plus": ["1st Gen", "Facelift"],
-    "Windsor EV": ["1st Gen"],
-    "ZS EV": ["1st Gen", "2nd Gen"],
+    "Astor": [
+      "Sharp",
+      "Sharp Pro",
+      "Smart",
+      "Style",
+      "Super"
+    ],
+    "Comet EV": [
+      "Pace",
+      "Play",
+      "Plush"
+    ],
+    "Gloster": [
+      "4WD)",
+      "Blackstorm",
+      "Savvy",
+      "Savvy (2WD",
+      "Sharp"
+    ],
+    "Hector": [
+      "Blackstorm Edition",
+      "Savvy",
+      "Select",
+      "Sharp",
+      "Sharp Pro",
+      "Smart",
+      "Style",
+      "Super"
+    ],
+    "Hector Plus": [
+      "Excite",
+      "Savvy Pro",
+      "Select",
+      "Sharp",
+      "Sharp Pro",
+      "Smart",
+      "Style",
+      "Super"
+    ],
+    "Windsor EV": [
+      "Essence Pro",
+      "Excite",
+      "Exclusive"
+    ],
+    "ZS EV": [
+      "Essence",
+      "Excite",
+      "Exclusive"
+    ]
   },
   "MINI India": {
-    Clubman: ["F54 (1st Gen India)"],
-    Convertible: ["F57 (2nd Gen)"],
-    "Cooper SE": ["F56E (1st Gen EV)"],
-    Countryman: ["R60 (1st Gen)", "F60 (2nd Gen)", "U25 (3rd Gen)"],
-    "Hatch (3/5 door)": [
-      "R56 (2nd Gen, 3-door)",
-      "F55 (3rd Gen, 5-door)",
-      "F56 Facelift",
+    "Clubman": [
+      "Cooper S",
+      "Cooper SD"
     ],
+    "Convertible": [
+      "Cooper S"
+    ],
+    "Cooper SE": [
+      "Cooper SE"
+    ],
+    "Countryman": [
+      "Cooper D",
+      "Cooper S",
+      "Cooper SD",
+      "Electric",
+      "John Cooper Works"
+    ],
+    "Hatch (3/5 door)": [
+      "Cooper D",
+      "Cooper S"
+    ]
   },
   "Mahindra & Mahindra": {
-    "3XO": ["1st Gen"],
-    "Alturas G4": ["1st Gen"],
-    "Armada (old)": ["1st Gen", "Grand Armada"],
-    "BE 6": ["1st Gen"],
-    Bolero: ["1st Gen", "Facelift", "Neo (2nd Gen)", "Neo Plus"],
-    KUV100: ["1st Gen", "NXT Facelift"],
-    Marazzo: ["1st Gen"],
-    NuvoSport: ["1st Gen (Quanto Facelift)"],
-    Quanto: ["1st Gen"],
-    Scorpio: [
-      "1st Gen (Scorpio Classic base)",
-      "Facelift",
-      "S (2nd Refresh)",
-      "Scorpio-N 3rd Gen",
-      "Scorpio Classic",
+    "3XO": [
+      "AX5",
+      "AX7",
+      "MX1",
+      "MX2",
+      "MX3"
     ],
-    TUV300: ["1st Gen", "TUV300 Plus"],
-    Thar: ["1st Gen (CJ-based)", "2nd Gen", "Roxx (5-door)"],
-    Verito: ["1st Gen (Logan rebadge)", "Facelift", "Verito Vibe"],
-    "XEV 9e": ["1st Gen"],
-    XUV300: ["1st Gen", "Facelift"],
-    XUV500: ["1st Gen", "Facelift (W-series)"],
-    XUV700: ["1st Gen"],
-    Xylo: ["1st Gen", "Facelift"],
-    "e2o / e2o Plus": ["e2o (2-door)", "e2o Plus (4-door)"],
+    "Alturas G4": [
+      "4X2",
+      "4X4"
+    ],
+    "Armada (old)": [
+      "DX",
+      "Grand Armada",
+      "Std"
+    ],
+    "BE 6": [
+      "Pack One",
+      "Pack Three",
+      "Pack Two"
+    ],
+    "Bolero": [
+      "DI",
+      "LX",
+      "N10",
+      "N4",
+      "N8",
+      "SLE",
+      "SLX",
+      "ZLX"
+    ],
+    "KUV100": [
+      "K2",
+      "K2+",
+      "K4",
+      "K4+",
+      "K6",
+      "K6+",
+      "K8",
+      "K8+"
+    ],
+    "Marazzo": [
+      "M2",
+      "M4",
+      "M6",
+      "M8"
+    ],
+    "NuvoSport": [
+      "N4",
+      "N6",
+      "N8"
+    ],
+    "Quanto": [
+      "C2",
+      "C4",
+      "C6",
+      "C8"
+    ],
+    "Scorpio": [
+      "EX",
+      "LX",
+      "S10",
+      "S11",
+      "S3",
+      "S4",
+      "S5",
+      "S6",
+      "S7",
+      "S9",
+      "VLX",
+      "Z2",
+      "Z4",
+      "Z6",
+      "Z8",
+      "Z8L"
+    ],
+    "TUV300": [
+      "T10",
+      "T4",
+      "T6",
+      "T8"
+    ],
+    "Thar": [
+      "AX",
+      "AX Opt",
+      "CRDe",
+      "DI",
+      "LX"
+    ],
+    "Verito": [
+      "D2",
+      "D4",
+      "D6"
+    ],
+    "XEV 9e": [
+      "Pack One",
+      "Pack Three",
+      "Pack Two"
+    ],
+    "XUV300": [
+      "W2",
+      "W4",
+      "W6",
+      "W8"
+    ],
+    "XUV500": [
+      "W11",
+      "W4",
+      "W5",
+      "W6",
+      "W7",
+      "W8",
+      "W9"
+    ],
+    "XUV700": [
+      "AX3",
+      "AX5",
+      "AX7",
+      "AX7L",
+      "MX"
+    ],
+    "Xylo": [
+      "E4",
+      "E6",
+      "E8",
+      "E9"
+    ],
+    "e2o / e2o Plus": [
+      "P4",
+      "P6",
+      "P8",
+      "T0",
+      "T2",
+      "T4"
+    ]
   },
   "Maruti Suzuki": {
-    "A-Star": ["1st Gen"],
-    Alto: [
-      "Alto (SS80 / 800)",
-      "Alto K10 1st Gen",
-      "Alto 800 Refresh",
-      "Alto K10 2nd Gen",
+    "A-Star": [
+      "LXi",
+      "VXi",
+      "ZXi"
     ],
-    "Baleno (Hatch)": ["1st Gen (Nexa)", "2nd Gen"],
-    "Baleno (Sedan)": ["1st Gen", "Facelift"],
-    Celerio: ["1st Gen", "2nd Gen"],
-    Ciaz: ["1st Gen", "Facelift"],
-    Eeco: ["1st Gen", "CNG Variant", "Facelift"],
-    Ertiga: ["1st Gen", "2nd Gen"],
-    Esteem: ["1st Gen", "2nd Gen Facelift"],
-    Fronx: ["1st Gen"],
-    "Grand Vitara": ["1st Gen India"],
-    Gypsy: ["1st Gen (SJ410)", "King (SJ413)", "Final Series"],
-    Ignis: ["1st Gen", "Facelift"],
-    Invicto: ["1st Gen"],
-    Jimny: ["1st Gen India (5-door)"],
-    Kizashi: ["1st Gen (CBU)"],
-    "Maruti 1000": ["1st Gen (FA)"],
+    "Alto": [
+      "LX",
+      "LXi",
+      "Std",
+      "VXi",
+      "VXi+"
+    ],
+    "Baleno (Hatch)": [
+      "Alpha",
+      "Delta",
+      "Sigma",
+      "Zeta"
+    ],
+    "Baleno (Sedan)": [
+      "LX",
+      "VX",
+      "VXi"
+    ],
+    "Celerio": [
+      "LXi",
+      "VXi",
+      "ZXi",
+      "ZXi+"
+    ],
+    "Ciaz": [
+      "Alpha",
+      "Delta",
+      "Sigma",
+      "VXi",
+      "ZDi",
+      "ZXi",
+      "Zeta"
+    ],
+    "Eeco": [
+      "5-Str",
+      "7-Str",
+      "7-Str CNG"
+    ],
+    "Ertiga": [
+      "LXi",
+      "VXi",
+      "ZDi",
+      "ZXi",
+      "ZXi+"
+    ],
+    "Esteem": [
+      "AX",
+      "LX",
+      "VX",
+      "VXi"
+    ],
+    "Fronx": [
+      "Alpha",
+      "Delta",
+      "Delta+",
+      "Sigma",
+      "Zeta",
+      "Zeta+"
+    ],
+    "Grand Vitara": [
+      "Alpha",
+      "Delta",
+      "Sigma",
+      "Zeta"
+    ],
+    "Gypsy": [
+      "4WD Hard Top",
+      "Hard Top",
+      "MG410W",
+      "MG413W — 4WD",
+      "Soft Top"
+    ],
+    "Ignis": [
+      "Alpha",
+      "Delta",
+      "Sigma",
+      "Zeta"
+    ],
+    "Invicto": [
+      "Alpha+",
+      "Zeta+"
+    ],
+    "Jimny": [
+      "Alpha",
+      "Zeta"
+    ],
+    "Kizashi": [
+      "Single Variant (CBU import)"
+    ],
+    "Maruti 1000": [
+      "DX",
+      "Std"
+    ],
     "Maruti 800": [
-      "1st Gen (SS80)",
-      "1000cc Upgrade",
-      "AC / Non-AC Variants",
-      "Final Edition",
+      "AC — Petrol",
+      "DX",
+      "DX — Petrol",
+      "Std"
     ],
-    Omni: ["1st Gen (E-series)", "MPI Refresh", "CNG Variant"],
-    Ritz: ["1st Gen", "Facelift"],
-    "S-Cross": ["1st Gen", "Facelift (Petrol)"],
-    "S-Presso": ["1st Gen", "Facelift"],
-    SX4: ["1st Gen", "DDiS Diesel"],
-    Swift: ["1st Gen (RS413)", "2nd Gen", "3rd Gen", "4th Gen"],
-    "Swift Dzire": ["1st Gen (ZXi)", "2nd Gen", "3rd Gen", "4th Gen / Tour S4"],
-    Versa: ["1st Gen (DX/DX2)", "Facelift"],
-    "Vitara Brezza / Brezza": ["1st Gen (Vitara Brezza)", "2nd Gen (Brezza)"],
+    "Omni": [
+      "Cargo — Petrol MPFI",
+      "Std",
+      "Std — Petrol",
+      "Std — Petrol+CNG"
+    ],
+    "Ritz": [
+      "LXi",
+      "VXi",
+      "ZXi"
+    ],
+    "S-Cross": [
+      "Alpha",
+      "Delta",
+      "Sigma",
+      "Zeta"
+    ],
+    "S-Presso": [
+      "LXi",
+      "Std",
+      "VXi",
+      "VXi+"
+    ],
+    "SX4": [
+      "VDi",
+      "VXi",
+      "ZDi",
+      "ZXi"
+    ],
+    "Swift": [
+      "LXi",
+      "VXi",
+      "ZDi",
+      "ZXi",
+      "ZXi+"
+    ],
+    "Swift Dzire": [
+      "LDi",
+      "LXi",
+      "VDi",
+      "VXi",
+      "ZDi",
+      "ZXi",
+      "ZXi+"
+    ],
+    "Versa": [
+      "DX",
+      "DX2"
+    ],
+    "Vitara Brezza / Brezza": [
+      "LDi",
+      "LXi",
+      "VDi",
+      "VXi",
+      "ZDi",
+      "ZDi+",
+      "ZXi",
+      "ZXi+"
+    ],
     "Wagon R": [
-      "1st Gen (AZ10)",
-      "Facelift",
-      "Duo (LPG)",
-      "2nd Gen (AZ-MR)",
-      "Stingray",
-      "3rd Gen",
+      "LX",
+      "LXi",
+      "LXi Duo",
+      "VXi",
+      "VXi Opt",
+      "ZXi"
     ],
-    XL6: ["1st Gen", "Facelift"],
-    Zen: ["1st Gen", "Zen VXi / LXi Refresh", "Zen Estilo"],
-    "Zen Diesel": ["Zen D (Peugeot engine)"],
+    "XL6": [
+      "Alpha",
+      "Alpha+",
+      "Zeta",
+      "Zeta+"
+    ],
+    "Zen": [
+      "DX",
+      "LX",
+      "LXi",
+      "LXi(O)",
+      "Std",
+      "VXi"
+    ],
+    "Zen Diesel": [
+      "Zen D"
+    ]
   },
   "Maserati India": {
-    Ghibli: ["M157 (3rd Gen India)"],
-    GranCabrio: ["M145 (1st Gen India)"],
-    GranTurismo: ["A217 (2nd Gen)"],
-    Levante: ["M161 (1st Gen)", "GTS / Trofeo"],
-    MC20: ["1st Gen"],
-    Quattroporte: ["M156 (6th Gen India)"],
+    "Ghibli": [
+      "Diesel",
+      "S"
+    ],
+    "GranCabrio": [
+      "Sport"
+    ],
+    "GranTurismo": [
+      "Folgore",
+      "Modena",
+      "Trofeo"
+    ],
+    "Levante": [
+      "Diesel",
+      "GTS",
+      "S",
+      "Trofeo"
+    ],
+    "MC20": [
+      "MC20"
+    ],
+    "Quattroporte": [
+      "Diesel",
+      "GTS",
+      "S"
+    ]
   },
   "Mercedes-Benz India": {
-    "A-Class": ["W176 (3rd Gen)", "W177 Limousine (4th Gen)"],
-    "AMG GT": ["C190 (1st Gen India)", "X290 (2nd Gen)"],
+    "A-Class": [
+      "A200",
+      "A200 CDI",
+      "A200 Limousine"
+    ],
+    "AMG GT": [
+      "GT",
+      "GT 63",
+      "GT C",
+      "GT R"
+    ],
     "C-Class": [
-      "W203 (5th Gen)",
-      "W204 (6th Gen)",
-      "W205 (7th Gen)",
-      "W206 (8th Gen)",
+      "C180",
+      "C200",
+      "C220 CDI",
+      "C220d",
+      "C250 CDI",
+      "C270 CDI",
+      "C300",
+      "C350"
     ],
-    CLA: ["C117 (1st Gen)", "C118 (2nd Gen)"],
+    "CLA": [
+      "CLA200",
+      "CLA200 CDI"
+    ],
     "E-Class": [
-      "W211 (6th Gen)",
-      "W212 (7th Gen)",
-      "W213 (8th Gen)",
-      "W214 (9th Gen)",
+      "E200",
+      "E220 CDI",
+      "E220d",
+      "E250 CDI",
+      "E270 CDI",
+      "E280",
+      "E300",
+      "E350",
+      "E350d"
     ],
-    EQB: ["X243 (1st Gen)"],
-    EQE: ["V295 (1st Gen)"],
-    EQS: ["V297 (1st Gen)"],
-    "G-Class (G-Wagon)": ["W464 (5th Gen India)"],
-    GLA: ["X156 (1st Gen)", "H247 (2nd Gen)"],
-    GLB: ["X247 (1st Gen)"],
-    GLC: ["X253 (1st Gen)", "X254 (2nd Gen)"],
-    GLE: ["W166 (1st Gen)", "V167 (2nd Gen)"],
-    GLS: ["X166 (1st Gen)", "X167 (2nd Gen)"],
+    "EQB": [
+      "EQB 300"
+    ],
+    "EQE": [
+      "EQE 350+"
+    ],
+    "EQS": [
+      "EQS 580"
+    ],
+    "G-Class (G-Wagon)": [
+      "G350d",
+      "G63 AMG"
+    ],
+    "GLA": [
+      "GLA200",
+      "GLA200d",
+      "GLA220d"
+    ],
+    "GLB": [
+      "GLB200",
+      "GLB220d"
+    ],
+    "GLC": [
+      "GLC220d",
+      "GLC300"
+    ],
+    "GLE": [
+      "GLE250d",
+      "GLE300d",
+      "GLE350d",
+      "GLE450"
+    ],
+    "GLS": [
+      "GLS350d",
+      "GLS400d",
+      "GLS450"
+    ],
     "S-Class": [
-      "W220 (4th Gen)",
-      "W221 (5th Gen)",
-      "W222 (6th Gen)",
-      "W223 (7th Gen)",
+      "S320",
+      "S350",
+      "S350 CDI",
+      "S350d",
+      "S400",
+      "S400 Hybrid",
+      "S450",
+      "S500"
     ],
-    "V-Class": ["W447 (3rd Gen)", "W447 Facelift"],
+    "V-Class": [
+      "V220d"
+    ]
   },
   "Mitsubishi Motors India": {
-    Cedia: ["1st Gen India (CS9A)"],
-    Lancer: ["1st Gen India (CS2A)"],
-    Outlander: ["2nd Gen India (CW0)"],
-    Pajero: ["Pajero Sport 1st Gen", "SFX / CRDi"],
+    "Cedia": [
+      "Elegance",
+      "Select",
+      "Spirit",
+      "Sports"
+    ],
+    "Lancer": [
+      "GLXi",
+      "Invex",
+      "SFXi"
+    ],
+    "Outlander": [
+      "Single Variant"
+    ],
+    "Pajero": [
+      "GLX",
+      "SFX"
+    ],
+    "Pajero Sport": [
+      "2.5 AT",
+      "2.5 MT",
+      "Select Plus"
+    ]
   },
   "Nissan Motor India": {
-    Evalia: ["1st Gen"],
-    "GT-R": ["R35 CBU"],
-    Kicks: ["1st Gen", "Facelift"],
-    Magnite: ["1st Gen", "Facelift"],
-    Micra: ["1st Gen India (K12)", "Active (Budget Variant)"],
-    Sunny: ["1st Gen (B17)", "Facelift"],
-    Teana: ["1st Gen India"],
-    Terrano: ["1st Gen", "Facelift"],
-    "X-Trail": ["1st Gen India (T31)"],
+    "Evalia": [
+      "XE",
+      "XL"
+    ],
+    "GT-R": [
+      "Premium Edition"
+    ],
+    "Kicks": [
+      "XE",
+      "XL",
+      "XV",
+      "XV Premium"
+    ],
+    "Magnite": [
+      "XE",
+      "XL",
+      "XV",
+      "XV Premium"
+    ],
+    "Micra": [
+      "XE",
+      "XL",
+      "XV",
+      "XV Premium"
+    ],
+    "Sunny": [
+      "XL",
+      "XV"
+    ],
+    "Teana": [
+      "230JK",
+      "250XV"
+    ],
+    "Terrano": [
+      "XE",
+      "XL",
+      "XV"
+    ],
+    "X-Trail": [
+      "XV (CBU)"
+    ]
   },
   "Porsche India": {
-    "911": ["997 (6th Gen India)", "991 (7th Gen)", "992 (8th Gen)"],
-    Boxster: ["987 (2nd Gen India)", "718 (4th Gen)"],
-    Cayenne: ["955 (1st Gen)", "958 (2nd Gen)", "9YA (3rd Gen)"],
-    Cayman: ["987C (1st Gen)", "981C (2nd Gen)", "718 (3rd Gen)"],
-    Macan: ["95B (1st Gen)", "2nd Gen (Facelift)"],
-    Panamera: ["970 (1st Gen)", "971 (2nd Gen)"],
-    Taycan: ["J1 (1st Gen)", "Cross Turismo"],
+    "911": [
+      "Carrera",
+      "Carrera S",
+      "GT3",
+      "Turbo",
+      "Turbo S"
+    ],
+    "Boxster": [
+      "Base",
+      "GTS 4.0",
+      "S"
+    ],
+    "Cayenne": [
+      "Diesel",
+      "E-Hybrid",
+      "S",
+      "Turbo"
+    ],
+    "Cayman": [
+      "Base",
+      "GTS",
+      "GTS 4.0",
+      "S"
+    ],
+    "Macan": [
+      "4 (Electric)",
+      "GTS",
+      "S",
+      "Turbo"
+    ],
+    "Panamera": [
+      "4",
+      "4 E-Hybrid",
+      "4S",
+      "Diesel",
+      "S",
+      "Turbo"
+    ],
+    "Taycan": [
+      "4",
+      "4S",
+      "Turbo",
+      "Turbo S"
+    ]
   },
   "Premier Automobiles Limited": {
-    "Premier 118NE": ["1st Gen", "Facelift"],
-    "Premier Padmini": [
-      "1st Gen (Fiat 1100D)",
-      "CS / NE Refresh",
-      "Final Series",
+    "Premier 118NE": [
+      "Deluxe",
+      "Standard"
     ],
+    "Premier Padmini": [
+      "CS",
+      "Deluxe",
+      "NE",
+      "Standard"
+    ]
   },
   "Renault India": {
-    Captur: ["1st Gen"],
-    Duster: ["1st Gen (HM0/HM1)", "Facelift", "2nd Gen"],
-    Fluence: ["1st Gen India"],
-    Kiger: ["1st Gen", "Facelift"],
-    Koleos: ["1st Gen India"],
-    Kwid: ["1st Gen", "Facelift", "2nd Gen"],
-    Lodgy: ["1st Gen"],
-    Pulse: ["1st Gen"],
-    Scala: ["1st Gen"],
-    Triber: ["1st Gen", "Facelift"],
+    "Captur": [
+      "Platine",
+      "RxE",
+      "RxL"
+    ],
+    "Duster": [
+      "RXE",
+      "RXS",
+      "RXT",
+      "RXZ",
+      "RxE",
+      "RxL",
+      "RxS",
+      "RxZ"
+    ],
+    "Fluence": [
+      "E2",
+      "E4"
+    ],
+    "Kiger": [
+      "RxE",
+      "RxL",
+      "RxT",
+      "RxZ"
+    ],
+    "Koleos": [
+      "E4",
+      "Privilege"
+    ],
+    "Kwid": [
+      "Climber",
+      "RxE",
+      "RxL",
+      "RxT"
+    ],
+    "Lodgy": [
+      "RxE",
+      "RxL",
+      "RxZ"
+    ],
+    "Pulse": [
+      "RxE",
+      "RxL",
+      "RxZ"
+    ],
+    "Scala": [
+      "RxE",
+      "RxL",
+      "RxZ"
+    ],
+    "Triber": [
+      "RxE",
+      "RxL",
+      "RxT",
+      "RxZ"
+    ]
   },
   "Rolls-Royce Motor Cars India": {
-    Cullinan: ["RR31 (1st Gen)", "Black Badge"],
-    Ghost: ["1st Gen (RR4-based)", "2nd Gen"],
-    Phantom: ["VII (RR1) India", "VIII (RR212EX)"],
-    Spectre: ["EV (1st Gen)"],
-    Wraith: ["RR5 (1st Gen)"],
+    "Cullinan": [
+      "Black Badge",
+      "Standard"
+    ],
+    "Ghost": [
+      "Black Badge",
+      "Extended Wheelbase",
+      "Standard"
+    ],
+    "Phantom": [
+      "Extended Wheelbase",
+      "Standard"
+    ],
+    "Spectre": [
+      "Standard"
+    ],
+    "Wraith": [
+      "Black Badge",
+      "Standard"
+    ]
   },
   "Tata Motors": {
-    Altroz: ["1st Gen", "Racer / Turbo"],
-    Aria: ["1st Gen (4WD/2WD)", "Facelift"],
-    Bolt: ["1st Gen"],
-    Curvv: ["ICE", "EV"],
-    Estate: ["1st Gen"],
-    Harrier: ["1st Gen", "Facelift"],
-    Hexa: ["1st Gen"],
-    Indica: ["1st Gen (Indica V1)", "Indica V2", "Vista 2nd Gen", "eV2 (CNG)"],
-    Indigo: ["1st Gen", "Marina (Estate)", "Manza 2nd Gen", "eCS Facelift"],
-    Nano: ["1st Gen (Nano Std)", "Nano Twist", "Nano GenX"],
-    Nexon: ["1st Gen", "Facelift", "2nd Gen"],
-    "Nexon EV": ["1st Gen (Ziptron)", "EV Max (Long Range)", "2nd Gen"],
-    Punch: ["1st Gen", "EV"],
-    Safari: [
-      "1st Gen (Sierra based)",
-      "Dicor Refresh",
-      "Storme Predecessor",
-      "3rd Gen (Omega Arc)",
-      "Dark Edition",
+    "Altroz": [
+      "Racer",
+      "XE",
+      "XM",
+      "XT",
+      "XZ",
+      "XZ+"
     ],
-    "Safari Storme": ["1st Gen", "Facelift"],
-    Sierra: ["1st Gen", "Turbocharged Variant"],
-    Sumo: ["1st Gen", "Sumo Spacio", "Grande", "Gold"],
-    Tiago: ["1st Gen", "NRG (Adventure)", "Facelift", "EV"],
-    Tigor: ["1st Gen", "Facelift", "EV"],
-    Zest: ["1st Gen"],
+    "Aria": [
+      "Pleasure",
+      "Prestige",
+      "Pride"
+    ],
+    "Bolt": [
+      "XE",
+      "XM",
+      "XT"
+    ],
+    "Curvv": [
+      "Accomplished",
+      "Creative",
+      "Empowered"
+    ],
+    "Estate": [
+      "DX",
+      "Std"
+    ],
+    "Harrier": [
+      "Adventure",
+      "Fearless",
+      "Pure",
+      "Smart",
+      "XE",
+      "XM",
+      "XT",
+      "XZ",
+      "XZ+"
+    ],
+    "Hexa": [
+      "XE",
+      "XM",
+      "XT",
+      "XTA"
+    ],
+    "Indica": [
+      "DL",
+      "DLE",
+      "DLG",
+      "DLS",
+      "DLX",
+      "LS",
+      "LX",
+      "LX CNG",
+      "VX",
+      "Xeta"
+    ],
+    "Indigo": [
+      "Aqua",
+      "Aura",
+      "DLE",
+      "DLX",
+      "Elan",
+      "GLX",
+      "LS",
+      "LX"
+    ],
+    "Nano": [
+      "CX",
+      "LX",
+      "Std",
+      "XE",
+      "XT",
+      "XTA"
+    ],
+    "Nexon": [
+      "Creative",
+      "Fearless",
+      "Pure",
+      "Smart",
+      "XE",
+      "XM",
+      "XT",
+      "XZ",
+      "XZ+"
+    ],
+    "Nexon EV": [
+      "Creative",
+      "Empowered",
+      "Fearless",
+      "XM",
+      "XZ+",
+      "XZ+ Lux"
+    ],
+    "Punch": [
+      "Accomplished",
+      "Adventure",
+      "Creative",
+      "Empowered",
+      "Pure",
+      "Smart"
+    ],
+    "Safari": [
+      "DICOR 2.2",
+      "Dark Edition",
+      "EX",
+      "LX",
+      "VX",
+      "XE",
+      "XM",
+      "XT",
+      "XZ",
+      "XZ+"
+    ],
+    "Safari Storme": [
+      "EX",
+      "LX",
+      "VX"
+    ],
+    "Sierra": [
+      "Std",
+      "Turbo"
+    ],
+    "Sumo": [
+      "CX",
+      "DX",
+      "Deluxe",
+      "EX",
+      "GX",
+      "Std"
+    ],
+    "Tiago": [
+      "NRG",
+      "XE",
+      "XM",
+      "XT",
+      "XZ",
+      "XZ+"
+    ],
+    "Tigor": [
+      "XE",
+      "XM",
+      "XT",
+      "XZ",
+      "XZ+"
+    ],
+    "Zest": [
+      "XE",
+      "XM",
+      "XT"
+    ]
   },
   "Tesla India": {
-    "Model 3": ["1st Gen India"],
-    "Model Y": ["1st Gen India (RWD)", "Long Range AWD"],
+    "Model Y": [
+      "Premium Long Range RWD",
+      "Premium RWD"
+    ]
   },
   "Toyota Kirloskar Motor": {
-    Camry: ["7th Gen India", "8th Gen India", "Hybrid (9th Gen)"],
-    Corolla: ["9th Gen (E120)", "Altis 10th/11th Gen"],
-    "Corolla Altis": ["10th Gen (E140)", "11th Gen (E170)"],
-    Etios: ["Liva Hatch", "Sedan", "Cross"],
-    Fortuner: ["1st Gen (SW4 / TGN51)", "2nd Gen (GUN/TGN)", "Legender / GR-S"],
-    Glanza: ["1st Gen (Baleno rebadge)", "2nd Gen"],
-    Hilux: ["1st Gen India (AN120)"],
-    Hyryder: ["1st Gen"],
-    Innova: ["1st Gen (IMV-2 / TGN40)", "Crysta 2nd Gen", "HyCross Hybrid"],
-    "Land Cruiser": [
-      "100 Series (CBU)",
-      "200 Series",
-      "300 Series",
-      "300 GR Sport",
+    "Camry": [
+      "M4",
+      "Single Variant",
+      "W4"
     ],
-    "Land Cruiser Prado": ["150 Series"],
-    Prius: ["1st Gen India (NHW20)"],
-    Qualis: ["1st Gen (HiAce based)"],
-    Rumion: ["1st Gen"],
-    "Urban Cruiser": ["1st Gen"],
-    Vellfire: ["1st Gen India (AH30)"],
-    Yaris: ["1st Gen India"],
+    "Corolla": [
+      "G",
+      "GL",
+      "H1",
+      "H2",
+      "J",
+      "VL"
+    ],
+    "Corolla Altis": [
+      "G",
+      "GL",
+      "J",
+      "VL"
+    ],
+    "Etios": [
+      "G",
+      "GD",
+      "J",
+      "V",
+      "VD",
+      "VX"
+    ],
+    "Fortuner": [
+      "4x2",
+      "4x4",
+      "GR-Sport",
+      "Legender"
+    ],
+    "Glanza": [
+      "E",
+      "G",
+      "S",
+      "V"
+    ],
+    "Hilux": [
+      "High",
+      "Std"
+    ],
+    "Hyryder": [
+      "E",
+      "G",
+      "S",
+      "V"
+    ],
+    "Innova": [
+      "E",
+      "G",
+      "GX",
+      "V",
+      "VX",
+      "ZX",
+      "ZX(O)"
+    ],
+    "Land Cruiser": [
+      "GR Sport",
+      "VX",
+      "ZX"
+    ],
+    "Land Cruiser Prado": [
+      "VX",
+      "VX-L"
+    ],
+    "Prius": [
+      "Z4"
+    ],
+    "Qualis": [
+      "FS",
+      "GS",
+      "RS"
+    ],
+    "Rumion": [
+      "G",
+      "S",
+      "V"
+    ],
+    "Urban Cruiser": [
+      "High",
+      "Mid",
+      "Premium"
+    ],
+    "Vellfire": [
+      "Executive Lounge"
+    ],
+    "Yaris": [
+      "G",
+      "J",
+      "V",
+      "VX"
+    ]
   },
   "VinFast India": {
-    "VF 6": ["1st Gen India"],
-    "VF 7": ["1st Gen India"],
+    "VF 6": [
+      "Earth",
+      "Wind",
+      "Wind Infinity"
+    ],
+    "VF 7": [
+      "Earth",
+      "Sky AWD",
+      "Sky Infinity AWD",
+      "Wind",
+      "Wind Infinity"
+    ]
   },
   "Volkswagen India": {
-    Ameo: ["1st Gen (India-specific)"],
-    Beetle: ["1st Gen India (9C / 1C)"],
-    Jetta: ["1st Gen India (A5)", "2nd Gen India (A6)"],
-    Passat: ["1st Gen India (B6)", "2nd Gen India (B7)"],
-    Polo: ["1st Gen India (6R)", "GT TSI / GT TDI", "Facelift"],
-    "T-Roc": ["1st Gen India (CBU)"],
-    Taigun: ["1st Gen"],
-    Tiguan: ["1st Gen India (5N)", "Allspace 2nd Gen"],
-    Touareg: ["1st Gen India (7P)"],
-    Vento: ["1st Gen India", "Facelift", "TSI 2nd Gen"],
-    Virtus: ["1st Gen"],
+    "Ameo": [
+      "Comfortline",
+      "Highline",
+      "Trendline"
+    ],
+    "Beetle": [
+      "Single Variant"
+    ],
+    "Jetta": [
+      "Comfortline",
+      "Highline",
+      "Trendline"
+    ],
+    "Passat": [
+      "Comfortline",
+      "Highline"
+    ],
+    "Polo": [
+      "Comfortline",
+      "GT TDI",
+      "GT TSI",
+      "Highline",
+      "Trendline"
+    ],
+    "T-Roc": [
+      "Single Variant"
+    ],
+    "Taigun": [
+      "Comfortline",
+      "GT",
+      "GT Plus",
+      "Highline",
+      "Trendline"
+    ],
+    "Tiguan": [
+      "Comfortline",
+      "Elegance",
+      "Highline"
+    ],
+    "Touareg": [
+      "Comfortline",
+      "Highline"
+    ],
+    "Vento": [
+      "Comfortline",
+      "Highline",
+      "Trendline"
+    ],
+    "Virtus": [
+      "Comfortline",
+      "GT",
+      "GT Plus",
+      "Highline",
+      "Trendline"
+    ]
   },
   "Volvo Cars India": {
-    "C40 Recharge": ["1st Gen"],
-    S60: ["3rd Gen India", "4th Gen India (Z-series)"],
-    S90: ["1st Gen India (P238)"],
-    XC40: ["1st Gen (552)", "Recharge (EV)"],
-    XC60: ["1st Gen (156)", "2nd Gen (246)"],
-    XC90: ["C_91 1st Gen", "SPA 2nd Gen"],
+    "C40 Recharge": [
+      "Ultimate"
+    ],
+    "S60": [
+      "B5)",
+      "D3",
+      "D4",
+      "R-Design (B4"
+    ],
+    "S90": [
+      "B5)",
+      "D5",
+      "Inscription (D4",
+      "Momentum"
+    ],
+    "XC40": [
+      "D4",
+      "Inscription",
+      "Momentum",
+      "R-Design (D3",
+      "T4",
+      "T5)",
+      "Ultimate"
+    ],
+    "XC60": [
+      "B5",
+      "B6)",
+      "D3",
+      "D4",
+      "D5",
+      "Inscription",
+      "Momentum",
+      "R-Design (D4",
+      "T6"
+    ],
+    "XC90": [
+      "D5",
+      "Excellence (D5",
+      "Inscription",
+      "Momentum",
+      "T6",
+      "T8)"
+    ]
   },
   "Škoda Auto India": {
-    Fabia: ["1st Gen India (5J)", "2nd Gen India"],
-    Karoq: ["1st Gen India (NU)"],
-    Kodiaq: ["1st Gen India (NS)", "2nd Gen (NS7)"],
-    Kushaq: ["1st Gen", "Monte Carlo Edition"],
-    Laura: ["1st Gen India (1Z)"],
-    Octavia: [
-      "1st Gen India (1U)",
-      "2nd Gen India (1Z)",
-      "3rd Gen India (5E)",
-      "RS 4th Gen (NX)",
+    "Fabia": [
+      "Active",
+      "Ambiente",
+      "Classic",
+      "Elegance"
     ],
-    Rapid: ["1st Gen (NH)", "2nd Gen (Onyx)"],
-    Slavia: ["1st Gen"],
-    Superb: [
-      "1st Gen India (3T)",
-      "2nd Gen India (3V)",
-      "3rd Gen India (NX/B9)",
+    "Karoq": [
+      "Style"
     ],
-    Yeti: ["1st Gen India (5L)"],
+    "Kodiaq": [
+      "L&K",
+      "Sportline",
+      "Style"
+    ],
+    "Kushaq": [
+      "Active",
+      "Ambition",
+      "Monte Carlo",
+      "Style"
+    ],
+    "Laura": [
+      "Ambiente",
+      "Elegance",
+      "L&K"
+    ],
+    "Octavia": [
+      "Active",
+      "Ambiente",
+      "Ambition",
+      "Elegance",
+      "L&K",
+      "LK",
+      "RS",
+      "Style"
+    ],
+    "Rapid": [
+      "Active",
+      "Ambition",
+      "Elegance",
+      "Rider",
+      "Style"
+    ],
+    "Slavia": [
+      "Active",
+      "Ambition",
+      "Style"
+    ],
+    "Superb": [
+      "Ambition",
+      "Elegance",
+      "L&K",
+      "Style"
+    ],
+    "Yeti": [
+      "Ambiente",
+      "Elegance"
+    ]
+  }
+};
+export const PREMIUM_DATABASE: Record<string, Record<string, string[]>> = {
+  "Aston Martin India": {
+    "DB11": [
+      "AMR",
+      "V12",
+      "V8"
+    ],
+    "DB9": [
+      "Coupe",
+      "Volante"
+    ],
+    "DBS Superleggera": [
+      "Superleggera",
+      "Volante"
+    ],
+    "DBX": [
+      "DBX",
+      "DBX S",
+      "DBX707"
+    ],
+    "Vantage": [
+      "V12",
+      "V8"
+    ]
   },
+  "Audi India": {
+    "A3": [
+      "Premium",
+      "Premium Plus",
+      "Technology"
+    ],
+    "A4": [
+      "1.8 TFSI",
+      "2.0 TDI",
+      "3.0 TDI",
+      "40 TFSI)",
+      "Premium",
+      "Premium Plus",
+      "Technology (35 TDI",
+      "Technology (40 TFSI)"
+    ],
+    "A6": [
+      "2.0 TDI",
+      "2.0 TFSI",
+      "2.7 TDI",
+      "3.2 FSI",
+      "35 TDI",
+      "45 TDI)",
+      "Premium Plus",
+      "Technology (45 TFSI"
+    ],
+    "A8": [
+      "3.0 TDI",
+      "4.2 TDI",
+      "L 3.0 TDI",
+      "L 55 TFSI"
+    ],
+    "Q2": [
+      "Premium Plus",
+      "Technology (40 TFSI)"
+    ],
+    "Q3": [
+      "2.0 TFSI Quattro",
+      "30 TDI",
+      "35 TDI",
+      "Premium Plus",
+      "Technology (40 TFSI)"
+    ],
+    "Q5": [
+      "2.0 TDI",
+      "2.0 TFSI",
+      "3.0 TDI",
+      "45 TFSI)",
+      "Premium Plus",
+      "Technology (45 TDI"
+    ],
+    "Q7": [
+      "3.0 TDI",
+      "3.6 FSI",
+      "4.2 TDI",
+      "55 TFSI)",
+      "Premium",
+      "Premium Plus",
+      "Technology (45 TDI"
+    ],
+    "Q8": [
+      "45 TDI)",
+      "Premium Plus",
+      "Technology (55 TFSI"
+    ],
+    "R8": [
+      "V10",
+      "V10 FSI",
+      "V10 Plus",
+      "V8 FSI"
+    ],
+    "TT": [
+      "2.0 TFSI Quattro"
+    ],
+    "e-tron": [
+      "50 e-tron",
+      "55 e-tron",
+      "RS e-tron GT"
+    ]
+  },
+  "BMW India": {
+    "2 Series": [
+      "M Sport (220i)",
+      "Sportline"
+    ],
+    "3 Series": [
+      "320Ld Luxury Line",
+      "320d",
+      "320d)",
+      "320i",
+      "325i",
+      "328i",
+      "330Li",
+      "330Li M Sport",
+      "330d",
+      "330i",
+      "Luxury Line",
+      "M Sport (320Li",
+      "Sport Line"
+    ],
+    "5 Series": [
+      "520d",
+      "525d",
+      "525i",
+      "528i",
+      "530Ld)",
+      "530Li)",
+      "530d",
+      "530i",
+      "Luxury Line",
+      "M Sport (520d",
+      "M Sport (520i"
+    ],
+    "6 Series GT": [
+      "630d)",
+      "Luxury Line",
+      "M Sport (630i"
+    ],
+    "7 Series": [
+      "730Ld",
+      "740Li",
+      "740Li M Sport",
+      "750Li",
+      "750i",
+      "M760Li",
+      "i7 xDrive60"
+    ],
+    "M3": [
+      "Competition"
+    ],
+    "M5": [
+      "Competition"
+    ],
+    "X1": [
+      "iX1",
+      "sDrive18i M Sport",
+      "sDrive20d",
+      "sDrive20i",
+      "xDrive20d"
+    ],
+    "X3": [
+      "xDrive20d",
+      "xDrive20i",
+      "xDrive30d",
+      "xDrive30i M Sport"
+    ],
+    "X4": [
+      "xDrive20d",
+      "xDrive30d",
+      "xDrive30i M Sport"
+    ],
+    "X5": [
+      "xDrive30d",
+      "xDrive30d M Sport",
+      "xDrive35i",
+      "xDrive40i",
+      "xDrive40i M Sport",
+      "xDrive50i"
+    ],
+    "X6": [
+      "xDrive30d",
+      "xDrive30d M Sport"
+    ],
+    "X7": [
+      "xDrive30d M Sport",
+      "xDrive40i M Sport"
+    ],
+    "Z4": [
+      "sDrive20i",
+      "sDrive20i M Sport",
+      "sDrive30i M Sport",
+      "sDrive35i"
+    ],
+    "i4": [
+      "eDrive40 M Sport"
+    ],
+    "iX": [
+      "xDrive40"
+    ]
+  },
+  "BYD India": {
+    "Atto 3": [
+      "Dynamic",
+      "Premium",
+      "Superior"
+    ],
+    "Seal": [
+      "Dynamic",
+      "Performance",
+      "Premium"
+    ],
+    "Sealion 7": [
+      "Performance",
+      "Premium"
+    ],
+    "e6": [
+      "GL",
+      "GLX"
+    ]
+  },
+  "Bentley Motors India": {
+    "Bentayga": [
+      "Diesel",
+      "Hybrid",
+      "Speed",
+      "V8",
+      "W12"
+    ],
+    "Continental GT": [
+      "GT",
+      "GT Speed",
+      "GT V8",
+      "GT W12",
+      "Mulliner",
+      "Speed"
+    ],
+    "Flying Spur": [
+      "Hybrid",
+      "V8",
+      "W12"
+    ],
+    "Mulsanne": [
+      "Extended Wheelbase",
+      "Mulsanne",
+      "Speed"
+    ]
+  },
+  "Ferrari India": {
+    "488": [
+      "GTB",
+      "Pista",
+      "Spider"
+    ],
+    "458 Italia": [
+      "458 Italia",
+      "Spider"
+    ],
+    "California": [
+      "California",
+      "California T"
+    ],
+    "Purosangue": [
+      "Purosangue"
+    ],
+    "Roma": [
+      "Roma"
+    ]
+  },
+  "Jaguar Land Rover India": {
+    "Defender": [
+      "HSE",
+      "S",
+      "SE",
+      "X-Dynamic"
+    ],
+    "Discovery": [
+      "HSE",
+      "HSE Luxury",
+      "S",
+      "SE"
+    ],
+    "Discovery Sport": [
+      "HSE",
+      "S",
+      "SE"
+    ],
+    "F-Type": [
+      "R",
+      "R-Dynamic",
+      "S"
+    ],
+    "Freelander": [
+      "HSE",
+      "S",
+      "SE"
+    ],
+    "Range Rover": [
+      "Autobiography",
+      "SE",
+      "SVAutobiography",
+      "Vogue",
+      "Vogue SE"
+    ],
+    "Range Rover Evoque": [
+      "Dynamic",
+      "HSE",
+      "HSE Dynamic",
+      "Pure",
+      "S",
+      "SE"
+    ],
+    "Range Rover Sport": [
+      "Autobiography",
+      "HSE",
+      "SE",
+      "SVR"
+    ],
+    "Range Rover Velar": [
+      "HSE",
+      "R-Dynamic",
+      "S",
+      "SE"
+    ],
+    "XE": [
+      "Portfolio",
+      "Prestige"
+    ],
+    "XF": [
+      "Luxury",
+      "Portfolio",
+      "Premium Luxury",
+      "Prestige"
+    ],
+    "XJ": [
+      "Portfolio",
+      "Premium Luxury"
+    ]
+  },
+  "Lexus India": {
+    "ES 300h": [
+      "Elegant",
+      "F Sport",
+      "Luxury"
+    ],
+    "LM": [
+      "LM350h",
+      "LM500h"
+    ],
+    "LS 500h": [
+      "Elegant",
+      "Luxury"
+    ],
+    "LX": [
+      "LX570"
+    ],
+    "LX 500d": [
+      "LX500d"
+    ],
+    "NX": [
+      "NX300",
+      "NX300h",
+      "NX350h",
+      "NX450h+"
+    ],
+    "RX": [
+      "RX350h",
+      "RX450h",
+      "RX500h"
+    ],
+    "UX": [
+      "UX250h"
+    ]
+  },
+  "MINI India": {
+    "Clubman": [
+      "Cooper S",
+      "Cooper SD"
+    ],
+    "Convertible": [
+      "Cooper S"
+    ],
+    "Cooper SE": [
+      "Cooper SE"
+    ],
+    "Countryman": [
+      "Cooper D",
+      "Cooper S",
+      "Cooper SD",
+      "Electric",
+      "John Cooper Works"
+    ],
+    "Hatch (3/5 door)": [
+      "Cooper D",
+      "Cooper S"
+    ]
+  },
+  "Maserati India": {
+    "Ghibli": [
+      "Diesel",
+      "S"
+    ],
+    "GranCabrio": [
+      "Sport"
+    ],
+    "GranTurismo": [
+      "Folgore",
+      "Modena",
+      "Trofeo"
+    ],
+    "Levante": [
+      "Diesel",
+      "GTS",
+      "S",
+      "Trofeo"
+    ],
+    "MC20": [
+      "MC20"
+    ],
+    "Quattroporte": [
+      "Diesel",
+      "GTS",
+      "S"
+    ]
+  },
+  "Mercedes-Benz India": {
+    "A-Class": [
+      "A200",
+      "A200 CDI",
+      "A200 Limousine"
+    ],
+    "AMG GT": [
+      "GT",
+      "GT 63",
+      "GT C",
+      "GT R"
+    ],
+    "C-Class": [
+      "C180",
+      "C200",
+      "C220 CDI",
+      "C220d",
+      "C250 CDI",
+      "C270 CDI",
+      "C300",
+      "C350"
+    ],
+    "CLA": [
+      "CLA200",
+      "CLA200 CDI"
+    ],
+    "E-Class": [
+      "E200",
+      "E220 CDI",
+      "E220d",
+      "E250 CDI",
+      "E270 CDI",
+      "E280",
+      "E300",
+      "E350",
+      "E350d"
+    ],
+    "EQB": [
+      "EQB 300"
+    ],
+    "EQE": [
+      "EQE 350+"
+    ],
+    "EQS": [
+      "EQS 580"
+    ],
+    "G-Class (G-Wagon)": [
+      "G350d",
+      "G63 AMG"
+    ],
+    "GLA": [
+      "GLA200",
+      "GLA200d",
+      "GLA220d"
+    ],
+    "GLB": [
+      "GLB200",
+      "GLB220d"
+    ],
+    "GLC": [
+      "GLC220d",
+      "GLC300"
+    ],
+    "GLE": [
+      "GLE250d",
+      "GLE300d",
+      "GLE350d",
+      "GLE450"
+    ],
+    "GLS": [
+      "GLS350d",
+      "GLS400d",
+      "GLS450"
+    ],
+    "S-Class": [
+      "S320",
+      "S350",
+      "S350 CDI",
+      "S350d",
+      "S400",
+      "S400 Hybrid",
+      "S450",
+      "S500"
+    ],
+    "V-Class": [
+      "V220d"
+    ]
+  },
+  "Porsche India": {
+    "911": [
+      "Carrera",
+      "Carrera S",
+      "GT3",
+      "Turbo",
+      "Turbo S"
+    ],
+    "Boxster": [
+      "Base",
+      "GTS 4.0",
+      "S"
+    ],
+    "Cayenne": [
+      "Diesel",
+      "E-Hybrid",
+      "S",
+      "Turbo"
+    ],
+    "Cayman": [
+      "Base",
+      "GTS",
+      "GTS 4.0",
+      "S"
+    ],
+    "Macan": [
+      "4 (Electric)",
+      "GTS",
+      "S",
+      "Turbo"
+    ],
+    "Panamera": [
+      "4",
+      "4 E-Hybrid",
+      "4S",
+      "Diesel",
+      "S",
+      "Turbo"
+    ],
+    "Taycan": [
+      "4",
+      "4S",
+      "Turbo",
+      "Turbo S"
+    ]
+  },
+  "Rolls-Royce Motor Cars India": {
+    "Cullinan": [
+      "Black Badge",
+      "Standard"
+    ],
+    "Ghost": [
+      "Black Badge",
+      "Extended Wheelbase",
+      "Standard"
+    ],
+    "Phantom": [
+      "Extended Wheelbase",
+      "Standard"
+    ],
+    "Spectre": [
+      "Standard"
+    ],
+    "Wraith": [
+      "Black Badge",
+      "Standard"
+    ]
+  },
+  "Tesla India": {
+    "Model Y": [
+      "Premium Long Range RWD",
+      "Premium RWD"
+    ]
+  },
+  "Volvo Cars India": {
+    "C40 Recharge": [
+      "Ultimate"
+    ],
+    "S60": [
+      "B5)",
+      "D3",
+      "D4",
+      "R-Design (B4"
+    ],
+    "S90": [
+      "B5)",
+      "D5",
+      "Inscription (D4",
+      "Momentum"
+    ],
+    "XC40": [
+      "D4",
+      "Inscription",
+      "Momentum",
+      "R-Design (D3",
+      "T4",
+      "T5)",
+      "Ultimate"
+    ],
+    "XC60": [
+      "B5",
+      "B6)",
+      "D3",
+      "D4",
+      "D5",
+      "Inscription",
+      "Momentum",
+      "R-Design (D4",
+      "T6"
+    ],
+    "XC90": [
+      "D5",
+      "Excellence (D5",
+      "Inscription",
+      "Momentum",
+      "T6",
+      "T8)"
+    ]
+  }
+};
+export const NON_PREMIUM_DATABASE: Record<string, Record<string, string[]>> = {
+  "Citroën India": {
+    "Basalt": [
+      "Max",
+      "Plus"
+    ],
+    "C3": [
+      "Feel",
+      "Live",
+      "Shine",
+      "You!"
+    ],
+    "C3 Aircross": [
+      "Max",
+      "Plus",
+      "You"
+    ],
+    "C5 Aircross": [
+      "Feel",
+      "Shine"
+    ],
+    "eC3": [
+      "Feel",
+      "Live",
+      "Shine"
+    ]
+  },
+  "Daewoo Motors India": {
+    "Cielo": [
+      "GLE",
+      "GTE"
+    ],
+    "Leganza": [
+      "SE"
+    ],
+    "Matiz": [
+      "S",
+      "SE"
+    ],
+    "Nexia": [
+      "GL",
+      "GLE"
+    ],
+    "Nubira": [
+      "GLE",
+      "SE"
+    ]
+  },
+  "Datsun India": {
+    "Datsun Go": [
+      "A",
+      "D",
+      "T"
+    ],
+    "Datsun Go+": [
+      "A",
+      "D",
+      "T"
+    ],
+    "Datsun Redi-GO": [
+      "A",
+      "D",
+      "S",
+      "T",
+      "T(O)"
+    ]
+  },
+  "Fiat India Automobiles": {
+    "Avventura": [
+      "Active",
+      "Dynamic",
+      "Emotion"
+    ],
+    "Grande Punto / Punto Evo": [
+      "Active",
+      "Dynamic",
+      "Emotion",
+      "Pure"
+    ],
+    "Linea": [
+      "125S",
+      "Active",
+      "Dynamic",
+      "Emotion"
+    ],
+    "Palio": [
+      "EL",
+      "NV",
+      "Petra",
+      "Sport",
+      "Stile"
+    ],
+    "Palio Stile": [
+      "Active",
+      "Sport"
+    ],
+    "Punto": [
+      "Active",
+      "Dynamic",
+      "Emotion",
+      "Pure"
+    ],
+    "Siena": [
+      "EL",
+      "HL"
+    ],
+    "Uno": [
+      "60S",
+      "S"
+    ],
+    "Urban Cross": [
+      "Urban Cross"
+    ]
+  },
+  "Force Motors Cars": {
+    "Gurkha": [
+      "3-door",
+      "5-door",
+      "Xpedition",
+      "Xplorer",
+      "Xtreme"
+    ],
+    "Trax Cruiser": [
+      "10 STR",
+      "12 STR",
+      "9 STR"
+    ]
+  },
+  "Ford India": {
+    "Aspire": [
+      "Ambiente",
+      "Titanium",
+      "Titanium+",
+      "Trend"
+    ],
+    "EcoSport": [
+      "Ambiente",
+      "S",
+      "Titanium",
+      "Titanium+",
+      "Trend"
+    ],
+    "Endeavour": [
+      "Base",
+      "Hurricane",
+      "LE",
+      "Sport",
+      "Titanium",
+      "Titanium+",
+      "XLT"
+    ],
+    "Escort": [
+      "GLX",
+      "LX"
+    ],
+    "Fiesta": [
+      "Ambiente",
+      "EXi",
+      "LXi",
+      "Titanium",
+      "Trend",
+      "ZXi"
+    ],
+    "Fiesta Classic": [
+      "EXi",
+      "ZXi"
+    ],
+    "Figo": [
+      "Ambiente",
+      "EXi",
+      "Titanium",
+      "Trend",
+      "ZXi"
+    ],
+    "Freestyle": [
+      "Ambiente",
+      "Titanium",
+      "Titanium+",
+      "Trend"
+    ],
+    "Fusion": [
+      "1.4",
+      "1.6"
+    ],
+    "Ikon": [
+      "CLXi",
+      "EXi",
+      "Flair",
+      "GLXi",
+      "Ghia"
+    ],
+    "Mondeo": [
+      "Ghia",
+      "LX"
+    ],
+    "Mustang": [
+      "GT"
+    ]
+  },
+  "General Motors India (Chevrolet)": {
+    "Chevrolet Aveo": [
+      "LS",
+      "LT",
+      "LTZ"
+    ],
+    "Chevrolet Beat": [
+      "LS",
+      "LT",
+      "LTZ"
+    ],
+    "Chevrolet Captiva": [
+      "LT",
+      "LTZ"
+    ],
+    "Chevrolet Cruze": [
+      "LT",
+      "LTZ"
+    ],
+    "Chevrolet Enjoy": [
+      "LS",
+      "LT",
+      "LTZ"
+    ],
+    "Chevrolet Optra": [
+      "LS",
+      "LT",
+      "LTZ",
+      "LTZ SRV"
+    ],
+    "Chevrolet Sail": [
+      "Base",
+      "LS",
+      "LT",
+      "LTZ"
+    ],
+    "Chevrolet Spark": [
+      "LS",
+      "LT",
+      "LTZ"
+    ],
+    "Chevrolet Trailblazer": [
+      "LTZ"
+    ],
+    "Opel Astra": [
+      "Elegance",
+      "GL",
+      "GLS"
+    ],
+    "Opel Corsa": [
+      "GLS",
+      "Joy",
+      "Sail"
+    ],
+    "Opel Vectra": [
+      "CD",
+      "Elegance"
+    ],
+    "Tavera": [
+      "GX",
+      "LS",
+      "Neo",
+      "Neo 3"
+    ]
+  },
+  "Hindustan Motors": {
+    "Ambassador": [
+      "Avigo",
+      "DSZ",
+      "Grand",
+      "Nova"
+    ],
+    "Contessa": [
+      "Classic",
+      "Classic DSZ",
+      "DeLuxe",
+      "Standard"
+    ]
+  },
+  "Honda Cars India": {
+    "Accord": [
+      "AT",
+      "LXi",
+      "MT",
+      "VTi-L",
+      "VXi"
+    ],
+    "Amaze": [
+      "E",
+      "S",
+      "SV",
+      "SX",
+      "V",
+      "VX",
+      "ZX"
+    ],
+    "BR-V": [
+      "E",
+      "S",
+      "V",
+      "VX"
+    ],
+    "Brio": [
+      "E",
+      "S",
+      "V",
+      "VX"
+    ],
+    "CR-V": [
+      "2WD",
+      "4WD",
+      "Single Variant"
+    ],
+    "City": [
+      "E",
+      "EX",
+      "EXi",
+      "LX",
+      "S",
+      "SV",
+      "V",
+      "VTEC",
+      "VX",
+      "VX(O)",
+      "ZX"
+    ],
+    "Civic": [
+      "LXi",
+      "V",
+      "VX",
+      "VXi",
+      "ZX",
+      "ZXi"
+    ],
+    "Elevate": [
+      "SV",
+      "V",
+      "VX",
+      "ZX"
+    ],
+    "Jazz": [
+      "S",
+      "SV",
+      "V",
+      "VX"
+    ],
+    "Mobilio": [
+      "E",
+      "RS",
+      "S",
+      "V"
+    ],
+    "WR-V": [
+      "S",
+      "SV",
+      "V",
+      "VX"
+    ]
+  },
+  "Hyundai": {
+    "Accent": [
+      "CRDi",
+      "GLE",
+      "GLS"
+    ],
+    "Alcazar": [
+      "Platinum",
+      "Prestige",
+      "Signature",
+      "Signature(O)"
+    ],
+    "Aura": [
+      "E",
+      "S",
+      "SX",
+      "SX+"
+    ],
+    "Creta": [
+      "E",
+      "EX",
+      "Executive",
+      "S",
+      "SX",
+      "SX(O)",
+      "SX(O) Knight",
+      "Smart"
+    ],
+    "Elantra": [
+      "1.6 SX",
+      "1.8 SX",
+      "CRDi",
+      "GLS",
+      "S",
+      "SX",
+      "SX(O)"
+    ],
+    "Eon": [
+      "D-Lite",
+      "Era",
+      "Magna",
+      "Sportz"
+    ],
+    "Exter": [
+      "EX",
+      "S",
+      "SX",
+      "SX(O)"
+    ],
+    "Getz": [
+      "GL",
+      "GLS",
+      "GVS",
+      "GVS Prime"
+    ],
+    "IONIQ 5": [
+      "Single Variant (CBU)"
+    ],
+    "IONIQ 6": [
+      "Single Variant (CBU)"
+    ],
+    "Kona Electric": [
+      "Premium",
+      "Premium Dual Tone"
+    ],
+    "Santro": [
+      "AC",
+      "Anniversary",
+      "Asta",
+      "D-Lite",
+      "Era",
+      "GL",
+      "GLS",
+      "GS",
+      "Magna",
+      "Non-AC",
+      "Sportz"
+    ],
+    "Sonata": [
+      "CRDi",
+      "Embera",
+      "GLS",
+      "Transform"
+    ],
+    "Terracan": [
+      "CRDi (Single Variant)"
+    ],
+    "Tucson": [
+      "CRDi",
+      "GL",
+      "GLS",
+      "Platinum",
+      "Signature",
+      "Smart"
+    ],
+    "Venue": [
+      "E",
+      "N Line",
+      "S",
+      "SX",
+      "SX(O)"
+    ],
+    "Verna": [
+      "CX",
+      "E",
+      "EX",
+      "GLE",
+      "S",
+      "SX",
+      "SX(O)"
+    ],
+    "Xcent": [
+      "Base",
+      "E",
+      "S",
+      "SX"
+    ],
+    "i10 / Grand i10": [
+      "Asta",
+      "D-Lite",
+      "Era",
+      "Magna",
+      "Sportz",
+      "Sportz(O)"
+    ],
+    "i20": [
+      "Asta",
+      "Asta(O)",
+      "Era",
+      "Magna",
+      "N6",
+      "N8",
+      "Sportz",
+      "Sportz+"
+    ]
+  },
+  "Isuzu Motors India": {
+    "D-Max V-Cross": [
+      "High",
+      "Standard",
+      "Z",
+      "Z Prestige"
+    ],
+    "MU-7": [
+      "AT Premium",
+      "Base",
+      "Hi Pack"
+    ],
+    "MU-X": [
+      "4x2",
+      "4x4"
+    ]
+  },
+  "Jeep India": {
+    "Compass": [
+      "Limited",
+      "Limited Plus",
+      "Longitude",
+      "Model S",
+      "Sport",
+      "Trailhawk"
+    ],
+    "Grand Cherokee": [
+      "Summit Reserve"
+    ],
+    "Meridian": [
+      "Limited",
+      "Limited (O)",
+      "Longitude",
+      "Overland"
+    ],
+    "Wrangler": [
+      "Unlimited"
+    ]
+  },
+  "Kia India": {
+    "Carens": [
+      "Luxury",
+      "Luxury+",
+      "Premium",
+      "Prestige",
+      "Prestige+"
+    ],
+    "Carnival": [
+      "Limousine",
+      "Premium",
+      "Prestige"
+    ],
+    "EV6": [
+      "GT Line (CBU)"
+    ],
+    "EV9": [
+      "GT Line (CBU)"
+    ],
+    "Seltos": [
+      "GTX+",
+      "HTE",
+      "HTK",
+      "HTK+",
+      "HTX",
+      "HTX+",
+      "X-Line"
+    ],
+    "Sonet": [
+      "GTX+",
+      "HTE",
+      "HTK",
+      "HTK+",
+      "HTX",
+      "HTX+",
+      "X-Line"
+    ],
+    "Syros": [
+      "HTE",
+      "HTK",
+      "HTK+",
+      "HTX",
+      "HTX+",
+      "X-Line"
+    ]
+  },
+  "Lamborghini India": {
+    "Aventador": [
+      "LP 700-4",
+      "S",
+      "SVJ"
+    ],
+    "Gallardo": [
+      "LP 550-2",
+      "LP 560-4"
+    ],
+    "Huracan": [
+      "EVO",
+      "EVO RWD",
+      "LP 610-4",
+      "STO"
+    ],
+    "Revuelto": [
+      "LP 1015-4"
+    ],
+    "Urus": [
+      "Performante",
+      "SE",
+      "Urus"
+    ]
+  },
+  "MG Motor India": {
+    "Astor": [
+      "Sharp",
+      "Sharp Pro",
+      "Smart",
+      "Style",
+      "Super"
+    ],
+    "Comet EV": [
+      "Pace",
+      "Play",
+      "Plush"
+    ],
+    "Gloster": [
+      "4WD)",
+      "Blackstorm",
+      "Savvy",
+      "Savvy (2WD",
+      "Sharp"
+    ],
+    "Hector": [
+      "Blackstorm Edition",
+      "Savvy",
+      "Select",
+      "Sharp",
+      "Sharp Pro",
+      "Smart",
+      "Style",
+      "Super"
+    ],
+    "Hector Plus": [
+      "Excite",
+      "Savvy Pro",
+      "Select",
+      "Sharp",
+      "Sharp Pro",
+      "Smart",
+      "Style",
+      "Super"
+    ],
+    "Windsor EV": [
+      "Essence Pro",
+      "Excite",
+      "Exclusive"
+    ],
+    "ZS EV": [
+      "Essence",
+      "Excite",
+      "Exclusive"
+    ]
+  },
+  "Mahindra & Mahindra": {
+    "3XO": [
+      "AX5",
+      "AX7",
+      "MX1",
+      "MX2",
+      "MX3"
+    ],
+    "Alturas G4": [
+      "4X2",
+      "4X4"
+    ],
+    "Armada (old)": [
+      "DX",
+      "Grand Armada",
+      "Std"
+    ],
+    "BE 6": [
+      "Pack One",
+      "Pack Three",
+      "Pack Two"
+    ],
+    "Bolero": [
+      "DI",
+      "LX",
+      "N10",
+      "N4",
+      "N8",
+      "SLE",
+      "SLX",
+      "ZLX"
+    ],
+    "KUV100": [
+      "K2",
+      "K2+",
+      "K4",
+      "K4+",
+      "K6",
+      "K6+",
+      "K8",
+      "K8+"
+    ],
+    "Marazzo": [
+      "M2",
+      "M4",
+      "M6",
+      "M8"
+    ],
+    "NuvoSport": [
+      "N4",
+      "N6",
+      "N8"
+    ],
+    "Quanto": [
+      "C2",
+      "C4",
+      "C6",
+      "C8"
+    ],
+    "Scorpio": [
+      "EX",
+      "LX",
+      "S10",
+      "S11",
+      "S3",
+      "S4",
+      "S5",
+      "S6",
+      "S7",
+      "S9",
+      "VLX",
+      "Z2",
+      "Z4",
+      "Z6",
+      "Z8",
+      "Z8L"
+    ],
+    "TUV300": [
+      "T10",
+      "T4",
+      "T6",
+      "T8"
+    ],
+    "Thar": [
+      "AX",
+      "AX Opt",
+      "CRDe",
+      "DI",
+      "LX"
+    ],
+    "Verito": [
+      "D2",
+      "D4",
+      "D6"
+    ],
+    "XEV 9e": [
+      "Pack One",
+      "Pack Three",
+      "Pack Two"
+    ],
+    "XUV300": [
+      "W2",
+      "W4",
+      "W6",
+      "W8"
+    ],
+    "XUV500": [
+      "W11",
+      "W4",
+      "W5",
+      "W6",
+      "W7",
+      "W8",
+      "W9"
+    ],
+    "XUV700": [
+      "AX3",
+      "AX5",
+      "AX7",
+      "AX7L",
+      "MX"
+    ],
+    "Xylo": [
+      "E4",
+      "E6",
+      "E8",
+      "E9"
+    ],
+    "e2o / e2o Plus": [
+      "P4",
+      "P6",
+      "P8",
+      "T0",
+      "T2",
+      "T4"
+    ]
+  },
+  "Maruti Suzuki": {
+    "A-Star": [
+      "LXi",
+      "VXi",
+      "ZXi"
+    ],
+    "Alto": [
+      "LX",
+      "LXi",
+      "Std",
+      "VXi",
+      "VXi+"
+    ],
+    "Baleno (Hatch)": [
+      "Alpha",
+      "Delta",
+      "Sigma",
+      "Zeta"
+    ],
+    "Baleno (Sedan)": [
+      "LX",
+      "VX",
+      "VXi"
+    ],
+    "Celerio": [
+      "LXi",
+      "VXi",
+      "ZXi",
+      "ZXi+"
+    ],
+    "Ciaz": [
+      "Alpha",
+      "Delta",
+      "Sigma",
+      "VXi",
+      "ZDi",
+      "ZXi",
+      "Zeta"
+    ],
+    "Eeco": [
+      "5-Str",
+      "7-Str",
+      "7-Str CNG"
+    ],
+    "Ertiga": [
+      "LXi",
+      "VXi",
+      "ZDi",
+      "ZXi",
+      "ZXi+"
+    ],
+    "Esteem": [
+      "AX",
+      "LX",
+      "VX",
+      "VXi"
+    ],
+    "Fronx": [
+      "Alpha",
+      "Delta",
+      "Delta+",
+      "Sigma",
+      "Zeta",
+      "Zeta+"
+    ],
+    "Grand Vitara": [
+      "Alpha",
+      "Delta",
+      "Sigma",
+      "Zeta"
+    ],
+    "Gypsy": [
+      "4WD Hard Top",
+      "Hard Top",
+      "MG410W",
+      "MG413W — 4WD",
+      "Soft Top"
+    ],
+    "Ignis": [
+      "Alpha",
+      "Delta",
+      "Sigma",
+      "Zeta"
+    ],
+    "Invicto": [
+      "Alpha+",
+      "Zeta+"
+    ],
+    "Jimny": [
+      "Alpha",
+      "Zeta"
+    ],
+    "Kizashi": [
+      "Single Variant (CBU import)"
+    ],
+    "Maruti 1000": [
+      "DX",
+      "Std"
+    ],
+    "Maruti 800": [
+      "AC — Petrol",
+      "DX",
+      "DX — Petrol",
+      "Std"
+    ],
+    "Omni": [
+      "Cargo — Petrol MPFI",
+      "Std",
+      "Std — Petrol",
+      "Std — Petrol+CNG"
+    ],
+    "Ritz": [
+      "LXi",
+      "VXi",
+      "ZXi"
+    ],
+    "S-Cross": [
+      "Alpha",
+      "Delta",
+      "Sigma",
+      "Zeta"
+    ],
+    "S-Presso": [
+      "LXi",
+      "Std",
+      "VXi",
+      "VXi+"
+    ],
+    "SX4": [
+      "VDi",
+      "VXi",
+      "ZDi",
+      "ZXi"
+    ],
+    "Swift": [
+      "LXi",
+      "VXi",
+      "ZDi",
+      "ZXi",
+      "ZXi+"
+    ],
+    "Swift Dzire": [
+      "LDi",
+      "LXi",
+      "VDi",
+      "VXi",
+      "ZDi",
+      "ZXi",
+      "ZXi+"
+    ],
+    "Versa": [
+      "DX",
+      "DX2"
+    ],
+    "Vitara Brezza / Brezza": [
+      "LDi",
+      "LXi",
+      "VDi",
+      "VXi",
+      "ZDi",
+      "ZDi+",
+      "ZXi",
+      "ZXi+"
+    ],
+    "Wagon R": [
+      "LX",
+      "LXi",
+      "LXi Duo",
+      "VXi",
+      "VXi Opt",
+      "ZXi"
+    ],
+    "XL6": [
+      "Alpha",
+      "Alpha+",
+      "Zeta",
+      "Zeta+"
+    ],
+    "Zen": [
+      "DX",
+      "LX",
+      "LXi",
+      "LXi(O)",
+      "Std",
+      "VXi"
+    ],
+    "Zen Diesel": [
+      "Zen D"
+    ]
+  },
+  "Mitsubishi Motors India": {
+    "Cedia": [
+      "Elegance",
+      "Select",
+      "Spirit",
+      "Sports"
+    ],
+    "Lancer": [
+      "GLXi",
+      "Invex",
+      "SFXi"
+    ],
+    "Outlander": [
+      "Single Variant"
+    ],
+    "Pajero": [
+      "GLX",
+      "SFX"
+    ],
+    "Pajero Sport": [
+      "2.5 AT",
+      "2.5 MT",
+      "Select Plus"
+    ]
+  },
+  "Nissan Motor India": {
+    "Evalia": [
+      "XE",
+      "XL"
+    ],
+    "GT-R": [
+      "Premium Edition"
+    ],
+    "Kicks": [
+      "XE",
+      "XL",
+      "XV",
+      "XV Premium"
+    ],
+    "Magnite": [
+      "XE",
+      "XL",
+      "XV",
+      "XV Premium"
+    ],
+    "Micra": [
+      "XE",
+      "XL",
+      "XV",
+      "XV Premium"
+    ],
+    "Sunny": [
+      "XL",
+      "XV"
+    ],
+    "Teana": [
+      "230JK",
+      "250XV"
+    ],
+    "Terrano": [
+      "XE",
+      "XL",
+      "XV"
+    ],
+    "X-Trail": [
+      "XV (CBU)"
+    ]
+  },
+  "Premier Automobiles Limited": {
+    "Premier 118NE": [
+      "Deluxe",
+      "Standard"
+    ],
+    "Premier Padmini": [
+      "CS",
+      "Deluxe",
+      "NE",
+      "Standard"
+    ]
+  },
+  "Renault India": {
+    "Captur": [
+      "Platine",
+      "RxE",
+      "RxL"
+    ],
+    "Duster": [
+      "RXE",
+      "RXS",
+      "RXT",
+      "RXZ",
+      "RxE",
+      "RxL",
+      "RxS",
+      "RxZ"
+    ],
+    "Fluence": [
+      "E2",
+      "E4"
+    ],
+    "Kiger": [
+      "RxE",
+      "RxL",
+      "RxT",
+      "RxZ"
+    ],
+    "Koleos": [
+      "E4",
+      "Privilege"
+    ],
+    "Kwid": [
+      "Climber",
+      "RxE",
+      "RxL",
+      "RxT"
+    ],
+    "Lodgy": [
+      "RxE",
+      "RxL",
+      "RxZ"
+    ],
+    "Pulse": [
+      "RxE",
+      "RxL",
+      "RxZ"
+    ],
+    "Scala": [
+      "RxE",
+      "RxL",
+      "RxZ"
+    ],
+    "Triber": [
+      "RxE",
+      "RxL",
+      "RxT",
+      "RxZ"
+    ]
+  },
+  "Tata Motors": {
+    "Altroz": [
+      "Racer",
+      "XE",
+      "XM",
+      "XT",
+      "XZ",
+      "XZ+"
+    ],
+    "Aria": [
+      "Pleasure",
+      "Prestige",
+      "Pride"
+    ],
+    "Bolt": [
+      "XE",
+      "XM",
+      "XT"
+    ],
+    "Curvv": [
+      "Accomplished",
+      "Creative",
+      "Empowered"
+    ],
+    "Estate": [
+      "DX",
+      "Std"
+    ],
+    "Harrier": [
+      "Adventure",
+      "Fearless",
+      "Pure",
+      "Smart",
+      "XE",
+      "XM",
+      "XT",
+      "XZ",
+      "XZ+"
+    ],
+    "Hexa": [
+      "XE",
+      "XM",
+      "XT",
+      "XTA"
+    ],
+    "Indica": [
+      "DL",
+      "DLE",
+      "DLG",
+      "DLS",
+      "DLX",
+      "LS",
+      "LX",
+      "LX CNG",
+      "VX",
+      "Xeta"
+    ],
+    "Indigo": [
+      "Aqua",
+      "Aura",
+      "DLE",
+      "DLX",
+      "Elan",
+      "GLX",
+      "LS",
+      "LX"
+    ],
+    "Nano": [
+      "CX",
+      "LX",
+      "Std",
+      "XE",
+      "XT",
+      "XTA"
+    ],
+    "Nexon": [
+      "Creative",
+      "Fearless",
+      "Pure",
+      "Smart",
+      "XE",
+      "XM",
+      "XT",
+      "XZ",
+      "XZ+"
+    ],
+    "Nexon EV": [
+      "Creative",
+      "Empowered",
+      "Fearless",
+      "XM",
+      "XZ+",
+      "XZ+ Lux"
+    ],
+    "Punch": [
+      "Accomplished",
+      "Adventure",
+      "Creative",
+      "Empowered",
+      "Pure",
+      "Smart"
+    ],
+    "Safari": [
+      "DICOR 2.2",
+      "Dark Edition",
+      "EX",
+      "LX",
+      "VX",
+      "XE",
+      "XM",
+      "XT",
+      "XZ",
+      "XZ+"
+    ],
+    "Safari Storme": [
+      "EX",
+      "LX",
+      "VX"
+    ],
+    "Sierra": [
+      "Std",
+      "Turbo"
+    ],
+    "Sumo": [
+      "CX",
+      "DX",
+      "Deluxe",
+      "EX",
+      "GX",
+      "Std"
+    ],
+    "Tiago": [
+      "NRG",
+      "XE",
+      "XM",
+      "XT",
+      "XZ",
+      "XZ+"
+    ],
+    "Tigor": [
+      "XE",
+      "XM",
+      "XT",
+      "XZ",
+      "XZ+"
+    ],
+    "Zest": [
+      "XE",
+      "XM",
+      "XT"
+    ]
+  },
+  "Toyota Kirloskar Motor": {
+    "Camry": [
+      "M4",
+      "Single Variant",
+      "W4"
+    ],
+    "Corolla": [
+      "G",
+      "GL",
+      "H1",
+      "H2",
+      "J",
+      "VL"
+    ],
+    "Corolla Altis": [
+      "G",
+      "GL",
+      "J",
+      "VL"
+    ],
+    "Etios": [
+      "G",
+      "GD",
+      "J",
+      "V",
+      "VD",
+      "VX"
+    ],
+    "Fortuner": [
+      "4x2",
+      "4x4",
+      "GR-Sport",
+      "Legender"
+    ],
+    "Glanza": [
+      "E",
+      "G",
+      "S",
+      "V"
+    ],
+    "Hilux": [
+      "High",
+      "Std"
+    ],
+    "Hyryder": [
+      "E",
+      "G",
+      "S",
+      "V"
+    ],
+    "Innova": [
+      "E",
+      "G",
+      "GX",
+      "V",
+      "VX",
+      "ZX",
+      "ZX(O)"
+    ],
+    "Land Cruiser": [
+      "GR Sport",
+      "VX",
+      "ZX"
+    ],
+    "Land Cruiser Prado": [
+      "VX",
+      "VX-L"
+    ],
+    "Prius": [
+      "Z4"
+    ],
+    "Qualis": [
+      "FS",
+      "GS",
+      "RS"
+    ],
+    "Rumion": [
+      "G",
+      "S",
+      "V"
+    ],
+    "Urban Cruiser": [
+      "High",
+      "Mid",
+      "Premium"
+    ],
+    "Vellfire": [
+      "Executive Lounge"
+    ],
+    "Yaris": [
+      "G",
+      "J",
+      "V",
+      "VX"
+    ]
+  },
+  "VinFast India": {
+    "VF 6": [
+      "Earth",
+      "Wind",
+      "Wind Infinity"
+    ],
+    "VF 7": [
+      "Earth",
+      "Sky AWD",
+      "Sky Infinity AWD",
+      "Wind",
+      "Wind Infinity"
+    ]
+  },
+  "Volkswagen India": {
+    "Ameo": [
+      "Comfortline",
+      "Highline",
+      "Trendline"
+    ],
+    "Beetle": [
+      "Single Variant"
+    ],
+    "Jetta": [
+      "Comfortline",
+      "Highline",
+      "Trendline"
+    ],
+    "Passat": [
+      "Comfortline",
+      "Highline"
+    ],
+    "Polo": [
+      "Comfortline",
+      "GT TDI",
+      "GT TSI",
+      "Highline",
+      "Trendline"
+    ],
+    "T-Roc": [
+      "Single Variant"
+    ],
+    "Taigun": [
+      "Comfortline",
+      "GT",
+      "GT Plus",
+      "Highline",
+      "Trendline"
+    ],
+    "Tiguan": [
+      "Comfortline",
+      "Elegance",
+      "Highline"
+    ],
+    "Touareg": [
+      "Comfortline",
+      "Highline"
+    ],
+    "Vento": [
+      "Comfortline",
+      "Highline",
+      "Trendline"
+    ],
+    "Virtus": [
+      "Comfortline",
+      "GT",
+      "GT Plus",
+      "Highline",
+      "Trendline"
+    ]
+  },
+  "Škoda Auto India": {
+    "Fabia": [
+      "Active",
+      "Ambiente",
+      "Classic",
+      "Elegance"
+    ],
+    "Karoq": [
+      "Style"
+    ],
+    "Kodiaq": [
+      "L&K",
+      "Sportline",
+      "Style"
+    ],
+    "Kushaq": [
+      "Active",
+      "Ambition",
+      "Monte Carlo",
+      "Style"
+    ],
+    "Laura": [
+      "Ambiente",
+      "Elegance",
+      "L&K"
+    ],
+    "Octavia": [
+      "Active",
+      "Ambiente",
+      "Ambition",
+      "Elegance",
+      "L&K",
+      "LK",
+      "RS",
+      "Style"
+    ],
+    "Rapid": [
+      "Active",
+      "Ambition",
+      "Elegance",
+      "Rider",
+      "Style"
+    ],
+    "Slavia": [
+      "Active",
+      "Ambition",
+      "Style"
+    ],
+    "Superb": [
+      "Ambition",
+      "Elegance",
+      "L&K",
+      "Style"
+    ],
+    "Yeti": [
+      "Ambiente",
+      "Elegance"
+    ]
+  }
 };
 
-const BRAND_MAPPING: Record<string, string> = {
-  Tata: "Tata Motors",
-  Mahindra: "Mahindra & Mahindra",
-  Kia: "Kia India",
-  Toyota: "Toyota Kirloskar Motor",
-  Honda: "Honda Cars India",
-  MG: "MG Motor India",
-  Skoda: "Škoda Auto India",
-  Volkswagen: "Volkswagen India",
-  BMW: "BMW India",
-  Audi: "Audi India",
-  Volvo: "Volvo Cars India",
-  Nissan: "Nissan Motor India",
-  Renault: "Renault India",
-};
-
-const REVERSE_BRAND_MAPPING: Record<string, string> = {
-  "Tata Motors": "Tata",
-  "Mahindra & Mahindra": "Mahindra",
-  "Kia India": "Kia",
-  "Toyota Kirloskar Motor": "Toyota",
-  "Honda Cars India": "Honda",
-  "MG Motor India": "MG",
-  "Škoda Auto India": "Skoda",
-  "Volkswagen India": "Volkswagen",
-  "BMW India": "BMW",
-  "Audi India": "Audi",
-  "Volvo Cars India": "Volvo",
-  "Nissan Motor India": "Nissan",
-  "Renault India": "Renault",
-};
-
-export const CAR_BRANDS: string[] = Object.keys(CAR_DATABASE)
-  .map((b) => REVERSE_BRAND_MAPPING[b] || b)
-  .sort();
-
-export function getModels(brand: string): string[] {
-  const dbBrand = BRAND_MAPPING[brand] || brand;
-  return Object.keys(CAR_DATABASE[dbBrand] || {}).sort();
+export function getCarBrands(type: 'MASTER' | 'PREMIUM' | 'NON_PREMIUM' = 'MASTER'): string[] {
+  if (type === 'PREMIUM') return Object.keys(PREMIUM_DATABASE).sort();
+  if (type === 'NON_PREMIUM') return Object.keys(NON_PREMIUM_DATABASE).sort();
+  return Object.keys(MASTER_DATABASE).sort();
 }
 
-export function getVariants(brand: string, model: string): string[] {
-  const dbBrand = BRAND_MAPPING[brand] || brand;
-  return (CAR_DATABASE[dbBrand] || {})[model] || [];
+export function getModels(brand: string, type: 'MASTER' | 'PREMIUM' | 'NON_PREMIUM' = 'MASTER'): string[] {
+  if (!brand) return [];
+  if (type === 'PREMIUM') return Object.keys(PREMIUM_DATABASE[brand] || {}).sort();
+  if (type === 'NON_PREMIUM') return Object.keys(NON_PREMIUM_DATABASE[brand] || {}).sort();
+  return Object.keys(MASTER_DATABASE[brand] || {}).sort();
 }
+
+export function getVariants(brand: string, model: string, type: 'MASTER' | 'PREMIUM' | 'NON_PREMIUM' = 'MASTER'): string[] {
+  if (!brand || !model) return [];
+  if (type === 'PREMIUM') return (PREMIUM_DATABASE[brand] || {})[model] || [];
+  if (type === 'NON_PREMIUM') return (NON_PREMIUM_DATABASE[brand] || {})[model] || [];
+  return (MASTER_DATABASE[brand] || {})[model] || [];
+}
+
+export const CAR_BRANDS = getCarBrands('MASTER');

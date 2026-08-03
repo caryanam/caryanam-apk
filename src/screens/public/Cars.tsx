@@ -495,7 +495,7 @@ export default function Cars() {
 
                 {/* City */}
                 <Select
-                  label="City"
+                  label="Location"
                   value={city}
                   onValueChange={(v) => setCity(v === "all" ? "" : v)}
                   options={[
@@ -504,7 +504,7 @@ export default function Cars() {
                     { value: "pune", label: "Pune" },
                     ...CITIES_DYNAMIC.map((c) => ({ value: c, label: c })),
                   ]}
-                  placeholder="Select City"
+                  placeholder="Select Location"
                 />
 
                 {/* Fuel Type */}

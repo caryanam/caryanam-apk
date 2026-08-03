@@ -70,7 +70,7 @@ export default function DealerVehicleForm() {
   const [registrationYear, setRegistrationYear] = useState(new Date().getFullYear().toString());
   const [kilometerDriven, setKilometerDriven] = useState("");
   const [askingPrice, setAskingPrice] = useState("");
-  const [fuelType, setFuelType] = useState("PETROL");
+  const [fuelType, setFuelType] = useState("");
   const [ownershipDetails, setOwnershipDetails] = useState("1");
   const [vehicleType, setVehicleType] = useState("NON_PREMIUM");
   const [vehicleDescription, setVehicleDescription] = useState("");
@@ -105,7 +105,7 @@ export default function DealerVehicleForm() {
       setRegistrationYear(vehicleDetails.registrationYear?.toString() || "");
       setKilometerDriven(vehicleDetails.kilometerDriven?.toString() || "");
       setAskingPrice(vehicleDetails.askingPrice?.toString() || "");
-      setFuelType((vehicleDetails.fuelType || "PETROL").toUpperCase());
+      setFuelType(vehicleDetails.fuelType ? vehicleDetails.fuelType.toUpperCase() : "");
       setOwnershipDetails(vehicleDetails.ownershipDetails?.toString() || "1");
       setVehicleType(vehicleDetails.vehicleType || "NON_PREMIUM");
       setVehicleDescription(vehicleDetails.vehicleDescription || "");
@@ -342,11 +342,12 @@ export default function DealerVehicleForm() {
       const result = await launchImageLibrary({
         mediaType: "photo",
         quality: 0.8,
+        selectionLimit: 0,
       });
 
       if (result.didCancel || !result.assets || result.assets.length === 0) return;
 
-      const asset = result.assets[0];
+      let addedExtra = 0;
       const newSlots = [...slotImages];
       
       // If replacing an existing image, add its ID to deletedImageIds
@@ -355,13 +356,43 @@ export default function DealerVehicleForm() {
         setDeletedImageIds(prev => [...prev, current.id]);
       }
 
+      let assetIdx = 0;
+      
       newSlots[index] = {
-        uri: asset.uri,
-        type: asset.type,
-        fileName: asset.fileName,
+        uri: result.assets[assetIdx].uri,
+        type: result.assets[assetIdx].type,
+        fileName: result.assets[assetIdx].fileName,
         isExisting: false,
       };
+      assetIdx++;
+
+      for (let i = 0; i < newSlots.length && assetIdx < result.assets.length; i++) {
+        if (newSlots[i] === null) {
+          newSlots[i] = {
+            uri: result.assets[assetIdx].uri,
+            type: result.assets[assetIdx].type,
+            fileName: result.assets[assetIdx].fileName,
+            isExisting: false,
+          };
+          assetIdx++;
+        }
+      }
+
+      while (assetIdx < result.assets.length) {
+        newSlots.push({
+          uri: result.assets[assetIdx].uri,
+          type: result.assets[assetIdx].type,
+          fileName: result.assets[assetIdx].fileName,
+          isExisting: false,
+        });
+        assetIdx++;
+        addedExtra++;
+      }
+
       setSlotImages(newSlots);
+      if (addedExtra > 0) {
+        setExtraSlotsCount(c => c + addedExtra);
+      }
     } catch (err) {
       console.log("Image picker error:", err);
       Alert.alert("Error", "Could not pick image");
@@ -432,8 +463,8 @@ export default function DealerVehicleForm() {
   };
 
   const handleSave = () => {
-    if (!brand || !model || !variant || !city || !registrationYear || !kilometerDriven || !askingPrice || !vehicleDescription) {
-      Alert.alert("Validation Error", "Please fill out all required fields (Brand, Model, Variant, City, Year, KM, Price, Description)");
+    if (!brand || !model || !variant || !city || !fuelType || !registrationYear || !kilometerDriven || !askingPrice || !vehicleDescription) {
+      Alert.alert("Validation Error", "Please fill out all required fields (Brand, Model, Variant, Location, Fuel Type, Year, KM, Price, Description)");
       return;
     }
 
@@ -459,10 +490,7 @@ export default function DealerVehicleForm() {
         Alert.alert("Validation Error", "Please provide all 10 required vehicle photos.");
         return;
       }
-      if (videos.length < 1) {
-        Alert.alert("Validation Error", "Please provide at least 1 walkaround video.");
-        return;
-      }
+
     }
 
     if (isEditing && vehicleId) {
@@ -597,7 +625,7 @@ export default function DealerVehicleForm() {
               </ScrollView>
 
               {/* Videos Section */}
-              <Text style={styles.sectionTitle}>Videos ({videos.length}/1+)</Text>
+              <Text style={styles.sectionTitle}>Videos ({videos.length})</Text>
               <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.imageScroll}>
                 {videos.map((vid, idx) => (
                   <View key={idx} style={styles.imageSlotContainer}>
@@ -663,13 +691,21 @@ export default function DealerVehicleForm() {
             allowCustom={true}
           />
 
-          {/* City */}
-          <Text style={styles.label}>City <Text style={styles.required}>*</Text></Text>
+          <Select
+            label="Fuel Type"
+            value={fuelType}
+            onValueChange={setFuelType}
+            options={FUELS}
+            style={styles.inputMargin}
+          />
+
+          {/* Location */}
+          <Text style={styles.label}>Location <Text style={styles.required}>*</Text></Text>
           <SearchableSelect
             value={city}
             onValueChange={setCity}
             options={areas}
-            placeholder="Select or Type City"
+            placeholder="Select or Type Location"
             allowCustom={true}
           />
 
@@ -703,13 +739,7 @@ export default function DealerVehicleForm() {
             style={styles.inputMargin}
           />
 
-          <Select
-            label="Fuel Type"
-            value={fuelType}
-            onValueChange={setFuelType}
-            options={FUELS}
-            style={styles.inputMargin}
-          />
+
 
           <Select
             label="Ownership"

@@ -23,6 +23,7 @@ import {
   useCustomerVerifyOtp,
   useCustomerResetPassword,
 } from "../../hooks/auth/resetPassword";
+import { useCustomerSendRegistrationOtp, useCustomerVerifyRegistrationOtp } from "../../hooks/auth/register";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
 
@@ -49,6 +50,12 @@ export function AuthModal() {
   const [showCustPassword, setShowCustPassword] = useState(false);
   const [custLoading, setCustLoading] = useState(false);
   const [custError, setCustError] = useState("");
+
+  const { isSending: sendingCustOtp, sendOtp: sendCustOtp } = useCustomerSendRegistrationOtp();
+  const { isVerifying: verifyingCustOtp, verifyOtp: verifyCustOtp } = useCustomerVerifyRegistrationOtp();
+  const [isCustEmailVerified, setIsCustEmailVerified] = useState(false);
+  const [showCustOtpModal, setShowCustOtpModal] = useState(false);
+  const [custOtp, setCustOtp] = useState("");
 
   // Forgot Password State
   const [forgotEmail, setForgotEmail] = useState("");
@@ -122,6 +129,11 @@ export function AuthModal() {
       return;
     }
 
+    if (!isCustEmailVerified) {
+      setCustError("Please verify your email address to proceed.");
+      return;
+    }
+
     setCustLoading(true);
     setCustError("");
     try {
@@ -129,6 +141,7 @@ export function AuthModal() {
       setTab("login"); // Switch back to login after successful registration
       setAuthError("Registration successful! Please sign in.");
       setCustomerForm({ customerName: "", mobile: "", customerCity: "", email: "", password: "" });
+      setIsCustEmailVerified(false);
     } catch (err: any) {
       if (err.fieldErrors) {
         setCustError(Object.values(err.fieldErrors).map(m => `• ${m}`).join("\n"));
@@ -137,6 +150,37 @@ export function AuthModal() {
       }
     } finally {
       setCustLoading(false);
+    }
+  };
+
+  const handleCustSendOtp = async () => {
+    if (!customerForm.email) {
+      setCustError("Please enter an email address");
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(customerForm.email)) {
+      setCustError("Please enter a valid email address");
+      return;
+    }
+    setCustError("");
+    try {
+      await sendCustOtp(customerForm.email);
+      setShowCustOtpModal(true);
+    } catch (err: any) {
+      setCustError(err.message || "Failed to send OTP");
+    }
+  };
+
+  const handleCustVerifyOtp = async () => {
+    if (custOtp.length !== 6) return;
+    setCustError("");
+    try {
+      await verifyCustOtp(customerForm.email, custOtp);
+      setIsCustEmailVerified(true);
+      setShowCustOtpModal(false);
+    } catch (err: any) {
+      setCustError(err.message || "Invalid OTP");
     }
   };
 
@@ -213,6 +257,9 @@ export function AuthModal() {
     });
     setShowCustPassword(false);
     setCustError("");
+    setIsCustEmailVerified(false);
+    setShowCustOtpModal(false);
+    setCustOtp("");
   };
 
   return (
@@ -293,9 +340,10 @@ export function AuthModal() {
                     onChangeText={setAuthPassword}
                     placeholder="Enter your password"
                     secureTextEntry={!showAuthPassword}
+                    inputStyle={{ paddingRight: 40 }}
                   />
                   <TouchableOpacity
-                    style={{ position: "absolute", right: 12, top: 40, padding: 4 }}
+                    style={{ position: "absolute", right: 12, top: 28, padding: 4 }}
                     onPress={() => setShowAuthPassword(!showAuthPassword)}
                   >
                     {showAuthPassword ? (
@@ -339,14 +387,34 @@ export function AuthModal() {
                   placeholder="e.g. Pune"
                 />
 
-                <Input
-                  label="Email Address *"
-                  value={customerForm.email}
-                  onChangeText={(t) => setCustomerForm({ ...customerForm, email: t })}
-                  placeholder="you@example.com"
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                />
+                <View style={{ position: "relative" }}>
+                  <Input
+                    label="Email Address *"
+                    value={customerForm.email}
+                    onChangeText={(t) => {
+                      setCustomerForm({ ...customerForm, email: t });
+                      setIsCustEmailVerified(false);
+                    }}
+                    placeholder="you@example.com"
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    editable={!isCustEmailVerified}
+                    inputStyle={{ paddingRight: 60 }}
+                  />
+                  <View style={{ position: "absolute", right: 12, top: 28, justifyContent: "center", height: 28 }}>
+                    {!isCustEmailVerified ? (
+                      <TouchableOpacity onPress={handleCustSendOtp} disabled={sendingCustOtp || !customerForm.email}>
+                        {sendingCustOtp ? (
+                          <Text style={{ color: "#fb7185", fontWeight: "700", fontSize: 12, textTransform: "uppercase" }}>...</Text>
+                        ) : (
+                          <Text style={{ color: "#fb7185", fontWeight: "700", fontSize: 12, textTransform: "uppercase" }}>Verify</Text>
+                        )}
+                      </TouchableOpacity>
+                    ) : (
+                      <Text style={{ color: "#10b981", fontWeight: "700", fontSize: 12, textTransform: "uppercase" }}>Verified</Text>
+                    )}
+                  </View>
+                </View>
 
                 <View style={{ position: "relative" }}>
                   <Input
@@ -355,9 +423,10 @@ export function AuthModal() {
                     onChangeText={(t) => setCustomerForm({ ...customerForm, password: t })}
                     placeholder="Min. 6 characters"
                     secureTextEntry={!showCustPassword}
+                    inputStyle={{ paddingRight: 40 }}
                   />
                   <TouchableOpacity
-                    style={{ position: "absolute", right: 12, top: 40, padding: 4 }}
+                    style={{ position: "absolute", right: 12, top: 28, padding: 4 }}
                     onPress={() => setShowCustPassword(!showCustPassword)}
                   >
                     {showCustPassword ? (
@@ -434,9 +503,10 @@ export function AuthModal() {
                         onChangeText={setForgotNewPassword}
                         placeholder="Enter new password"
                         secureTextEntry={!showAuthPassword}
+                        inputStyle={{ paddingRight: 40 }}
                       />
                       <TouchableOpacity
-                        style={{ position: "absolute", right: 12, top: 40, padding: 4 }}
+                        style={{ position: "absolute", right: 12, top: 28, padding: 4 }}
                         onPress={() => setShowAuthPassword(!showAuthPassword)}
                       >
                         {showAuthPassword ? (
@@ -498,6 +568,54 @@ export function AuthModal() {
           </ScrollView>
         </SafeAreaView>
       </ImageBackground>
+
+      {/* OTP Verification Overlay */}
+      {showCustOtpModal && (
+        <View style={[StyleSheet.absoluteFill, styles.modalOverlaySecondary, { zIndex: 1000 }]}>
+          <View style={styles.modalContentSecondary}>
+            <Text style={{ textAlign: "center", fontSize: 18, fontWeight: "800", color: "#0f172a", marginBottom: 8 }}>
+              Verify Email
+            </Text>
+            <Text style={{ textAlign: "center", color: "#64748b", fontSize: 13, marginBottom: 20 }}>
+              Enter 6-digit OTP sent to {customerForm.email}
+            </Text>
+            
+            <View style={[styles.inputWrapper, { marginBottom: 24 }]}>
+              <View style={styles.inputNoIconContainer}>
+                <Text style={styles.otpInputHack}>
+                  {custOtp || "------"}
+                </Text>
+                <View style={[StyleSheet.absoluteFill, { backgroundColor: 'transparent' }]}>
+                  <Input
+                    value={custOtp}
+                    onChangeText={setCustOtp}
+                    keyboardType="numeric"
+                    maxLength={6}
+                    placeholder=""
+                    style={styles.hiddenInputText}
+                  />
+                </View>
+              </View>
+            </View>
+
+            <Button
+              title="Confirm OTP"
+              loading={verifyingCustOtp}
+              onPress={handleCustVerifyOtp}
+              style={{ marginTop: 0 }}
+            />
+
+            <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 20, paddingHorizontal: 4 }}>
+              <TouchableOpacity onPress={handleCustSendOtp} disabled={sendingCustOtp}>
+                <Text style={{ color: "#e11d48", fontSize: 12, fontWeight: "700" }}>Resend OTP</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setShowCustOtpModal(false)}>
+                <Text style={{ color: "#64748b", fontSize: 12, fontWeight: "700" }}>Change Email</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      )}
     </Modal>
   );
 }
@@ -581,4 +699,42 @@ const styles = StyleSheet.create({
   tabTextActive: {
     color: "#0f172a",
   },
+  modalOverlaySecondary: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContentSecondary: {
+    backgroundColor: "white",
+    borderRadius: 12,
+    padding: 20,
+    width: "90%",
+  },
+  inputWrapper: {
+    position: "relative",
+    justifyContent: "center",
+  },
+  inputNoIconContainer: {
+    height: 48,
+    backgroundColor: "#f8fafc",
+    borderWidth: 1,
+    borderColor: "#cbd5e1",
+    borderRadius: 12,
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+  },
+  otpInputHack: {
+    textAlign: "center",
+    letterSpacing: 8,
+    fontSize: 20,
+    color: "#0f172a",
+  },
+  hiddenInputText: {
+    opacity: 0,
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+  }
 });

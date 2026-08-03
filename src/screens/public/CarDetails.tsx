@@ -585,7 +585,7 @@ export default function CarDetails() {
                 />
 
                 <Input
-                  label="Your City"
+                  label="Your Location"
                   value={leadCity}
                   onChangeText={setLeadCity}
                   placeholder="e.g. Pune"

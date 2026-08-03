@@ -118,7 +118,7 @@ export default function DealerVehicleDetails() {
           <SpecBox icon={<Gauge size={16} color="#e11d48" />} label="KM Driven" value={formatKM(vehicle.kilometerDriven)} />
           <SpecBox icon={<Calendar size={16} color="#e11d48" />} label="Reg. Year" value={String(vehicle.registrationYear)} />
           <SpecBox icon={<Users size={16} color="#e11d48" />} label="Ownership" value={`${getOrdinal(vehicle.ownershipDetails || 1)} Owner`} />
-          <SpecBox icon={<MapPin size={16} color="#e11d48" />} label="City" value={vehicle.city} />
+          <SpecBox icon={<MapPin size={16} color="#e11d48" />} label="Location" value={vehicle.city} />
           <SpecBox icon={<DollarSign size={16} color="#e11d48" />} label="Finance" value={vehicle.financeAvailability ? "Available" : "Not Available"} />
         </View>
 

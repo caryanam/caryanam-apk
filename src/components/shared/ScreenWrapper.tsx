@@ -37,6 +37,7 @@ import {
   Plus as PlusIcon,
   Gift as GiftIcon,
   Share2 as Share2Icon,
+  AlertCircle as AlertCircleIcon,
 } from "lucide-react-native";
 
 const Home = HomeIcon as any;
@@ -61,6 +62,7 @@ const RefreshCw = RefreshCwIcon as any;
 const Plus = PlusIcon as any;
 const Gift = GiftIcon as any;
 const Facebook = Share2Icon as any;
+const AlertCircle = AlertCircleIcon as any;
 
 import { Modal } from "react-native";
 import Svg, { Path } from "react-native-svg";
@@ -127,6 +129,7 @@ export default function ScreenWrapper({
     { name: "AdminChat", icon: MessageSquare, label: "Chats" },
     { name: "AdminReports", icon: Layers, label: "Reports" },
     { name: "AdminFacebookSummary", icon: Facebook, label: "Facebook" },
+    { name: "AdminWhatsappDashboard", icon: MessageSquare, label: "WhatsApp" },
   ];
 
   const publicTabs = [
@@ -487,6 +490,32 @@ export default function ScreenWrapper({
     <View style={styles.mainContainer}>
       <StatusBar barStyle="light-content" backgroundColor="transparent" translucent={true} />
       {renderHeader()}
+      
+      {layoutType === "dealer" && (
+        <View style={styles.dealerNoticeContainer}>
+          <View style={styles.dealerNoticeTopRow}>
+            <AlertCircle size={20} color="#d97706" style={{ marginTop: 2, marginRight: 8 }} />
+            <View style={styles.dealerNoticeTextCol}>
+              <View style={{ flexDirection: "row", marginBottom: 4 }}>
+                <View style={styles.dealerNoticeBadge}>
+                  <Text style={styles.dealerNoticeBadgeText}>Important Notice</Text>
+                </View>
+              </View>
+              <Text style={styles.dealerNoticeText}>
+                Your account may contain initial placeholder or dummy data. Please update your complete dealership profile (business name, contact info, address & logo) properly so customers do not face any issues when contacting you.
+              </Text>
+            </View>
+          </View>
+          <TouchableOpacity
+            style={styles.dealerNoticeBtn}
+            onPress={() => navigation.navigate("DealerProfile" as any)}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.dealerNoticeBtnText}>Update Profile Now</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
       <ContentContainer
         style={styles.container}
         contentContainerStyle={scrollEnabled ? styles.scrollContent : undefined}
@@ -801,14 +830,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: 16,
-    paddingVertical: 8,
+    paddingVertical: 12,
   },
   drawerLogoutText: {
-    fontSize: 11,
-    fontWeight: "800",
+    marginLeft: 12,
+    fontSize: 13,
+    fontWeight: "700",
     color: "#f43f5e",
-    marginLeft: 8,
-    letterSpacing: 0.5,
   },
   drawerFooterPublic: {
     padding: 16,
@@ -928,5 +956,55 @@ const styles = StyleSheet.create({
     shadowRadius: 12,
     elevation: 8,
     zIndex: 9999,
-  }
+  },
+  dealerNoticeContainer: {
+    backgroundColor: "#fffbeb",
+    borderBottomWidth: 1,
+    borderBottomColor: "#fcd34d",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  dealerNoticeTopRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    marginBottom: 10,
+  },
+  dealerNoticeTextCol: {
+    flex: 1,
+  },
+  dealerNoticeBadge: {
+    backgroundColor: "#fde68a",
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+  },
+  dealerNoticeBadgeText: {
+    fontSize: 10,
+    fontWeight: "800",
+    color: "#78350f",
+    textTransform: "uppercase",
+  },
+  dealerNoticeText: {
+    fontSize: 12,
+    color: "#92400e",
+    lineHeight: 18,
+  },
+  dealerNoticeBtn: {
+    backgroundColor: "#d97706",
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    alignItems: "center",
+    alignSelf: "flex-start",
+    shadowColor: "#d97706",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  dealerNoticeBtnText: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "700",
+  },
 });
