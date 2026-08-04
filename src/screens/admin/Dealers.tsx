@@ -11,8 +11,8 @@ import {
   ActivityIndicator,
 } from "react-native";
 import ScreenWrapper from "../../components/shared/ScreenWrapper";
-import { useAdminDealers, useUpdateDealerStatus } from "../../hooks/admin/useAdminDealers";
-import { Search, Check, MapPin, Phone, Calendar, X, RefreshCw } from "lucide-react-native";
+import { useAdminDealers, useUpdateDealerStatus, useDeleteDealer } from "../../hooks/admin/useAdminDealers";
+import { Search, Check, MapPin, Phone, Calendar, X, RefreshCw, Trash2 } from "lucide-react-native";
 import Skeleton from "../../components/ui/Skeleton";
 
 const SearchIcon = Search as any;
@@ -22,6 +22,7 @@ const PhoneIcon = Phone as any;
 const CalendarIcon = Calendar as any;
 const XIcon = X as any;
 const RefreshCwIcon = RefreshCw as any;
+const Trash2Icon = Trash2 as any;
 
 import { formatDate } from "../../utils/helpers";
 import { useNavigation } from "@react-navigation/native";
@@ -36,6 +37,7 @@ export default function AdminDealers() {
 
   const { data: dealers = [], isLoading, refetch, isFetching } = useAdminDealers();
   const { mutate: updateStatus } = useUpdateDealerStatus();
+  const { mutate: deleteDealer } = useDeleteDealer();
 
   const filtered = dealers.filter(
     (d: any) =>
@@ -71,6 +73,30 @@ export default function AdminDealers() {
                 },
               }
             );
+          },
+        },
+      ]
+    );
+  };
+
+  const handleDelete = (dealerId: number) => {
+    Alert.alert(
+      "Delete Dealer",
+      "Are you sure you want to delete this dealer? This action cannot be undone.",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: () => {
+            deleteDealer(dealerId, {
+              onSuccess: () => {
+                Alert.alert("Success", "Dealer deleted successfully!");
+              },
+              onError: (err: any) => {
+                Alert.alert("Error", err?.response?.data?.message || "Failed to delete dealer");
+              },
+            });
           },
         },
       ]
@@ -217,18 +243,26 @@ export default function AdminDealers() {
                         Owner: {dealer.ownerName}
                       </Text>
                     </View>
-                    <View style={[styles.statusBadge, { 
-                      backgroundColor: statusColor + "15", 
-                      shadowColor: statusColor, 
-                      shadowOffset: { width: 0, height: 2 }, 
-                      shadowOpacity: 0.15, 
-                      shadowRadius: 4, 
-                      elevation: 2 
-                    }]}>
-                      <View style={[styles.statusDot, { backgroundColor: statusColor }]} />
-                      <Text style={[styles.statusBadgeText, { color: statusColor }]}>
-                        {dealer.dealerAccountStatus}
-                      </Text>
+                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                      <View style={[styles.statusBadge, { 
+                        backgroundColor: statusColor + "15", 
+                        shadowColor: statusColor, 
+                        shadowOffset: { width: 0, height: 2 }, 
+                        shadowOpacity: 0.15, 
+                        shadowRadius: 4, 
+                        elevation: 2 
+                      }]}>
+                        <View style={[styles.statusDot, { backgroundColor: statusColor }]} />
+                        <Text style={[styles.statusBadgeText, { color: statusColor }]}>
+                          {dealer.dealerAccountStatus}
+                        </Text>
+                      </View>
+                      <TouchableOpacity 
+                        onPress={() => handleDelete(dealer.id)} 
+                        style={{ marginLeft: 8, padding: 4, backgroundColor: "#fee2e2", borderRadius: 8 }}
+                      >
+                        <Trash2Icon size={16} color="#ef4444" />
+                      </TouchableOpacity>
                     </View>
                   </View>
 
