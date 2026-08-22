@@ -133,9 +133,11 @@ export function VehicleCard({
         <Text style={styles.title} numberOfLines={1}>
           {vehicle.brand} {vehicle.model}
         </Text>
-        <Text style={styles.variant} numberOfLines={1}>
-          {vehicle.variant || "Standard Variant"}
-        </Text>
+        {vehicle.variant ? (
+          <Text style={styles.variant} numberOfLines={1}>
+            {vehicle.variant}
+          </Text>
+        ) : null}
 
         {/* Clean Spec Grid Container */}
         <View style={styles.specsRow}>

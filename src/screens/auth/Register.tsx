@@ -20,7 +20,7 @@ import { useNavigation } from "@react-navigation/native";
 import type { StackNavigationProp } from "@react-navigation/stack";
 import type { RootStackParamList } from "../../navigation/AppNavigator";
 import { useCustomerAuth } from "../../contexts/CustomerAuthContext";
-import { useDealerRegister, ApiError, useSendRegistrationOtp, useVerifyRegistrationOtp } from "../../hooks/auth/register";
+import { useDealerRegister, ApiError, useSendRegistrationOtp, useVerifyRegistrationOtp, useSendWhatsappOtp, useVerifyWhatsappOtp } from "../../hooks/auth/register";
 import {
   User as UserIcon,
   Phone as PhoneIcon,
@@ -77,6 +77,46 @@ export default function Register() {
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [showOtpModal, setShowOtpModal] = useState(false);
   const [otp, setOtp] = useState("");
+
+  const { isSending: isSendingWhatsappOtp, sendWhatsappOtp } = useSendWhatsappOtp();
+  const { isVerifying: isVerifyingWhatsappOtp, verifyWhatsappOtp } = useVerifyWhatsappOtp();
+  const [isWhatsappVerified, setIsWhatsappVerified] = useState(false);
+  const [showWhatsappOtpModal, setShowWhatsappOtpModal] = useState(false);
+  const [whatsappOtp, setWhatsappOtp] = useState("");
+
+  const handleSendWhatsappOtp = async () => {
+    if (!dealerForm.whatsapp) {
+      Alert.alert("Error", "Please enter a WhatsApp number");
+      return;
+    }
+    const mobileRegex = /^[6-9][0-9]{9}$/;
+    if (!mobileRegex.test(dealerForm.whatsapp)) {
+      Alert.alert("Error", "Please enter a valid 10-digit WhatsApp number");
+      return;
+    }
+    try {
+      await sendWhatsappOtp(dealerForm.whatsapp);
+      setShowWhatsappOtpModal(true);
+    } catch (err: any) {
+      if (err instanceof ApiError && err.status === 400) {
+        Alert.alert("Error", err.message || "Failed to send WhatsApp OTP");
+      } else {
+        Alert.alert("Error", "An unexpected error occurred. Please try again.");
+      }
+    }
+  };
+
+  const handleVerifyWhatsappOtp = async () => {
+    if (whatsappOtp.length !== 6) return;
+    try {
+      await verifyWhatsappOtp(dealerForm.whatsapp, whatsappOtp);
+      Alert.alert("Success", "WhatsApp number verified successfully");
+      setIsWhatsappVerified(true);
+      setShowWhatsappOtpModal(false);
+    } catch (err: any) {
+      Alert.alert("Error", err.message || "Invalid OTP");
+    }
+  };
 
   const handleSendOtp = async () => {
     if (!dealerForm.email) {
@@ -145,6 +185,10 @@ export default function Register() {
       }
       if (!isEmailVerified) {
         Alert.alert("Error", "Please verify your email address to proceed.");
+        return;
+      }
+      if (!isWhatsappVerified) {
+        Alert.alert("Error", "Please verify your WhatsApp number to proceed.");
         return;
       }
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -334,15 +378,36 @@ export default function Register() {
                 </View>
                 <View style={styles.inputGroup}>
                   <Text style={styles.label}>WhatsApp Number *</Text>
-                  <TextInput
-                    style={styles.inputNoIcon}
-                    placeholder="9579******"
-                    placeholderTextColor="#64748b"
-                    keyboardType="phone-pad"
-                    maxLength={10}
-                    value={dealerForm.whatsapp}
-                    onChangeText={(t) => handleMobileInput(t, "whatsapp")}
-                  />
+                  <View style={styles.inputWrapper}>
+                    <TextInput
+                      style={[styles.inputNoIcon, { paddingRight: 80 }]}
+                      placeholder="9579******"
+                      placeholderTextColor="#64748b"
+                      keyboardType="phone-pad"
+                      maxLength={10}
+                      value={dealerForm.whatsapp}
+                      editable={!isWhatsappVerified}
+                      onChangeText={(t) => {
+                        handleMobileInput(t, "whatsapp");
+                        setIsWhatsappVerified(false);
+                      }}
+                    />
+                    <View style={{ position: "absolute", right: 12, height: "100%", justifyContent: "center" }}>
+                      {!isWhatsappVerified ? (
+                        <TouchableOpacity onPress={handleSendWhatsappOtp} disabled={isSendingWhatsappOtp || !dealerForm.whatsapp}>
+                          {isSendingWhatsappOtp ? (
+                            <ActivityIndicator size="small" color="#fb7185" />
+                          ) : (
+                            <Text style={{ color: "#fb7185", fontWeight: "800", fontSize: 11, textTransform: "uppercase" }}>Verify</Text>
+                          )}
+                        </TouchableOpacity>
+                      ) : (
+                        <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
+                          <Text style={{ color: "#10b981", fontWeight: "800", fontSize: 11, textTransform: "uppercase" }}>Verified</Text>
+                        </View>
+                      )}
+                    </View>
+                  </View>
                 </View>
                 <View style={styles.inputGroup}>
                   <Text style={styles.label}>Email Address *</Text>
@@ -579,6 +644,53 @@ export default function Register() {
               </TouchableOpacity>
               <TouchableOpacity onPress={() => setShowOtpModal(false)}>
                 <Text style={{ color: "#64748b", fontSize: 12, fontWeight: "700" }}>Change Email</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* WhatsApp OTP Verification Modal */}
+      <Modal visible={showWhatsappOtpModal} transparent animationType="fade">
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={{ textAlign: "center", fontSize: 18, fontWeight: "800", color: "#0f172a", marginBottom: 8 }}>
+              Verify WhatsApp
+            </Text>
+            <Text style={{ textAlign: "center", color: "#64748b", fontSize: 13, marginBottom: 20 }}>
+              Enter 6-digit OTP sent to {dealerForm.whatsapp} on WhatsApp
+            </Text>
+            
+            <View style={[styles.inputWrapper, { marginBottom: 24 }]}>
+              <TextInput
+                style={[styles.inputNoIcon, { textAlign: "center", letterSpacing: 8, fontSize: 20, paddingLeft: 10, borderColor: "#cbd5e1", color: "#0f172a", backgroundColor: "#f8fafc" }]}
+                placeholder="------"
+                placeholderTextColor="#94a3b8"
+                value={whatsappOtp}
+                onChangeText={setWhatsappOtp}
+                keyboardType="numeric"
+                maxLength={6}
+              />
+            </View>
+
+            <TouchableOpacity 
+              style={[styles.submitBtn, { marginTop: 0, height: 48, borderRadius: 12 }]} 
+              onPress={handleVerifyWhatsappOtp} 
+              disabled={isVerifyingWhatsappOtp || whatsappOtp.length !== 6}
+            >
+              {isVerifyingWhatsappOtp ? (
+                <ActivityIndicator color="#fff" size="small" />
+              ) : (
+                <Text style={styles.submitBtnText}>Confirm OTP</Text>
+              )}
+            </TouchableOpacity>
+
+            <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 20, paddingHorizontal: 4 }}>
+              <TouchableOpacity onPress={handleSendWhatsappOtp} disabled={isSendingWhatsappOtp}>
+                <Text style={{ color: "#e11d48", fontSize: 12, fontWeight: "700" }}>Resend OTP</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setShowWhatsappOtpModal(false)}>
+                <Text style={{ color: "#64748b", fontSize: 12, fontWeight: "700" }}>Change Number</Text>
               </TouchableOpacity>
             </View>
           </View>

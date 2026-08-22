@@ -28,6 +28,13 @@ import {
   useCustomerVerifyOtp,
   useCustomerResetPassword,
 } from "../../hooks/auth/resetPassword";
+import {
+  useSendRegistrationOtp,
+  useVerifyRegistrationOtp,
+  useSendWhatsappOtp,
+  useVerifyWhatsappOtp,
+} from "../../hooks/auth/register";
+
 import Skeleton from "../../components/ui/Skeleton";
 import { Building2, MapPin, Phone, Lock, User, Mail, ShieldAlert } from "lucide-react-native";
 
@@ -62,6 +69,22 @@ export default function DealerProfile() {
   const [yearsInBusiness, setYearsInBusiness] = useState<string>("");
   const [newDealerLogo, setNewDealerLogo] = useState<string | null>(null);
   const [newShowroomImage, setNewShowroomImage] = useState<string | null>(null);
+  const [emailState, setEmailState] = useState("");
+  const [isEmailVerified, setIsEmailVerified] = useState(true);
+  const [isWhatsappVerified, setIsWhatsappVerified] = useState(true);
+  const [emailOtpModal, setEmailOtpModal] = useState(false);
+  const [whatsappOtpModal, setWhatsappOtpModal] = useState(false);
+  const [emailOtpStr, setEmailOtpStr] = useState(["", "", "", "", "", ""]);
+  const [whatsappOtpStr, setWhatsappOtpStr] = useState(["", "", "", "", "", ""]);
+
+  const { isSending: sendingEmailOtp, sendOtp: sendEmailOtp } = useSendRegistrationOtp();
+  const { isVerifying: verifyingEmailOtp, verifyOtp: verifyEmailOtp } = useVerifyRegistrationOtp();
+  const { isSending: sendingWhatsappOtp, sendWhatsappOtp } = useSendWhatsappOtp();
+  const { isVerifying: verifyingWhatsappOtp, verifyWhatsappOtp } = useVerifyWhatsappOtp();
+
+  const emailOtpInputs = useRef<Array<TextInput | null>>([]);
+  const whatsappOtpInputs = useRef<Array<TextInput | null>>([]);
+
 
   const selectImage = (type: "logo" | "showroom") => {
     launchImageLibrary({ mediaType: "photo", quality: 0.8 }, (response: ImagePickerResponse) => {
@@ -84,6 +107,7 @@ export default function DealerProfile() {
     if (profile) {
       setBusinessName(profile.businessName || "");
       setOwnerName(profile.ownerName || "");
+      setEmailState(profile.email || "");
       setDateOfBirth(profile.dateOfBirth || "");
       setDealerMobile(profile.dealerMobile || profile.mobile || "");
       setExecutiveMobile(profile.executiveMobile || "");
@@ -101,12 +125,24 @@ export default function DealerProfile() {
     }
   }, [profile]);
 
-  const handleProfileSubmit = async () => {
+  const handleEmailChange = (val: string) => {
+    setEmailState(val);
+    setIsEmailVerified(val === profile?.email);
+  };
+
+  const handleWhatsappChange = (val: string) => {
+    setWhatsapp(val);
+    setIsWhatsappVerified(val === profile?.whatsapp);
+  };
+
+  const commitProfileUpdate = async () => {
     try {
       await updateMutation.mutateAsync({
         payload: {
           businessName,
           ownerName,
+          email: emailState,
+            mobile: dealerMobile,
           dateOfBirth,
           executiveMobile: executiveMobile || null,
           whatsapp,
@@ -129,6 +165,40 @@ export default function DealerProfile() {
       }
     }
   };
+
+  const handleProfileSubmit = async () => {
+    await commitProfileUpdate();
+  };
+
+  const handleVerifyEmailSubmit = async () => {
+    const fullOtp = emailOtpStr.join("");
+    if (fullOtp.length !== 6) return Alert.alert("Error", "Please enter 6-digit OTP");
+    try {
+      await verifyEmailOtp(emailState, fullOtp);
+      Alert.alert("Success", "Email verified");
+      setIsEmailVerified(true);
+      setEmailOtpModal(false);
+      
+    } catch (err: any) {
+      Alert.alert("Error", err.message || "Invalid OTP");
+    }
+  };
+
+  const handleVerifyWhatsappSubmit = async () => {
+    const fullOtp = whatsappOtpStr.join("");
+    if (fullOtp.length !== 6) return Alert.alert("Error", "Please enter 6-digit OTP");
+    try {
+      await verifyWhatsappOtp(whatsapp, fullOtp);
+      Alert.alert("Success", "WhatsApp verified");
+      setIsWhatsappVerified(true);
+      setWhatsappOtpModal(false);
+    } catch (err: any) {
+      Alert.alert("Error", err.message || "Invalid OTP");
+    }
+  };
+
+  // Original mutation block skip
+
 
   // Change password flow
   const [pwModal, setPwModal] = useState(false);
@@ -313,6 +383,16 @@ export default function DealerProfile() {
               />
             </View>
             <View style={styles.inputGroup}>
+                <Text style={styles.label}>Email Address</Text>
+                <TextInput
+                  style={styles.input}
+                  value={emailState}
+                  onChangeText={setEmailState}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                />
+              </View>
+            <View style={styles.inputGroup}>
               <Text style={styles.label}>Date of Birth</Text>
               <TouchableOpacity onPress={() => setShowDatePicker(true)} activeOpacity={0.8}>
                 <View pointerEvents="none">
@@ -335,10 +415,12 @@ export default function DealerProfile() {
             <View style={styles.inputGroup}>
               <Text style={styles.label}>Dealer Mobile</Text>
               <TextInput
-                style={[styles.input, styles.inputDisabled]}
-                value={dealerMobile}
-                editable={false}
-              />
+                  style={styles.input}
+                  value={dealerMobile}
+                  keyboardType="numeric"
+                  maxLength={10}
+                  onChangeText={(t) => setDealerMobile(t.replace(/[^0-9]/g, "").slice(0, 10))}
+                />
             </View>
             <View style={styles.inputGroup}>
               <Text style={styles.label}>Executive Mobile (optional)</Text>
@@ -357,7 +439,7 @@ export default function DealerProfile() {
                 value={whatsapp}
                 keyboardType="numeric"
                 maxLength={10}
-                onChangeText={(t) => setWhatsapp(t.replace(/[^0-9]/g, ""))}
+                onChangeText={(t) => handleWhatsappChange(t.replace(/[^0-9]/g, ""))}
               />
             </View>
           </View>
@@ -570,7 +652,93 @@ export default function DealerProfile() {
         </View>
       </Modal>
 
+
+      {/* Email Verification Modal */}
+      <Modal visible={emailOtpModal} transparent animationType="fade">
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Verify Email</Text>
+              <Text style={styles.modalDesc}>Enter the 6-digit OTP sent to {emailState}</Text>
+            </View>
+            <View style={styles.modalBody}>
+              <View style={styles.modalForm}>
+                <View style={styles.otpContainer}>
+                  {emailOtpStr.map((digit, i) => (
+                    <TextInput
+                      key={i}
+                      ref={(ref) => (emailOtpInputs.current[i] = ref)}
+                      style={styles.otpInput}
+                      keyboardType="numeric"
+                      maxLength={1}
+                      value={digit}
+                      onChangeText={(t) => {
+                        const newOtp = [...emailOtpStr];
+                        newOtp[i] = t.replace(/[^0-9]/g, "");
+                        setEmailOtpStr(newOtp);
+                        if (t && i < 5) emailOtpInputs.current[i + 1]?.focus();
+                      }}
+                    />
+                  ))}
+                </View>
+                <View style={styles.btnRow}>
+                  <TouchableOpacity style={styles.backBtn} onPress={() => setEmailOtpModal(false)}>
+                    <Text style={styles.backBtnText}>Cancel</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={[styles.primaryBtn, { flex: 1.5, marginTop: 0 }]} onPress={handleVerifyEmailSubmit} disabled={verifyingEmailOtp}>
+                    {verifyingEmailOtp ? <ActivityIndicator color="#fff" size="small" /> : <Text style={styles.primaryBtnText}>Verify & Continue</Text>}
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* WhatsApp Verification Modal */}
+      <Modal visible={whatsappOtpModal} transparent animationType="fade">
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Verify WhatsApp</Text>
+              <Text style={styles.modalDesc}>Enter the 6-digit OTP sent to {whatsapp}</Text>
+            </View>
+            <View style={styles.modalBody}>
+              <View style={styles.modalForm}>
+                <View style={styles.otpContainer}>
+                  {whatsappOtpStr.map((digit, i) => (
+                    <TextInput
+                      key={i}
+                      ref={(ref) => (whatsappOtpInputs.current[i] = ref)}
+                      style={styles.otpInput}
+                      keyboardType="numeric"
+                      maxLength={1}
+                      value={digit}
+                      onChangeText={(t) => {
+                        const newOtp = [...whatsappOtpStr];
+                        newOtp[i] = t.replace(/[^0-9]/g, "");
+                        setWhatsappOtpStr(newOtp);
+                        if (t && i < 5) whatsappOtpInputs.current[i + 1]?.focus();
+                      }}
+                    />
+                  ))}
+                </View>
+                <View style={styles.btnRow}>
+                  <TouchableOpacity style={styles.backBtn} onPress={() => setWhatsappOtpModal(false)}>
+                    <Text style={styles.backBtnText}>Cancel</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={[styles.primaryBtn, { flex: 1.5, marginTop: 0 }]} onPress={handleVerifyWhatsappSubmit} disabled={verifyingWhatsappOtp}>
+                    {verifyingWhatsappOtp ? <ActivityIndicator color="#fff" size="small" /> : <Text style={styles.primaryBtnText}>Verify & Continue</Text>}
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
       {showDatePicker && (
+
         <DateTimePicker
           value={
             dateOfBirth?.length === 10

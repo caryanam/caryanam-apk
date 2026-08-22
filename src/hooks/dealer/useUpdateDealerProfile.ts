@@ -19,6 +19,8 @@ export interface UpdateProfilePayload {
   state: string;
   pinCode: string;
   ownerName?: string;
+  email?: string;
+  mobile?: string;
 }
 
 export function useUpdateDealerProfile(dealerId: string) {

@@ -38,6 +38,7 @@ import {
   Gift as GiftIcon,
   Share2 as Share2Icon,
   AlertCircle as AlertCircleIcon,
+  Camera as InstagramIcon,
 } from "lucide-react-native";
 
 const Home = HomeIcon as any;
@@ -62,6 +63,7 @@ const RefreshCw = RefreshCwIcon as any;
 const Plus = PlusIcon as any;
 const Gift = GiftIcon as any;
 const Facebook = Share2Icon as any;
+const Instagram = InstagramIcon as any;
 const AlertCircle = AlertCircleIcon as any;
 
 import { Modal } from "react-native";
@@ -117,6 +119,7 @@ export default function ScreenWrapper({
     { name: "DealerProfile", icon: User, label: "Profile" },
     { name: "DealerSubscription", icon: Layers, label: "Subscription" },
     { name: "DealerFacebookRequests", icon: Facebook, label: "Facebook Posts" },
+    { name: "DealerInstagramRequests", icon: Instagram, label: "Instagram Posts" },
   ];
 
   const adminTabs = [
@@ -129,6 +132,7 @@ export default function ScreenWrapper({
     { name: "AdminChat", icon: MessageSquare, label: "Chats" },
     { name: "AdminReports", icon: Layers, label: "Reports" },
     { name: "AdminFacebookSummary", icon: Facebook, label: "Facebook" },
+    { name: "AdminInstagramSummary", icon: Instagram, label: "Instagram" },
     { name: "AdminWhatsappDashboard", icon: MessageSquare, label: "WhatsApp" },
   ];
 

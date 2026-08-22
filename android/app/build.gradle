@@ -82,8 +82,8 @@ android {
         applicationId "com.caryanamapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 9
-        versionName "1.8"
+        versionCode 11
+        versionName "1.10"
     }
     signingConfigs {
         debug {

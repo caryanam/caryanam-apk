@@ -33,6 +33,7 @@ import DealerWishlist from "../screens/dealer/CustomerWishlist";
 import DealerChat from "../screens/dealer/Chat";
 import DealerSubscription from "../screens/dealer/subscription/Subscription";
 import DealerFacebookRequests from "../screens/dealer/FacebookRequests";
+import DealerInstagramRequests from "../screens/dealer/InstagramRequests";
 
 // Admin Screens
 import AdminDashboard from "../screens/admin/Dashboard";
@@ -48,6 +49,9 @@ import AdminFacebookSummary from "../screens/admin/facebook/FacebookDealerSummar
 import AdminFacebookDealerRequests from "../screens/admin/facebook/FacebookDealerRequests";
 import AdminFacebookBatchProgress from "../screens/admin/facebook/FacebookBatchProgress";
 import AdminWhatsappDashboard from "../screens/admin/WhatsappDashboard";
+import AdminInstagramSummary from "../screens/admin/instagram/InstagramDealerSummary";
+import AdminInstagramDealerRequests from "../screens/admin/instagram/InstagramDealerRequests";
+import AdminInstagramBatchProgress from "../screens/admin/instagram/InstagramBatchProgress";
 
 export type RootStackParamList = {
   // Public
@@ -79,6 +83,7 @@ export type RootStackParamList = {
   DealerChat: undefined;
   DealerSubscription: undefined;
   DealerFacebookRequests: undefined;
+  DealerInstagramRequests: undefined;
 
   // Admin
   AdminDashboard: undefined;
@@ -94,6 +99,9 @@ export type RootStackParamList = {
   AdminFacebookDealerRequests: { dealerId: number };
   AdminFacebookBatchProgress: { batchId: number };
   AdminWhatsappDashboard: undefined;
+  AdminInstagramSummary: undefined;
+  AdminInstagramDealerRequests: { dealerId: number };
+  AdminInstagramBatchProgress: { batchId: number };
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -134,6 +142,9 @@ export default function AppNavigator() {
           <Stack.Screen name="AdminFacebookDealerRequests" component={AdminFacebookDealerRequests} />
           <Stack.Screen name="AdminFacebookBatchProgress" component={AdminFacebookBatchProgress} />
           <Stack.Screen name="AdminWhatsappDashboard" component={AdminWhatsappDashboard} />
+          <Stack.Screen name="AdminInstagramSummary" component={AdminInstagramSummary} />
+          <Stack.Screen name="AdminInstagramDealerRequests" component={AdminInstagramDealerRequests} />
+          <Stack.Screen name="AdminInstagramBatchProgress" component={AdminInstagramBatchProgress} />
         </>
       ) : isDealer ? (
         // Dealer Flow
@@ -148,6 +159,7 @@ export default function AppNavigator() {
           <Stack.Screen name="DealerChat" component={DealerChat} />
           <Stack.Screen name="DealerSubscription" component={DealerSubscription} />
           <Stack.Screen name="DealerFacebookRequests" component={DealerFacebookRequests} />
+          <Stack.Screen name="DealerInstagramRequests" component={DealerInstagramRequests} />
         </>
       ) : (
         // Public Flow (Customer & Guests)

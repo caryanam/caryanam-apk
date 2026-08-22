@@ -156,39 +156,52 @@ export default function DealerVehicleForm() {
           api_id: "APID2629",
           api_key: "8cbaecfa-70cc-480d-9e21-0c9b11c81cb2",
           token_id: "K2I4y1qrQVtUme7OKFpIKVYfQfvFZFHm",
-          reg_no: regNo,
+          vehicle_num: regNo,
         }),
       });
 
       if (!res.ok) throw new Error("Failed to fetch RC details.");
 
       const data = await res.json();
-      const resultData = data.data || data;
+      const resultData = data?.data?.data || data?.data || data;
 
       if (resultData) {
         setRcData(resultData);
-        if (resultData.vehicle_manufacturer_name) handleBrandChange(resultData.vehicle_manufacturer_name);
-        if (resultData.model) handleModelChange(resultData.model);
+        
+        const manufacturer = resultData.vehicleManufacturerName || resultData.vehicle_manufacturer_name;
+        if (manufacturer) {
+          handleBrandChange(manufacturer);
+        }
+        if (resultData.model) {
+          handleModelChange(resultData.model);
+        }
         if (resultData.type) {
           const typeUpper = resultData.type.toUpperCase();
-          if (FUELS.includes(typeUpper)) setFuelType(typeUpper);
-          else {
-             if (typeUpper.includes('PETROL')) setFuelType('PETROL');
-             else if (typeUpper.includes('DIESEL')) setFuelType('DIESEL');
-             else if (typeUpper.includes('CNG')) setFuelType('CNG');
-             else if (typeUpper.includes('LPG')) setFuelType('LPG');
-             else if (typeUpper.includes('ELECTRIC')) setFuelType('ELECTRIC');
-             else if (typeUpper.includes('HYBRID')) setFuelType('HYBRID');
+          if (FUELS.includes(typeUpper)) {
+            setFuelType(typeUpper);
+          } else {
+            if (typeUpper.includes('PETROL')) setFuelType('PETROL');
+            else if (typeUpper.includes('DIESEL')) setFuelType('DIESEL');
+            else if (typeUpper.includes('CNG')) setFuelType('CNG');
+            else if (typeUpper.includes('LPG')) setFuelType('LPG');
+            else if (typeUpper.includes('ELECTRIC')) setFuelType('ELECTRIC');
+            else if (typeUpper.includes('HYBRID')) setFuelType('HYBRID');
           }
         }
-        if (resultData.reg_date) {
-           const parts = resultData.reg_date.split('-');
-           if (parts.length === 3) setRegistrationYear(parts[2].length === 4 ? parts[2] : parts[0]);
-           else {
-             const parts2 = resultData.reg_date.split('/');
-             if (parts2.length === 3) setRegistrationYear(parts2[2].length === 4 ? parts2[2] : parts2[0]);
-           }
+        
+        const regDateStr = resultData.regDate || resultData.reg_date || resultData.rc_regn_dt;
+        if (regDateStr) {
+          const parts = regDateStr.split('-');
+          if (parts.length === 3) {
+            setRegistrationYear(parts[2].length === 4 ? parts[2] : parts[0]);
+          } else {
+            const parts2 = regDateStr.split('/');
+            if (parts2.length === 3) {
+              setRegistrationYear(parts2[2].length === 4 ? parts2[2] : parts2[0]);
+            }
+          }
         }
+        
         Alert.alert("Success", "RC details fetched successfully!");
       } else {
         Alert.alert("Error", "No data found for this vehicle number.");
@@ -463,8 +476,8 @@ export default function DealerVehicleForm() {
   };
 
   const handleSave = () => {
-    if (!brand || !model || !variant || !city || !fuelType || !registrationYear || !kilometerDriven || !askingPrice || !vehicleDescription) {
-      Alert.alert("Validation Error", "Please fill out all required fields (Brand, Model, Variant, Location, Fuel Type, Year, KM, Price, Description)");
+    if (!brand || !model || !city || !fuelType || !registrationYear || !kilometerDriven || !askingPrice || !vehicleDescription) {
+      Alert.alert("Validation Error", "Please fill out all required fields (Brand, Model, Location, Fuel Type, Year, KM, Price, Description)");
       return;
     }
 
@@ -486,8 +499,8 @@ export default function DealerVehicleForm() {
     const validImages = slotImages.filter(img => img !== null);
 
     if (!isEditing) {
-      if (validImages.length < 10) {
-        Alert.alert("Validation Error", "Please provide all 10 required vehicle photos.");
+      if (validImages.length < 5) {
+        Alert.alert("Validation Error", "Please provide at least 5 vehicle photos.");
         return;
       }
 
@@ -575,10 +588,10 @@ export default function DealerVehicleForm() {
               </View>
 
               {/* Images Section */}
-              <Text style={styles.sectionTitle}>Photos ({slotImages.filter(Boolean).length}/10+)</Text>
+              <Text style={styles.sectionTitle}>Photos ({slotImages.filter(Boolean).length}/5+)</Text>
               <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.imageScroll}>
                 {slotImages.map((img, idx) => {
-                  const isRequired = idx < 10;
+                  const isRequired = idx < 5;
                   const slotName = isRequired ? PHOTO_SLOTS[idx] : `Extra Photo ${idx - 9}`;
                   return (
                     <View key={idx} style={styles.imageSlotContainer}>
@@ -682,7 +695,7 @@ export default function DealerVehicleForm() {
           />
 
           {/* Variant */}
-          <Text style={styles.label}>Variant <Text style={styles.required}>*</Text></Text>
+          <Text style={styles.label}>Variant</Text>
           <SearchableSelect
             value={variant}
             onValueChange={setVariant}
@@ -763,9 +776,8 @@ export default function DealerVehicleForm() {
           {/* Description & Finance */}
           <Text style={styles.sectionTitle}>Additional Details</Text>
 
-          <Text style={styles.label}>Vehicle Description <Text style={styles.required}>*</Text></Text>
           <Input
-            label="Vehicle Description"
+            label="Vehicle Description *"
             value={vehicleDescription}
             onChangeText={setVehicleDescription}
             placeholder="Write details about the car's condition, features, etc."

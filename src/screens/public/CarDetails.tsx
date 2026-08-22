@@ -14,6 +14,7 @@ import {
   DeviceEventEmitter,
   Modal,
 } from "react-native";
+import ImageViewer from 'react-native-image-zoom-viewer';
 import { useRoute, useNavigation, RouteProp } from "@react-navigation/native";
 import type { StackNavigationProp } from "@react-navigation/stack";
 import type { RootStackParamList } from "../../navigation/AppNavigator";
@@ -541,100 +542,31 @@ export default function CarDetails() {
 
         {/* Enquiry Form Modal */}
         <Modal
-          visible={showContactModal}
-          animationType="slide"
-          transparent={true}
-          onRequestClose={() => setShowContactModal(false)}
-        >
-          <View style={styles.modalOverlay}>
-            <TouchableOpacity
-              style={{ flex: 1 }}
-              activeOpacity={1}
-              onPress={() => setShowContactModal(false)}
-            />
-            <SafeAreaView style={styles.modalContent}>
-              <View style={styles.modalHeader}>
-                <Text style={styles.modalTitle}>Dealer Enquiry Form</Text>
-                <TouchableOpacity onPress={() => setShowContactModal(false)} style={styles.closeBtn}>
-                  <X size={20} color="#0f172a" />
-                </TouchableOpacity>
-              </View>
-
-              <ScrollView contentContainerStyle={styles.modalBodyScroll}>
-                <Text style={styles.formInstructions}>
-                  Submit your query details. The system will deliver your lead to the dealer instantly.
-                </Text>
-
-                {formError ? <Text style={styles.formErrorText}>{formError}</Text> : null}
-
-                <Input
-                  label="Full Name"
-                  value={leadName}
-                  onChangeText={setLeadName}
-                  placeholder="Enter your name"
-                  editable={false}
-                />
-
-                <Input
-                  label="Mobile Number"
-                  value={leadMobile}
-                  onChangeText={setLeadMobile}
-                  placeholder="Enter mobile number"
-                  keyboardType="phone-pad"
-                  editable={false}
-                />
-
-                <Input
-                  label="Your Location"
-                  value={leadCity}
-                  onChangeText={setLeadCity}
-                  placeholder="e.g. Pune"
-                />
-
-                <Button
-                  title="Submit & Unlock Details"
-                  loading={isSubmitting}
-                  onPress={handleLeadSubmit}
-                  style={{ marginTop: 12 }}
-                />
-              </ScrollView>
-            </SafeAreaView>
-          </View>
-        </Modal>
-
-        {/* Image Preview Modal */}
-        <Modal
           visible={showImageModal}
           transparent={true}
           animationType="fade"
           onRequestClose={() => setShowImageModal(false)}
         >
-          <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.9)", justifyContent: "center" }}>
-            <TouchableOpacity 
-              style={{ position: "absolute", top: 40, right: 20, zIndex: 10, padding: 8 }} 
-              onPress={() => setShowImageModal(false)}
-            >
-              <X size={28} color="#fff" />
-            </TouchableOpacity>
-            {images.length > 0 && (
-              <ScrollView
-                horizontal
-                pagingEnabled
-                showsHorizontalScrollIndicator={false}
-                contentOffset={{ x: previewImageIndex * width, y: 0 }}
-                style={{ flex: 1 }}
-              >
-                {images.map((imgUrl: string, idx: number) => (
-                  <View key={idx} style={{ width, height: "100%", justifyContent: "center", alignItems: "center" }}>
-                    <Image
-                      source={{ uri: imgUrl }}
-                      style={{ width: "100%", height: "80%" }}
-                      resizeMode="contain"
-                    />
-                  </View>
-                ))}
-              </ScrollView>
-            )}
+          <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.9)" }}>
+            <ImageViewer
+              imageUrls={images.map(img => ({ url: img }))}
+              index={previewImageIndex}
+              enableSwipeDown={true}
+              onSwipeDown={() => setShowImageModal(false)}
+              renderIndicator={(currentIndex, allSize) => (
+                <Text style={{ color: 'white', position: 'absolute', top: 50, left: 20, fontSize: 16, fontWeight: 'bold' }}>
+                  {currentIndex} / {allSize}
+                </Text>
+              )}
+              renderHeader={() => (
+                <TouchableOpacity 
+                  style={{ position: "absolute", top: 40, right: 20, zIndex: 10, padding: 8 }} 
+                  onPress={() => setShowImageModal(false)}
+                >
+                  <X size={28} color="#fff" />
+                </TouchableOpacity>
+              )}
+            />
           </View>
         </Modal>
       </View>

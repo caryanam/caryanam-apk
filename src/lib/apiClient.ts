@@ -1,6 +1,6 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { DeviceEventEmitter } from "react-native";
+import { DeviceEventEmitter, Alert } from "react-native";
 import { ENV } from "../utils/env";
 
 const apiClient = axios.create({
@@ -36,6 +36,9 @@ apiClient.interceptors.response.use(
       DeviceEventEmitter.emit("auth-session-expired", {
         role: isAdminApi ? "admin" : "dealer",
       });
+    }
+    if (error.response && error.response.status === 429) {
+      Alert.alert("Too many requests", "Please try again later.");
     }
     return Promise.reject(error);
   }

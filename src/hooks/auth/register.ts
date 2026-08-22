@@ -153,6 +153,60 @@ export function useVerifyRegistrationOtp() {
   return { isVerifying, verifyOtp };
 }
 
+export function useSendWhatsappOtp() {
+  const [isSending, setIsSending] = React.useState(false);
+
+  const sendWhatsappOtp = React.useCallback(async (whatsapp: string) => {
+    setIsSending(true);
+    try {
+      const baseURL = apiClient.defaults.baseURL;
+      const { data } = await axios.post(`${baseURL}/api/dealer/send-whatsapp-otp?whatsapp=${encodeURIComponent(whatsapp)}`);
+      return data;
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        const body = err.response?.data;
+        throw new ApiError(
+          body?.message ?? err.message,
+          body?.status ?? err.response?.status ?? 500,
+          body?.errors,
+        );
+      }
+      throw err;
+    } finally {
+      setIsSending(false);
+    }
+  }, []);
+
+  return { isSending, sendWhatsappOtp };
+}
+
+export function useVerifyWhatsappOtp() {
+  const [isVerifying, setIsVerifying] = React.useState(false);
+
+  const verifyWhatsappOtp = React.useCallback(async (whatsapp: string, otp: string) => {
+    setIsVerifying(true);
+    try {
+      const baseURL = apiClient.defaults.baseURL;
+      const { data } = await axios.post(`${baseURL}/api/dealer/verify-whatsapp-otp`, { whatsapp, otp });
+      return data;
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        const body = err.response?.data;
+        throw new ApiError(
+          body?.message ?? err.message,
+          body?.status ?? err.response?.status ?? 500,
+          body?.errors,
+        );
+      }
+      throw err;
+    } finally {
+      setIsVerifying(false);
+    }
+  }, []);
+
+  return { isVerifying, verifyWhatsappOtp };
+}
+
 export function useCustomerSendRegistrationOtp() {
   const [isSending, setIsSending] = React.useState(false);
 

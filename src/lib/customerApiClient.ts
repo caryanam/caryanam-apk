@@ -1,6 +1,6 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { DeviceEventEmitter } from "react-native";
+import { DeviceEventEmitter, Alert } from "react-native";
 import { ENV } from "../utils/env";
 
 const customerApiClient = axios.create({
@@ -20,6 +20,9 @@ customerApiClient.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       DeviceEventEmitter.emit("customer-session-expired");
+    }
+    if (error.response && error.response.status === 429) {
+      Alert.alert("Too many requests", "Please try again later.");
     }
     return Promise.reject(error);
   }
